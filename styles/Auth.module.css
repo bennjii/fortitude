@@ -1,0 +1,153 @@
+.auth {
+    background-color: var(--background-floating);
+    color: var(--white);
+
+    height: 100%;
+    width: 100%;
+
+    min-width: 100vw;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.authBox {
+    width: auto;
+
+    background-color: var(--background-secondary);
+
+    border-radius: 5px;
+    padding: 2rem;
+
+    font-family: "Whitney";
+    box-shadow: 2px 4px 8px var(--guild-header-text-shadow);
+}
+
+.auth h4 {
+    font-size: .7rem;
+    font-weight: 600;
+
+    margin: 0;
+    margin-bottom: 8px;
+
+    color: var(--channels-default);
+}
+
+.authLogin {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+.authLogin > div:first-of-type {
+    display: flex;
+    flex-direction: column;
+}
+
+.authLogin > div:first-of-type h2 {
+    font-weight: 600;
+
+    font-weight: 600;
+    color: var(--header-primary);
+
+    margin: 0;
+    margin-bottom: 8px;
+
+    font-size: 1.3rem;
+    line-height: 30px;
+}
+
+.authLogin > div:first-of-type h3 {
+    font-weight: 300;
+    font-size: 1rem;
+    margin: 0;
+
+    color: var(--header-secondary);
+    text-rendering: optimizeLegibility;
+}
+
+.authInput {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    font-family: "Whitney" !important;
+}
+
+.authLeft {
+    min-width: 400px;
+}
+
+.authLogin a {
+    font-size: .8rem;
+    font-weight: 400;
+    color: var(--text-link);
+    margin: 0;
+
+    margin-top: 8px;
+}
+
+.authLogin p {
+    font-size: .8rem;
+    color: var(--channels-default);
+    margin-bottom: 0;
+}
+
+.authSuccess {
+    display: flex;
+    flex-direction: column;
+  
+    color: var(--text-normal);
+    align-items: center;
+    justify-content: center;
+
+    flex: 1;
+    height: 100%;
+
+    gap: 1rem;
+
+    min-height: 250px;
+}
+
+.authSuccess > div:last-of-type {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.authSuccessCircle {
+    height: 128px;
+    width: 128px;
+
+    border-radius: 50%;
+
+    background-color: var(--text-positive);
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.authSuccess h3 {
+    font-weight: 200;
+    color: var(--header-secondary);
+    margin: 0;
+
+    font-size: 1rem;
+}
+
+.authSuccess h1 {
+    font-weight: 900;
+    margin: 0;
+
+    font-size: 2rem;
+    color: var(--header-primary);
+}

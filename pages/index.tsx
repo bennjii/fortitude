@@ -1,66 +1,55 @@
 
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '@styles/Home.module.css'
+import { supabase } from '../client'
+import { useEffect, useState } from 'react'
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next TypeScript App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+import { Auth } from '@components/auth'
+import { View } from '@components/view'
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+const fetcher = (url, token) =>
+  fetch(url, {
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json', token }),
+    credentials: 'same-origin',
+  }).then((res) => res.json())
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+const Index = () => {
+	const session = supabase.auth.session()
+	
+	const [ cssProperties, setCssProperties ] = useState({
+		"--color-primary": "#7289da",
+		"--color-primary-rgb": "114, 137, 218"
+	}) // Fetch User prefernces
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+	const [ user, setUser ] = useState(supabase.auth.user());
+	const [ authView, setAuthView ] = useState('sign_in')
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+	useEffect(() => {
+		if(session)
+			fetcher('/api/getUser', session.access_token).then(e => {
+				setUser(e);
+			});
+		
+		const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+			setUser(supabase.auth.user());
+		})
+	}, []);
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+	if(!user) 
+		return (
+			//@ts-expect-error
+			<div className={styles.page} style={cssProperties}>
+				<Auth client={supabase}/>
+			</div>
+		)
+		
+	else
+		return (
+			//@ts-expect-error
+			<div className={styles.page} style={cssProperties}>
+				<View client={supabase}/>
+			</div>
+		)
 }
+
+export default Index

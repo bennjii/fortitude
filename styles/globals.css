@@ -1,9 +1,41 @@
+@font-face {
+  font-family: 'Public Sans';
+  src: url('/public/fonts/public_sans/PublicSans-VariableFont_wght.ttf') format("truetype-variations");
+  font-weight: 1 999;
+}
+
+@font-face {
+  font-family: "Whitney";
+  font-weight: 200;
+  src: url("../public/fonts/whitney/whitneylight.otf") format("opentype")
+}
+
+@font-face {
+  font-family: "Whitney";
+  font-weight: 600;
+  src: url("../public/fonts/whitney/whitneysemibold.otf") format("opentype")
+}
+
+@font-face{
+  font-family: "Whitney";
+  font-weight: 400;
+  src: url("../public/fonts/whitney/whitneymedium.otf") format("opentype")
+}
+
+@font-face{
+  font-family: "Whitney";
+  font-weight: 900;
+  src: url("../public/fonts/whitney/whitneybold.otf") format("opentype")
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Whitney";
+
+  height: 100%;
+  width: 100%;
 }
 
 a {
