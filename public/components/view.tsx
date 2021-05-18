@@ -53,7 +53,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
 
                         {
                             data.servers.map(e => {
-                                return <GuildNav data={e} key={e.id} />
+                                return <GuildNav data={e} client={client} callback={setClientState} state={clientState} key={e.id} />
                             })
                         }
 

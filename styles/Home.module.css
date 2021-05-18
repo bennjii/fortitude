@@ -814,3 +814,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.serverIcon {
+  border-radius: 50%;
+}
