@@ -13,7 +13,7 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
 	return (
 		<div>
             <Pill context={itemContext} />
-            <img src="" alt="" />
+            <img src={`https://sqhegzswatflhwibycub.supabase.co/storage/v1/object/sign/server-icons/${data}.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMDk3MTQyMywiZXhwIjoxOTM2NTQ3NDIzfQ.t8fg-7qVZDKbUK2ML93XOZWPlyMridksN1PfGz49_4o`} alt="" />
         </div>
 	)
 }

@@ -17,7 +17,8 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
     const [ authState, setAuthState ] = useState('svr-create');
     const [ authInputState, setAuthInputState ] = useState({
         server_name: "",
-        server_icon: ""
+        server_icon: "",
+        server_created: false
     });
 
     const [ imageDrop, setImageDrop ] = useState({
@@ -52,6 +53,7 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                             <div>
                                 <h2>Create Server</h2>
                                 <h3>Give your server some flair!</h3>
+                                <br />
                             </div>
                             
                             <div className={styles.authInput + " " + clientStyles.createServerInput}>
@@ -68,7 +70,10 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                         <div className={clientStyles.createServerImage}>
                                             {
                                                 (imageDrop.uploading) ?
-                                                <Check size={32} color={"#fff"} strokeWidth={1}/>
+                                                    (authInputState.server_created) ?
+                                                    <div></div>
+                                                    :
+                                                    <Check size={32} color={"#fff"} strokeWidth={1}/>
                                                 :
                                                 <Image size={32} color={"#fff"} strokeWidth={1}/>
                                             }
@@ -77,7 +82,12 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                                 {
                                                     (imageDrop.uploading) ?
                                                         (imageDrop.uploaded) ? 
-                                                        <img src={URL.createObjectURL(imageDrop.file?.target.files.item(0))} alt="" /> 
+                                                            (authInputState.server_created) ?
+                                                            <div>
+                                                                <Check size={32} color={"#fff"} strokeWidth={1}/>
+                                                            </div>
+                                                            :
+                                                            <img src={URL.createObjectURL(imageDrop.file?.target.files.item(0))} alt="" /> 
                                                         :
                                                         //@ts-expect-error
                                                         <Loading active={true} size={32} color={"#fff"} strokeWidth={1}> </Loading>
@@ -106,7 +116,7 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                             </div>
 
                             <div>
-                                <Button title={"Create"} onClick={async () => {
+                                <Button title={"Create"} onClick={async (clickEvent, callback) => {
                                     // Create Guild.
                                     client
                                         .from('guilds')
@@ -129,13 +139,20 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                                         .from('users')
                                                         .select()
                                                         .eq('id', client.auth.user().id)
-                                                        .then((e) => {
+                                                        .then((user_data) => {
+                                                            console.log(e);
                                                             client
                                                                 .from('users')
-                                                                .select()
+                                                                .update([{
+                                                                    ...user_data.data[0],
+                                                                    servers: [...user_data.data[0].servers, e.data[0].id]
+                                                                }])
                                                                 .eq('id', client.auth.user().id)
                                                                 .then((e) => {
-                                                                    
+                                                                    // BOOM ITS DONE!!!
+                                                                    console.log("Guild Created!")
+                                                                    setAuthInputState({ ...authInputState, server_created: true });
+                                                                    callback();
                                                                 })
                                                         });
                                                     
@@ -147,6 +164,7 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                                                 id: e.data[0].id,
                                                                 owner: client.auth.user().id,
                                                                 name: authInputState.server_name,
+                                                                //@ts-expect-error
                                                                 iconURL: _e.data.Key,
                                                             }
                                                         ])

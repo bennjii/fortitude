@@ -27,6 +27,10 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                 .from('users')
                 .select('*')
                 .eq('id', client.auth.user().id)
+                // .on('UPDATE', payload => {
+                //     console.log('Change received!', payload)
+                // })
+                // .subscribe()
             .then(e => {
                 setData(e.data[0]); // I mean they should be the first user right????
             })
