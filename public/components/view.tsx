@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Home, LogOut, Plus, Settings, Users } from 'react-feather'
 
 import Button from './button'
+import { CreateServerOverlay } from './create_server_overlay'
 import { GuildNav } from './guild_navigator'
 import { HomeNav } from './home_navigator'
 import { NewServerNav } from './new_server_navigation'
@@ -36,9 +37,10 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         return (
             <div className={styles.client}>
                 <div className={styles.context}>
-                    <div className={styles.overlays}>
-                        <h1>a</h1>
-                    </div>
+                    {
+                        (clientState.overlay.createServer) &&
+                        <CreateServerOverlay client={client} callback={setClientState} state={clientState}/>
+                    }
 
                     <div className={styles.navigationSideBar}>
                         <HomeNav callback={setClientState} state={clientState}/>

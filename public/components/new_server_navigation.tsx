@@ -14,7 +14,7 @@ const NewServerNav: React.FC<{ callback: Function, state: ClientState }> = ({ ca
     });
 
     useEffect(() => {
-        setItemState({ ...itemState, active: (state.current_pannel == ('svr-create')) });
+        setItemState({ ...itemState, active: (state.overlay.createServer) });
     }, [state])
 
 	return (
@@ -24,7 +24,7 @@ const NewServerNav: React.FC<{ callback: Function, state: ClientState }> = ({ ca
             }
             onClick={() => {
                 setItemState({ ...itemState, active: true });
-                if(!itemState.active) callback({ ...state, current_pannel: 'svr-create' })
+                if(!itemState.active) callback({ ...state, overlay: { ...state.overlay, createServer: true } })
             }} 
             onMouseOver={() => setItemState({ ...itemState, hovered: true })}
             onMouseLeave={() => setItemState({ ...itemState, hovered: false })}

@@ -671,7 +671,7 @@
   margin: 0;
 }
 
-.overlays {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -683,5 +683,134 @@
 
   z-index: 9999;
 
-  background-color: rgba(14, 14, 15, 0.6);
+  background-color: rgba(8, 8, 8, 0.753);
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.box {
+  width: auto;
+
+  background-color: var(--background-secondary);
+
+  border-radius: 5px;
+  padding: 2rem;
+
+  font-family: "Whitney";
+  box-shadow: 2px 4px 8px var(--guild-header-text-shadow);
+}
+
+.imageDrop {
+  height: 90px;
+  width: 90px;
+
+  border-radius: 50%;
+  fill: #fff;
+
+  display: flex;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+
+  justify-content: center;
+  align-items: center;
+}
+
+.createServerImage {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+
+  position: relative;
+}
+
+.imageDrop:hover {
+  cursor: pointer;
+  border: 2px solid rgba(var(--color-primary-rgb), 0.8);
+  background-color: rgba(var(--color-primary-rgb), 0.1);
+}
+
+.itemUploading {
+  height: 90px;
+  width: 90px;
+
+  border-radius: 50%;
+  fill: #fff;
+
+  display: flex;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  border: 2px solid rgba(var(--color-primary-rgb), 0.8);
+  background-color: rgba(var(--color-primary-rgb), 0.1);
+}
+
+.createServerImage > svg {
+  position: absolute;
+
+  top: -5%;
+  right: -5%;
+
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  padding: 5px;
+
+  z-index: 2;
+}
+
+.createServerImage img {
+  border-radius: 50%;
+
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+
+  z-index: 1;
+}
+
+.createServerImageIMAGE {
+  overflow: none;
+  position: relative;
+
+  height: 90px;
+  width: 85px;
+}
+
+.createServerImage > div svg {
+  color: #fff;
+
+  background-color: transparent;
+  position: relative;
+}
+
+.createServerImage div {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.createServerImage h3 {
+  color: var(--text-normal);
+  font-size: .8rem;
+
+  margin: 2px;
+  text-align: center;
+}
+
+.serverIconInputHolder {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
