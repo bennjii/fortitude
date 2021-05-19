@@ -20,7 +20,7 @@ const GuildNav: React.FC<{ data: any, client: SupabaseClient, callback: Function
             .then(e => {
                 setItemState({ ...itemState, image_url: e.data })
             })
-    })
+    }, [])
 
 	return (
         <div 
@@ -29,7 +29,7 @@ const GuildNav: React.FC<{ data: any, client: SupabaseClient, callback: Function
             }
             onClick={() => {
                 setItemState({ ...itemState, active: true });
-                if(!itemState.active) callback({ ...state, current_pannel: 'dm-home' })
+                if(!itemState.active) callback({ ...state, current_pannel: `svr-${data}` })
             }}
             onMouseOver={() => setItemState({ ...itemState, hovered: true })}
             onMouseLeave={() => setItemState({ ...itemState, hovered: false })}
