@@ -101,6 +101,15 @@
   align-items: center;
 }
 
+.nagigationGuildsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: .6rem;
+  margin-bottom: .6rem;
+}
+
 .navigationElement {
   display: flex;
   flex-direction: row;
@@ -313,6 +322,12 @@
   height: 48px;
 
   user-select: none;
+}
+
+.searchMenuParent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .bannerBar {

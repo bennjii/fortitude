@@ -13,10 +13,14 @@ const GuildNav: React.FC<{ data: any, client: SupabaseClient, callback: Function
     });
 
     useEffect(() => {
+        if(state.current_pannel !== `svr-${data.id}` && itemState.active) setItemState({ ...itemState, active: false });
+    }, [state]);
+
+    useEffect(() => {
         client
             .storage
             .from('server-icons')
-            .download(`${data}.png`)
+            .download(`${data.id}.png`)
             .then(e => {
                 setItemState({ ...itemState, image_url: e.data })
             })
@@ -29,7 +33,7 @@ const GuildNav: React.FC<{ data: any, client: SupabaseClient, callback: Function
             }
             onClick={() => {
                 setItemState({ ...itemState, active: true });
-                if(!itemState.active) callback({ ...state, current_pannel: `svr-${data}` })
+                if(!itemState.active) callback({ ...state, current_pannel: `svr-${data.id}`, current_server: data })
             }}
             onMouseOver={() => setItemState({ ...itemState, hovered: true })}
             onMouseLeave={() => setItemState({ ...itemState, hovered: false })}

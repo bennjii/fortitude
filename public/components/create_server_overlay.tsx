@@ -145,7 +145,10 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                                                 .from('users')
                                                                 .update([{
                                                                     ...user_data.data[0],
-                                                                    servers: [...user_data.data[0].servers, e.data[0].id]
+                                                                    servers: [...user_data.data[0].servers, { 
+                                                                        id: e.data[0].id,
+                                                                        data: e.data[0]
+                                                                    }]
                                                                 }])
                                                                 .eq('id', client.auth.user().id)
                                                                 .then((e) => {

@@ -1,3 +1,4 @@
+import { supabase } from '@root/client'
 import styles from '@styles/Home.module.css'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
@@ -22,6 +23,27 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     });
 
     useEffect(() => {
+        if(clientState.current_pannel.startsWith('svr')) {
+            client
+                .from('guilds')
+                .select('*')
+                .eq('id', clientState.activeServer)
+                .then(e => console.log(e))
+        }
+    }, [clientState]);
+    
+    useEffect(() => {
+        const userListener = client
+            .from('public.users') // :id=eq.${client.auth.user().id}
+            .on('*', (payload) =>  console.log('Change received!', payload))
+            .subscribe()
+
+        return () => {
+            userListener.unsubscribe()
+        }
+    }, [])
+
+    useEffect(() => {
         (async () => {
             await client
                 .from('users')
@@ -30,13 +52,6 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             .then(e => {
                 setData(e.data[0]); // I mean they should be the first user right????
             })
-
-            client
-            .from(`users:id=eq.${client.auth.user().id}`)
-            .on('UPDATE', payload => {
-                console.log('Change received!', payload)
-            })
-            .subscribe()
         })();
     }, []);
     
@@ -54,12 +69,14 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
 
                         <hr />
 
-                        {
-                            data.servers.map(e => {
-                                return <GuildNav data={e} client={client} callback={setClientState} state={clientState} key={e.id} />
-                            })
-                        }
-
+                        <div className={styles.nagigationGuildsList}>
+                            {
+                                data.servers.map(e => {
+                                    return <GuildNav data={e} client={client} callback={setClientState} state={clientState} key={e.id} />
+                                })
+                            }
+                        </div>
+                        
                         <NewServerNav callback={setClientState} state={clientState}/>    
                     </div>
 
@@ -67,49 +84,89 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                         <div className={styles.sideBar}>
                             
                             <div className={styles.sideBarContainer}>
-                                <div className={styles.searchMenu}>
-                                    <div className={styles.search}>
-                                        <div>
-                                            Find or start a conversation
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className={styles.scroll}>
-                                    {/* SERVER */}
-                                    {/* ... */}
-        
-                                    {/* DM */}
-                                    <div className={styles.DMscroll}>
-                                        <div className={(clientState.current_pannel == 'dm-home') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
-                                            setClientState({ ...clientState, current_pannel: 'dm-home' });
-                                        }}>
-                                            <Home size={24} />
-                                            <h3>Home</h3>
-                                        </div>
-
-                                        <div className={(clientState.current_pannel == 'dm-friends') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
-                                            setClientState({ ...clientState, current_pannel: 'dm-friends' });
-                                        }}>
-                                            <Users size={24} />
-                                            <h3>Friends</h3>
-                                        </div>
-
-                                        <br />
-
-                                        <div className={styles.directMessageDivider}><h4>DIRECT MESSAGES</h4><Plus size={18}/></div>
-                                        {
-                                            data.friends.map(e => {
-                                                return (
+                                {
+                                    (clientState.current_pannel.startsWith('dm'))
+                                    ?
+                                        <div className={styles.searchMenuParent}>
+                                            <div className={styles.searchMenu}>
+                                                <div className={styles.search}>
                                                     <div>
-                                                        {JSON.parse(e)}
+                                                        Find or start a conversation
                                                     </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                </div>
+                                                </div>
+                                            </div>
 
+                                            <div className={styles.scroll}>
+                                                <div className={styles.DMscroll}>
+                                                    <div className={(clientState.current_pannel == 'dm-home') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
+                                                        setClientState({ ...clientState, current_pannel: 'dm-home' });
+                                                    }}>
+                                                        <Home size={24} />
+                                                        <h3>Home</h3>
+                                                    </div>
+
+                                                    <div className={(clientState.current_pannel == 'dm-friends') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
+                                                        setClientState({ ...clientState, current_pannel: 'dm-friends' });
+                                                    }}>
+                                                        <Users size={24} />
+                                                        <h3>Friends</h3>
+                                                    </div>
+
+                                                    <br />
+
+                                                    <div className={styles.directMessageDivider}><h4>DIRECT MESSAGES</h4><Plus size={18}/></div>
+                                                    {
+                                                        data.friends.map(e => {
+                                                            return (
+                                                                <div>
+                                                                    {JSON.parse(e)}
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    :
+                                        <div className={styles.searchMenuParent}>
+                                            <div className={styles.searchMenu}>
+                                                {
+                                                    clientState.current_pannel
+                                                }
+                                            </div>
+
+                                            <div className={styles.scroll}>
+                                                <div className={styles.DMscroll}>
+                                                    <div className={(clientState.current_pannel == 'dm-home') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
+                                                        setClientState({ ...clientState, current_pannel: 'dm-home' });
+                                                    }}>
+                                                        <Home size={24} />
+                                                        <h3>Home</h3>
+                                                    </div>
+
+                                                    <div className={(clientState.current_pannel == 'dm-friends') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
+                                                        setClientState({ ...clientState, current_pannel: 'dm-friends' });
+                                                    }}>
+                                                        <Users size={24} />
+                                                        <h3>Friends</h3>
+                                                    </div>
+
+                                                    <br />
+
+                                                    <div className={styles.directMessageDivider}><h4>DIRECT MESSAGES</h4><Plus size={18}/></div>
+                                                    {
+                                                        data.friends.map(e => {
+                                                            return (
+                                                                <div>
+                                                                    {JSON.parse(e)}
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 <div className={styles.panels}>
                                     <img src={data.avatarURL} />
 
