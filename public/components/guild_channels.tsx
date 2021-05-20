@@ -17,15 +17,7 @@ const ServerChannels: React.FC<{ data: any, client: SupabaseClient, callback: Fu
     // }, [state]);
 
     useEffect(() => {
-        console.log(data);
-
-        client
-            .storage
-            .from('server-icons')
-            .download(data.data.iconURL)
-            .then(e => {
-                setItemState({ ...itemState, image_url: e.data })
-            })
+        // Channel?
     }, [])
 
 	return (

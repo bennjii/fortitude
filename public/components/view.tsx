@@ -6,6 +6,7 @@ import { ChevronDown, Home, LogOut, Plus, Settings, Users } from 'react-feather'
 
 import Button from './button'
 import { CreateServerOverlay } from './create_server_overlay'
+import { GuildBody } from './guild_body'
 import { ServerChannels } from './guild_channels'
 import { GuildNav } from './guild_navigator'
 import { HomeNav } from './home_navigator'
@@ -20,19 +21,9 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             createServer: false,
             settings: false
         },
-        current_server: {},
+        current_server: null,
         current_pannel: 'dm-home' // dm-home, dm-friends, [dm-dm, svr-svr] - loads from activeServer and activeDirectMessage
     });
-
-    useEffect(() => {
-        if(clientState.current_pannel.startsWith('svr')) {
-            client
-                .from('guilds')
-                .select('*')
-                .eq('id', clientState.activeServer)
-                .then(e => console.log(e))
-        }
-    }, [clientState]);
     
     useEffect(() => {
         const userListener = client
@@ -133,21 +124,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                             </div>
                                         </div>
                                     :
-                                        <div className={styles.searchMenuParent}>
-                                            <div className={styles.serverMenu}>
-                                                <h1>
-                                                    {
-                                                        clientState.current_server?.data?.name
-                                                    }
-                                                </h1>
-
-                                                <ChevronDown strokeWidth={2} size={18}/>
-                                            </div>
-
-                                            <div className={styles.scroll}>
-                                                <ServerChannels client={client} state={clientState} callback={setClientState} guild={clientState.current_pannel} />
-                                            </div>
-                                        </div>
+                                        <GuildBody state={clientState} callback={setClientState} client={client}/>
                                     }
                                 <div className={styles.panels}>
                                     <img src={data.avatarURL} />
