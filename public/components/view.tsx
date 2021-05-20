@@ -2,10 +2,11 @@ import { supabase } from '@root/client'
 import styles from '@styles/Home.module.css'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
-import { Home, LogOut, Plus, Settings, Users } from 'react-feather'
+import { ChevronDown, Home, LogOut, Plus, Settings, Users } from 'react-feather'
 
 import Button from './button'
 import { CreateServerOverlay } from './create_server_overlay'
+import { ServerChannels } from './guild_channels'
 import { GuildNav } from './guild_navigator'
 import { HomeNav } from './home_navigator'
 import { NewServerNav } from './new_server_navigation'
@@ -19,6 +20,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             createServer: false,
             settings: false
         },
+        current_server: {},
         current_pannel: 'dm-home' // dm-home, dm-friends, [dm-dm, svr-svr] - loads from activeServer and activeDirectMessage
     });
 
@@ -34,8 +36,11 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     
     useEffect(() => {
         const userListener = client
-            .from('public.users') // :id=eq.${client.auth.user().id}
-            .on('*', (payload) =>  console.log('Change received!', payload))
+            .from(`users:id=eq.${client.auth.user().id}`) // :id=eq.${client.auth.user().id}
+            .on('*', (payload) => {
+                console.log(payload);
+                setData(payload.new)
+            })
             .subscribe()
 
         return () => {
@@ -129,41 +134,18 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                         </div>
                                     :
                                         <div className={styles.searchMenuParent}>
-                                            <div className={styles.searchMenu}>
-                                                {
-                                                    clientState.current_pannel
-                                                }
+                                            <div className={styles.serverMenu}>
+                                                <h1>
+                                                    {
+                                                        clientState.current_server?.data?.name
+                                                    }
+                                                </h1>
+
+                                                <ChevronDown strokeWidth={2} size={18}/>
                                             </div>
 
                                             <div className={styles.scroll}>
-                                                <div className={styles.DMscroll}>
-                                                    <div className={(clientState.current_pannel == 'dm-home') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
-                                                        setClientState({ ...clientState, current_pannel: 'dm-home' });
-                                                    }}>
-                                                        <Home size={24} />
-                                                        <h3>Home</h3>
-                                                    </div>
-
-                                                    <div className={(clientState.current_pannel == 'dm-friends') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
-                                                        setClientState({ ...clientState, current_pannel: 'dm-friends' });
-                                                    }}>
-                                                        <Users size={24} />
-                                                        <h3>Friends</h3>
-                                                    </div>
-
-                                                    <br />
-
-                                                    <div className={styles.directMessageDivider}><h4>DIRECT MESSAGES</h4><Plus size={18}/></div>
-                                                    {
-                                                        data.friends.map(e => {
-                                                            return (
-                                                                <div>
-                                                                    {JSON.parse(e)}
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
-                                                </div>
+                                                <ServerChannels client={client} state={clientState} callback={setClientState} guild={clientState.current_pannel} />
                                             </div>
                                         </div>
                                     }

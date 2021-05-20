@@ -17,10 +17,12 @@ const GuildNav: React.FC<{ data: any, client: SupabaseClient, callback: Function
     }, [state]);
 
     useEffect(() => {
+        console.log(data);
+
         client
             .storage
             .from('server-icons')
-            .download(`${data.id}.png`)
+            .download(data.data.iconURL)
             .then(e => {
                 setItemState({ ...itemState, image_url: e.data })
             })

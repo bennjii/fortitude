@@ -32,8 +32,6 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
     useEffect(() => {
         if(imageDrop.file) {
             const files = imageDrop.file?.target.files;
-
-            console.log(files.item(0));
             if(!imageDrop.uploaded) setImageDrop({ ...imageDrop, uploaded: true })
         }
     }, [imageDrop])
@@ -60,7 +58,7 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                 <div className={clientStyles.serverIconInputHolder}>
                                     <div 
                                         className={(!imageDrop.dragOver) ? (imageDrop.uploading) ? clientStyles.itemUploading : clientStyles.imageDrop : clientStyles.imageDragging}
-                                        onDragEnter={() => {console.log("DRAGGIG ENTERINGG")}}
+                                        // onDragEnter={() => {console.log("DRAGGIG ENTERINGG")}}
                                         onDragOver={() => {setImageDrop({...imageDrop, dragOver: true})}}
                                         onDrop={() => {setImageDrop({...imageDrop, droped: true})}}
                                         //@ts-expect-error
@@ -128,7 +126,7 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                             }
                                         ])
                                         .then((e) => {
-                                            console.log(`${e.data[0].id}.${imageDrop.file?.target.files.item(0).name.split('.').pop().toLowerCase()}`);
+                                            console.log(e)
                                             client.storage
                                                 .from('server-icons')
                                                 .upload(`${e.data[0].id}.${imageDrop.file?.target.files.item(0).name.split('.').pop().toLowerCase()}`, imageDrop.file?.target.files[0])
@@ -140,26 +138,25 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                                         .select()
                                                         .eq('id', client.auth.user().id)
                                                         .then((user_data) => {
-                                                            console.log(e);
                                                             client
                                                                 .from('users')
                                                                 .update([{
                                                                     ...user_data.data[0],
                                                                     servers: [...user_data.data[0].servers, { 
                                                                         id: e.data[0].id,
-                                                                        data: e.data[0]
+                                                                        data: { ...e.data[0], iconURL: `${e.data[0].id}.${imageDrop.file?.target.files.item(0).name.split('.').pop().toLowerCase()}` }
                                                                     }]
                                                                 }])
                                                                 .eq('id', client.auth.user().id)
                                                                 .then((e) => {
-                                                                    // BOOM ITS DONE!!!
-                                                                    console.log("Guild Created!")
                                                                     setAuthInputState({ ...authInputState, server_created: true });
                                                                     callback();
                                                                 })
                                                         });
                                                     
                                                     // Add the new icon to the guild.
+                                                    console.log(e.data[0].id)
+
                                                     client
                                                         .from('guilds')                                          
                                                         .update([
@@ -167,8 +164,7 @@ const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function
                                                                 id: e.data[0].id,
                                                                 owner: client.auth.user().id,
                                                                 name: authInputState.server_name,
-                                                                //@ts-expect-error
-                                                                iconURL: _e.data.Key,
+                                                                iconURL: `${e.data[0].id}.${imageDrop.file?.target.files.item(0).name.split('.').pop().toLowerCase()}`
                                                             }
                                                         ])
                                                         .eq('id', e.data[0].id)

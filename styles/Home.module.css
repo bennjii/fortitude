@@ -324,6 +324,30 @@
   user-select: none;
 }
 
+.serverMenu {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: var(--background-secondary);
+  box-shadow: var(--guild-header-text-shadow);
+  height: 48px;
+  user-select: none;
+  padding: 1rem;
+}
+
+.serverMenu h1 {
+  color: var(--text-normal);
+  font-size: 1.2rem;
+}
+
+.serverMenu svg {
+  color: var(--text-normal);
+  stroke: var(--text-normal);
+}
+
 .searchMenuParent {
   display: flex;
   flex-direction: column;
