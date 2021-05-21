@@ -1,13 +1,16 @@
 
 import { SupabaseClient } from '@supabase/supabase-js'
-import styles from '../../styles/Home.module.css'
-import { useEffect, useState } from 'react'
-import { Pill } from './pill';
-import { ClientState } from '@public/@types/client';
+import styles from '@styles/Home.module.css'
+import { useContext, useEffect, useState } from 'react'
+
+import { ClientContextType, ClientState } from '@public/@types/client';
 import { ChevronDown } from 'react-feather';
 import { ServerChannels } from './guild_channels';
+import { ClientContext } from '@public/@types/context';
 
-const GuildBody: React.FC<{ client: SupabaseClient, callback: Function, state: ClientState }> = ({ client, callback, state }) => {
+const GuildBody: React.FC<{}> = () => {
+    const { client, state, callback } = useContext<ClientContextType>(ClientContext);
+
     const [ guildData, setGuildData ] = useState(state.current_server.data);
     const [ initialFetch, setInitialFetch ] = useState(false);
 
@@ -58,6 +61,7 @@ const GuildBody: React.FC<{ client: SupabaseClient, callback: Function, state: C
                 </div>
 
                 <div className={styles.scroll}>
+                    <h1></h1>
                     <ServerChannels client={client} state={state} callback={callback} guild={guildData} data={guildData}/>
                 </div>
             </div>

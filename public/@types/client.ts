@@ -1,3 +1,6 @@
+import { SupabaseClient } from "@supabase/supabase-js"
+import { createContext } from "react"
+
 type Channel = {
     name: string,
     type: 'text' | 'voice',
@@ -46,4 +49,10 @@ type ClientState = {
     current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string 
 }
 
-export type { ClientState }
+type ClientContextType = {
+    client: SupabaseClient,
+    state: ClientState,
+    callback: Function
+}
+
+export type { ClientState, ClientContextType }

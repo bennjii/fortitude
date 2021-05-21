@@ -1,11 +1,14 @@
 
 import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '../../styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Pill } from './pill';
-import { ClientState } from '@public/@types/client';
+import { ClientContextType, ClientState } from '@public/@types/client';
+import { ClientContext } from '@public/@types/context';
 
-const GuildNav: React.FC<{ data: any, client: SupabaseClient, callback: Function, state: ClientState }> = ({ data, client, callback, state }) => {
+const GuildNav: React.FC<{ data: any }> = ({ data }) => {
+    const { client, state, callback } = useContext<ClientContextType>(ClientContext);
+
     const [ itemState, setItemState ] = useState({
         hovered: false,
         active: false,

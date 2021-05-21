@@ -1,13 +1,15 @@
 
 import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '../../styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Pill } from './pill';
-import { ClientState } from '@public/@types/client';
+import { ClientContextType, ClientState } from '@public/@types/client';
 
 import { Plus } from 'react-feather'
+import { ClientContext } from '@public/@types/context';
 
-const NewServerNav: React.FC<{ callback: Function, state: ClientState }> = ({ callback, state }) => {
+const NewServerNav: React.FC<{}> = () => {
+    const { state, callback } = useContext<ClientContextType>(ClientContext);
     const [ itemState, setItemState ] = useState({
         hovered: false,
         active: false

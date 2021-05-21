@@ -1,11 +1,14 @@
 
 import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '../../styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Pill } from './pill';
-import { ClientState } from '@public/@types/client';
+import { ClientContextType, ClientState } from '@public/@types/client';
+import { ClientContext } from '@public/@types/context';
 
-const HomeNav: React.FC<{ callback: Function, state: ClientState }> = ({ callback, state }) => {
+const HomeNav: React.FC<{ }> = () => {
+    const { state, callback } = useContext<ClientContextType>(ClientContext);
+    
     const [ itemState, setItemState ] = useState({
         hovered: false,
         active: (state.current_pannel.startsWith('dm'))

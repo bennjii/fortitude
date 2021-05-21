@@ -2,18 +2,21 @@
 import { SupabaseClient } from '@supabase/supabase-js'
 import clientStyles from '@styles/Home.module.css'
 import styles from '@styles/Auth.module.css'
-import { createRef, useEffect, useState } from 'react'
+import { createRef, useContext, useEffect, useState } from 'react'
 
 import Button from '@components/button'
 import Input from '@components/input'
 import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
-import { ClientState } from '@public/@types/client'
+import { ClientContextType, ClientState } from '@public/@types/client'
+import { ClientContext } from '@public/@types/context';
 
 import Svg from "@public/dashed_border"
 import { Loading } from '@supabase/ui'
 import { supabase } from '@root/client'
 
-const CreateServerOverlay: React.FC<{ client: SupabaseClient, callback: Function, state: ClientState }> = ({ client, callback, state }) => {
+const CreateServerOverlay: React.FC<{}> = () => {
+    const { client, state, callback } = useContext<ClientContextType>(ClientContext);
+
     const [ authState, setAuthState ] = useState('svr-create');
     const [ authInputState, setAuthInputState ] = useState({
         server_name: "",
