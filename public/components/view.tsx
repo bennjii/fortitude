@@ -81,7 +81,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                 }
                             </div>
                             
-                            <NewServerNav />    
+                            <NewServerNav />
                         </div>
 
                         <div className={styles.base}>

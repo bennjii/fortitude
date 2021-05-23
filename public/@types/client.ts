@@ -1,27 +1,57 @@
 import { SupabaseClient } from "@supabase/supabase-js"
 import { createContext } from "react"
+import { BooleanLiteral } from "typescript"
 
 type Channel = {
     name: string,
     type: 'text' | 'voice',
-    permissions: object,
-    messages: Message[]
+    permissions: {
+        role: string,
+        id: string,
+        access: Permission[],
+    },
+    messages?: Message[]
+}
+
+type Permission = {
+    read: boolean,
+    write: boolean,
+    react: boolean,
+    join: boolean,
+
+    mention_users: boolean,
+    mention_server: boolean
 }
 
 type User = {
     name: string,
     id: string,
-    iconURL: string
+    iconURL: string,
+    tag: string,
+    flags: object[],
+    created_at: Date,
+    friends: object[],
+
+    presence: {
+        activity: string,
+        status: object
+    },
+    servers: {
+        id: string,
+        data: Guild[],
+    },
 }
 
 type Message = {
     sender: User,
     content: string,
     attatchments: string,
+    send_date: Date
 }
 
 type Role = {
-    name: string
+    name: string,
+    id: string
     //...
 }
 

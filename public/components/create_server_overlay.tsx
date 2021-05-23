@@ -126,6 +126,25 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                 owner: client.auth.user().id,
                                                 name: authInputState.server_name,
                                                 iconURL: '',
+                                                channels: [
+                                                    {
+                                                        name: 'general',
+                                                        type: 'text',
+                                                        permissions: [{
+                                                            role: "@everyone",
+                                                            id: '0',
+                                                            access: {
+                                                                read: true,
+                                                                write: true,
+                                                                react: true,
+                                                                join: true,
+                                                                mention_users: true,
+                                                                mention_server: true
+                                                            }
+                                                        }],
+                                                        messages: []
+                                                    }
+                                                ]
                                             }
                                         ])
                                         .then((e) => {
