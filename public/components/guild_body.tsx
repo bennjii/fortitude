@@ -3,6 +3,8 @@ import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '@styles/Home.module.css'
 import { useContext, useEffect, useState } from 'react'
 
+import { Guild } from '@public/@types/client'
+
 import { ClientContextType, ClientState } from '@public/@types/client';
 import { ChevronDown } from 'react-feather';
 import { ServerChannels } from './guild_channels';
@@ -11,7 +13,7 @@ import { ClientContext } from '@public/@types/context';
 const GuildBody: React.FC<{}> = () => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
 
-    const [ guildData, setGuildData ] = useState(state.current_server.data);
+    const [ guildData, setGuildData ] = useState<Guild>(state.current_server.data);
     const [ initialFetch, setInitialFetch ] = useState(false);
 
     useEffect(() => {

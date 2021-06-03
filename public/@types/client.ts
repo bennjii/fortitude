@@ -85,4 +85,4 @@ type ClientContextType = {
     callback: Function
 }
 
-export type { ClientState, ClientContextType }
+export type { ClientState, ClientContextType, Guild }
