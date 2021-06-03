@@ -857,3 +857,45 @@
 .serverIcon {
   border-radius: 50%;
 }
+
+.guildChannel {
+  position: relative;
+
+  box-sizing: border-box;
+
+  padding: 0 8px;
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  color: var(--interactive-normal);
+}
+
+.guildChannel p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.guildChannel:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.guildChannelEmbeddedContent {
+  flex: 1 1 auto;
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  min-width: 0;
+  padding: 6px 0;
+  cursor: pointer;
+  gap: 2px;
+}
+
+.guildChannelEmbeddedContentSide:hover {
+  cursor: pointer;
+}

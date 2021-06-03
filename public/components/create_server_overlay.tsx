@@ -14,6 +14,8 @@ import Svg from "@public/dashed_border"
 import { Loading } from '@supabase/ui'
 import { supabase } from '@root/client'
 
+import { v4 as uuidv4 } from 'uuid';
+
 const CreateServerOverlay: React.FC<{}> = () => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
 
@@ -130,6 +132,7 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                     {
                                                         name: 'general',
                                                         type: 'text',
+                                                        id: uuidv4(),
                                                         permissions: [{
                                                             role: "@everyone",
                                                             id: '0',

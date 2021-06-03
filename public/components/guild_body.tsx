@@ -63,7 +63,6 @@ const GuildBody: React.FC<{}> = () => {
                 </div>
 
                 <div className={styles.scroll}>
-                    <h1></h1>
                     <ServerChannels client={client} state={state} callback={callback} guild={guildData} data={guildData}/>
                 </div>
             </div>
