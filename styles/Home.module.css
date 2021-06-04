@@ -380,8 +380,16 @@
   padding: 0 8px !important;
 }
 
+.dmHome {
+  gap: 1rem;
+}
+
+.dmFriends {
+  gap: 1rem;
+}
+
 .bannerBar svg {
-  margin: 0 8px;
+  stroke: var(--background-accent);
 }
 
 .bannerBar h2 {
@@ -871,6 +879,10 @@
   align-items: center;
 
   color: var(--interactive-normal);
+}
+
+.guildChannelSelected {
+  background-color: var(--background-modifier-selected);
 }
 
 .guildChannel p {

@@ -6,7 +6,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { Guild, User } from '@public/@types/client'
 
 import { ClientContextType, ClientState } from '@public/@types/client';
-import { ChevronDown, Home, LogOut, Settings, Users } from 'react-feather';
+import { ChevronDown, Hash, Home, LogOut, Settings, Users } from 'react-feather';
 import { ServerChannels } from './guild_channels';
 import { ClientContext, GuildContext } from '@public/@types/context';
 import { GuildBody } from './guild_body';
@@ -32,6 +32,7 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                 .then(e => {
                     console.log(e)
                     setGuildData(e?.data[0])
+                    setGuildState({ ...guildState, current_channel: e?.data[0].channels[0].id })
                 })
         }
 
@@ -89,19 +90,17 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                 </div>
                 <div className={styles.container}>
                     <div className={styles.bannerBar}>
-                        {
-                            state.current_pannel == "dm-home" &&
-                            <div>
-                                <Home size={20} strokeWidth={2} opacity={0.6}/>
-                                <h3>Home</h3>
-                            </div>
-                        }
+                        
 
                         {
-                            state.current_pannel == "dm-friends" && 
+                            state.current_pannel.startsWith('svr') &&
                             <div>
-                                <Users size={20} strokeWidth={2} opacity={0.6} />
-                                <h3>Friends</h3>
+                                <Hash size={18}/>
+                                <h3>
+                                    {
+                                        guildData.channels.find((e) => e.id == guildState.current_channel)?.name
+                                    }
+                                </h3>             
                             </div>
                         }
                     </div>

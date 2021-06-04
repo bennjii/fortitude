@@ -6,23 +6,31 @@ import { Pill } from './pill';
 import { ClientState, Guild } from '@public/@types/client';
 import { Hash, UserPlus, Volume2 } from 'react-feather';
 
-const ServerChannelNavigation: React.FC<{ data: any, state: object, callback: Function }> = ({ data, state, callback }) => {
-    const [ itemState, setItemState ] = useState({
+const ServerChannelNavigation: React.FC<{ active: boolean, data: any, callback: Function }> = ({ active, data, callback }) => {
+    const [ channelState, setChannelState ] = useState({
         hovered: false,
-        active: false,
-        image_url: null
+        active,
     });
 
+    useEffect(() => {
+        setChannelState({ ...channelState, active });
+    }, [active])
+
 	return (
-        <div className={styles.guildChannel} 
-        onMouseOver={() => { setItemState({ ...itemState, hovered: true }) }}
-        onMouseLeave={() => { setItemState({ ...itemState, hovered: false }) }}
-        onClick={callback({ ...state, active_channel: data.id })}
+        <div 
+            className={`${styles.guildChannel} ${styles.guildChannelSelected}`} 
+            onMouseOver={() => { setChannelState({ ...channelState, hovered: true }) }}
+            onMouseLeave={() => { setChannelState({ ...channelState, hovered: false }) }}
+            onClick={() => {
+                console.log("Clicked")
+
+                callback();
+            }}
         >
             <div className={styles.guildChannelEmbeddedContent}>
                 {
                     data.type == 'text' ?
-                    <Hash size={16} />
+                    <Hash size={16} color={'var(--text-muted)'}/>
                     :
                     <Volume2 size={18} />
                 }
@@ -34,7 +42,7 @@ const ServerChannelNavigation: React.FC<{ data: any, state: object, callback: Fu
                 </p>
             </div>  
 
-            <div className={styles.guildChannelEmbeddedContentSide} hidden={!itemState.hovered}>
+            <div className={styles.guildChannelEmbeddedContentSide} hidden={!channelState.hovered}>
                 <UserPlus size={16} />
             </div>
         </div>

@@ -2,8 +2,11 @@ import { SupabaseClient } from "@supabase/supabase-js"
 import { createContext } from "react"
 import { BooleanLiteral } from "typescript"
 
+import uuid from 'uuid'
+
 type Channel = {
     name: string,
+    id: uuid,
     type: 'text' | 'voice',
     permissions: {
         role: string,
@@ -24,9 +27,9 @@ type Permission = {
 }
 
 type User = {
-    name: string,
+    username: string,
     id: string,
-    iconURL: string,
+    avatarURL: string,
     tag: string,
     flags: object[],
     created_at: Date,

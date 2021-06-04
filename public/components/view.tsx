@@ -161,24 +161,26 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                 </div>
                                 <div className={styles.container}>
                                     <div className={styles.bannerBar}>
-                                        {
-                                            clientState.current_pannel == "dm-home" &&
-                                            <div>
-                                                <Home size={20} strokeWidth={2} opacity={0.6}/>
-                                                <h3>Home</h3>
-                                            </div>
-                                        }
+                                    {
+                                        clientState.current_pannel == "dm-home" &&
+                                        <div className={styles.dmHome}>
+                                            <Home size={20} strokeWidth={2} opacity={0.6}/>
+                                            <br />
+                                            <h3>Home</h3>
+                                        </div>
+                                    }
 
-                                        {
-                                            clientState.current_pannel == "dm-friends" && 
-                                            <div>
-                                                <Users size={20} strokeWidth={2} opacity={0.6} />
-                                                <h3>Friends</h3>
-                                            </div>
-                                        }
+                                    {
+                                        clientState.current_pannel == "dm-friends" && 
+                                        <div className={styles.dmFriends}>
+                                            <Users size={20} strokeWidth={2} opacity={0.6} />
+                                            <br />
+                                            <h3>Friends</h3>
+                                        </div>
+                                    }
                                     </div>
                                     <div>
-                                        <h1>messages here</h1>
+                                        <h1>home stuff</h1>
                                     </div>
                                 </div>
                             </div>
