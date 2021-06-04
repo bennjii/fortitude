@@ -1,10 +1,8 @@
 import { createContext } from "react";
-import { ClientContextType } from './client'
+import { ClientContextType, GuildContextType } from './client'
 
-const ClientContext = createContext<ClientContextType>({
-    client: null,
-    state: null,
-    callback: null
-});
+const ClientContext = createContext<ClientContextType>(null);
 
-export { ClientContext }
+const GuildContext = createContext<GuildContextType>(null);
+
+export { ClientContext, GuildContext }

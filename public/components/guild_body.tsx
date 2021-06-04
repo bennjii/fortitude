@@ -1,61 +1,28 @@
 
 import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '@styles/Home.module.css'
-import { useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
-import { Guild } from '@public/@types/client'
+import { Guild, GuildContextType } from '@public/@types/client'
 
 import { ClientContextType, ClientState } from '@public/@types/client';
 import { ChevronDown } from 'react-feather';
 import { ServerChannels } from './guild_channels';
-import { ClientContext } from '@public/@types/context';
+import { ClientContext, GuildContext } from '@public/@types/context';
 
 const GuildBody: React.FC<{}> = () => {
-    const { client, state, callback } = useContext<ClientContextType>(ClientContext);
+    const { client, state: clientState, callback: clientCallback } = useContext<ClientContextType>(ClientContext);
+    const { guild, state: guildState, callback: guildCallback } = useContext<GuildContextType>(GuildContext)
 
-    const [ guildData, setGuildData ] = useState<Guild>(state.current_server.data);
     const [ initialFetch, setInitialFetch ] = useState(false);
 
-    useEffect(() => {
-        if(state.current_server.id !== guildData.id || !initialFetch) {
-            setInitialFetch(true);
-            
-            client
-                .from('guilds')
-                .select('*')
-                .eq('id', state.current_server.id)
-                .then(e => {
-                    console.log(e)
-                    setGuildData(e?.data[0])
-                })
-        }
-
-    }, [state]);
-
-    useEffect(() => {
-        if(state.current_server.id !== guildData.id) {
-            const userListener = client
-                .from(`guilds:id=eq.${state.current_server.id}`) 
-                .on('*', (payload) => {
-                    console.log(payload);
-                    setGuildData(payload.new)
-                })
-                .subscribe()
-
-            return () => {
-                userListener.unsubscribe()
-            }
-        }
-        
-    }, [state])
-
-    if(guildData)
+    if(guild)
         return (
             <div className={styles.searchMenuParent}>
                 <div className={styles.serverMenu}>
                     <h1>
                         {
-                            guildData.name
+                            guild.name
                         }
                     </h1>
 
@@ -63,7 +30,7 @@ const GuildBody: React.FC<{}> = () => {
                 </div>
 
                 <div className={styles.scroll}>
-                    <ServerChannels client={client} state={state} callback={callback} guild={guildData} data={guildData}/>
+                    <ServerChannels />
                 </div>
             </div>
         )

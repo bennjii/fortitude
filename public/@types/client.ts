@@ -65,6 +65,11 @@ type Guild = {
     roles: Role[]
 }
 
+type GuildState = {
+    current_channel: string,
+    //...
+}
+
 type ClientState = {
     activeServer: string,
     activeDirectMessage: string
@@ -79,10 +84,16 @@ type ClientState = {
     current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string 
 }
 
+type GuildContextType = {
+    guild: Guild,
+    state: GuildState,
+    callback: Function
+}
+
 type ClientContextType = {
     client: SupabaseClient,
     state: ClientState,
     callback: Function
 }
 
-export type { ClientState, ClientContextType, Guild }
+export type { ClientState, ClientContextType, GuildContextType, Guild, User }
