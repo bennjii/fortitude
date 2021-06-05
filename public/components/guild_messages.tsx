@@ -12,7 +12,11 @@ const GuildMessages: React.FC<{}> = () => {
     const { client, state: clientState, callback: clientCallback } = useContext<ClientContextType>(ClientContext);
     const { guild, state: guildState, callback: guildCallback } = useContext<GuildContextType>(GuildContext)
 
-    const [ guildMessages, setGuildMessages ] = useState(null);
+    const [ placedListener, setPlacedListener ] = useState(false);
+
+    const setGuildMessages = (new_messages) => {
+        guildCallback({ ...guildState, current_messages: new_messages })
+    }
 
     useEffect(() => {
         if(guildState.current_channel_id)
@@ -21,28 +25,48 @@ const GuildMessages: React.FC<{}> = () => {
                 .select('*')
                 .eq('id', guildState.current_channel_id)
                 .then(e => {
-                    console.log(guildState.current_channel_id)
-                    console.log("RES:", e)
                     setGuildMessages(e.data[0].messages)
                 })
-    }, [guildState])
+    }, [guildState.current_channel_id])
+
+    useEffect(() => {
+        if(guildState.current_channel == null) {
+            setTimeout(() => setPlacedListener(false), 100);
+            return null;
+        }
+
+        console.log("PLACING LISTENER UPON", guildState)
+
+        const userListener = client
+            .from(`channels:id=eq.${guildState.current_channel_id}`) 
+            .on('*', (payload) => {
+                console.log(payload);
+                setGuildMessages(payload.new.messages)
+                setPlacedListener(true);
+            })
+            .subscribe()
+
+        return () => {
+            userListener.unsubscribe()
+        }
+    }, [placedListener])
 
     // if(guildState.current_channel == null) return <div> <p>Something went terribly wrong...</p> </div>
     // if(guildMessages.length == 0) return <div>  <div className={styles.newChannelMessage}>  <h2>Type away!</h2> <h3>Just begin typing to start chatting with friends</h3></div>  </div>
 
-    // return (
-    //     <div>
-    //         {
-    //             guildMessages.map((e: Message) => {
-    //                 return (
-    //                     <div>
-    //                         {e.content}
-    //                     </div>
-    //                 )
-    //             })
-    //         }
-    //     </div>
-    // )
+    return (
+        <div>
+            {
+                guildState?.current_messages?.map((e: Message) => {
+                    return (
+                        <div style={{ color: e.unsent ? '#00f0f0' : '#ffffff'}}>
+                            {e.content}
+                        </div>
+                    )
+                })
+            }
+        </div>
+    )
 
     return <div></div>
 }

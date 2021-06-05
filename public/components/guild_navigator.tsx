@@ -21,25 +21,22 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
     }, [state]);
 
     useEffect(() => {
-        console.log(data);
+        if(itemState.image_url == null)
+            client
+                .from('guilds')
+                .select('*')
+                .eq('id', data)
+                .then(server => {
+                    setGuildData(server.data[0]);
 
-        client
-            .from('guilds')
-            .select('*')
-            .eq('id', data)
-            .then(server => {
-                setGuildData(server.data[0]);
-
-                client
-                    .storage
-                    .from('server-icons')
-                    .download(server.data[0].iconURL)
-                    .then(e => {
-                        setItemState({ ...itemState, image_url: e.data })
-                    })
-            })
-
-        
+                    client
+                        .storage
+                        .from('server-icons')
+                        .download(server.data[0].iconURL)
+                        .then(e => {
+                            setItemState({ ...itemState, image_url: e.data })
+                        })
+                })
     }, [])
 
 	return (

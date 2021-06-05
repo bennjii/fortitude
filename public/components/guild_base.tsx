@@ -22,7 +22,8 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     const [ guildState, setGuildState ] = useState({
         current_channel: null,
         current_channel_id: '',
-        channels: []
+        channels: [],
+        current_messages: []
     });
 
     useEffect(() => {
@@ -41,8 +42,6 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                 `)
                 .eq('id', state.current_server.id)
                 .then(async _data => {
-                    console.log(_data)
-
                     setGuildState({ 
                         ...guildState, 
                         current_channel_id: _data?.data[0]?.channels[0], 
@@ -59,10 +58,7 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                             `)
                             .eq('id', e)
                             .then(cha => {
-                                console.log(_data?.data[0]?.channels[0], cha.data[0].id);
-
                                 let clonable_state = guildState;
-
 
                                 if(cha.data[0].id == _data?.data[0]?.channels[0])  clonable_state.current_channel = cha.data[0];
                                 setGuildState({ ...clonable_state, channels: [...clonable_state.channels, cha.data[0]] })
@@ -79,7 +75,6 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
             const userListener = client
                 .from(`guilds:id=eq.${state.current_server.id}`) 
                 .on('*', (payload) => {
-                    console.log(payload);
                     setGuildData(payload.new)
                 })
                 .subscribe()

@@ -155,13 +155,9 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                             }
                                         ])
                                         .then((e) => {
-                                            console.log(e)
                                             client
                                                 .from('channels')
                                                 .insert(channel)
-                                                .then(e => {
-                                                    console.log(e)
-                                                })
 
                                             client.storage
                                                 .from('server-icons')

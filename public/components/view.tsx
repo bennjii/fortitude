@@ -39,7 +39,6 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         const userListener = client
             .from(`users:id=eq.${client.auth.user().id}`) // :id=eq.${client.auth.user().id}
             .on('*', (payload) => {
-                console.log(payload);
                 setData(payload.new)
             })
             .subscribe()

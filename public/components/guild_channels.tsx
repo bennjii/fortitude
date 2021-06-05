@@ -20,8 +20,6 @@ const ServerChannels: React.FC<{  }> = ({ }) => {
             callback({ ...state, current_channel_id: itemState.current_channel_id, current_channel: itemState.current_channel })
     }, [itemState])
 
-    console.log(state);
-
 	return (
         <div>
             {

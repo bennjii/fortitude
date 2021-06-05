@@ -22,8 +22,6 @@ const ServerChannelNavigation: React.FC<{ active: boolean, data: any, callback: 
             onMouseOver={() => { setChannelState({ ...channelState, hovered: channelState.active ? false : true }) }}
             onMouseLeave={() => { setChannelState({ ...channelState, hovered: channelState.active ? false : false }) }}
             onClick={() => {
-                console.log("Clicked")
-
                 callback();
             }}
         >

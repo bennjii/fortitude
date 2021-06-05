@@ -30,10 +30,14 @@ const FortitudeSend: React.FC<{}> = () => {
                                 sender: user,
                                 content: raw_message_content,
                                 attatchments: [],
-                                send_date: new Date()
+                                send_date: new Date(),
+                                unsent: true
                             };
 
-                            client.from('')
+                            guildState.current_messages.push(message);
+                            guildCallback({  ...guildState, current_messages: [ ...guildState.current_messages, message ]})
+
+                            sender('/api/send_message', guildState.current_channel_id, { ...message, unsent: false });
                         }
                     }}
                     />
@@ -44,5 +48,12 @@ const FortitudeSend: React.FC<{}> = () => {
         </div>
     )
 }
+
+const sender = (url, channel, message) =>
+  fetch(url, {
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json', channel, message: JSON.stringify(message) }),
+    credentials: 'same-origin',
+  }).then((res) => res.json())
 
 export { FortitudeSend }

@@ -49,7 +49,8 @@ type Message = {
     sender: User,
     content: string,
     attatchments: any[],
-    send_date: Date
+    send_date: Date,
+    unsent: boolean
 }
 
 type Role = {
@@ -71,7 +72,8 @@ type Guild = {
 type GuildState = {
     current_channel: Channel,
     current_channel_id: string,
-    channels: Channel[]
+    channels: Channel[],
+    current_messages: Message[]
     
     //...
 }

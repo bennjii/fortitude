@@ -69,7 +69,6 @@ const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                             email: authInputState.email,
                                             password: authInputState.password,
                                         }).then(u => {
-                                            console.log(u);
                                             client.from('users').insert([
                                                 {
                                                     id: u.user.id,
