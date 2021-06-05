@@ -4,9 +4,10 @@ import styles from '@styles/Home.module.css'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 import { ServerChannelNavigation } from './guild_channel_nav';
-import { GuildContext } from '@public/@types/context';
+import { ClientContext, GuildContext } from '@public/@types/context';
 
 const ServerChannels: React.FC<{  }> = ({ }) => {
+    const { client } = useContext(ClientContext);
     const { guild, state, callback } = useContext(GuildContext)
 
     const [ itemState, setItemState ] = useState({
@@ -19,12 +20,14 @@ const ServerChannels: React.FC<{  }> = ({ }) => {
             callback({ ...state, current_channel_id: itemState.current_channel_id, current_channel: itemState.current_channel })
     }, [itemState])
 
+    console.log(state);
+
 	return (
         <div>
             {
-                guild.channels.map(e => {
+                state?.channels?.map(e => {
                     return (
-                        <ServerChannelNavigation key={Math.random() * 10000} active={itemState.current_channel_id == e.id} data={e} callback={() => {
+                        <ServerChannelNavigation key={Math.random() * 10000} active={state.current_channel_id == e.id} data={e} callback={() => {
                             setItemState({ ...itemState, current_channel_id: e.id , current_channel: e});
                         }}/>
                     )    

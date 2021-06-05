@@ -16,6 +16,7 @@ import { NewServerNav } from './new_server_navigation'
 
 const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const [ data, setData ] = useState(null);
+
     const [ clientState, setClientState ] = useState({
         activeServer: '',
         activeDirectMessage: '',
@@ -30,7 +31,8 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const context = {
         client: supabase,
         state: clientState,
-        callback: setClientState
+        callback: setClientState,
+        user: data
     };
     
     useEffect(() => {
@@ -76,7 +78,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
 
                             <div className={styles.nagigationGuildsList}>
                                 {
-                                    data.servers.map(e => {
+                                    data.servers?.map(e => {
                                         return <GuildNav data={e} key={e.id} />
                                     })
                                 }
@@ -123,7 +125,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                                     {
                                                         data.friends.map(e => {
                                                             return (
-                                                                <div>
+                                                                <div key={Math.random() * 10000}>
                                                                     {JSON.parse(e)}
                                                                 </div>
                                                             )

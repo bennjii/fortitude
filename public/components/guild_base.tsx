@@ -11,6 +11,7 @@ import { ServerChannels } from './guild_channels';
 import { ClientContext, GuildContext } from '@public/@types/context';
 import { GuildBody } from './guild_body';
 import { GuildMessages } from './guild_messages';
+import { FortitudeSend } from './fortitude_send';
 
 const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
@@ -20,7 +21,8 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
 
     const [ guildState, setGuildState ] = useState({
         current_channel: null,
-        current_channel_id: ''
+        current_channel_id: '',
+        channels: []
     });
 
     useEffect(() => {
@@ -29,15 +31,47 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
             
             client
                 .from('guilds')
-                .select('*')
+                .select(`
+                    id,
+                    name,
+                    iconURL,
+                    members,
+                    roles,
+                    channels
+                `)
                 .eq('id', state.current_server.id)
-                .then(e => {
-                    console.log(e)
-                    setGuildData(e?.data[0])
-                    setGuildState({ ...guildState, current_channel_id: e?.data[0]?.channels[0]?.id, current_channel: e?.data[0].channels[0] })
+                .then(async _data => {
+                    console.log(_data)
+
+                    setGuildState({ 
+                        ...guildState, 
+                        current_channel_id: _data?.data[0]?.channels[0], 
+                        current_channel: null 
+                    })
+                
+                    await _data.data[0].channels.forEach(e => {
+                        client
+                            .from('channels')
+                            .select(`
+                                name,
+                                type,
+                                id
+                            `)
+                            .eq('id', e)
+                            .then(cha => {
+                                console.log(_data?.data[0]?.channels[0], cha.data[0].id);
+
+                                let clonable_state = guildState;
+
+
+                                if(cha.data[0].id == _data?.data[0]?.channels[0])  clonable_state.current_channel = cha.data[0];
+                                setGuildState({ ...clonable_state, channels: [...clonable_state.channels, cha.data[0]] })
+                            })
+                    });
+
+                    setGuildData(_data?.data[0]);
                 })
         }
-
     }, [state]);
 
     useEffect(() => {
@@ -106,12 +140,11 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                     </div>
                     <div className={styles.mainContentBody}>
                         <div className={styles.contentBodyMessages}>
-                            <div>
+                            <div className={styles.contentMessageParent}>
                                 <GuildMessages />
                             </div>
-                            <div>
-                                <input type="text" />
-                            </div>
+
+                            <FortitudeSend />
                         </div>
 
                         <div className={styles.membersList}>

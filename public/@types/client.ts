@@ -48,7 +48,7 @@ type User = {
 type Message = {
     sender: User,
     content: string,
-    attatchments: string,
+    attatchments: any[],
     send_date: Date
 }
 
@@ -70,7 +70,8 @@ type Guild = {
 
 type GuildState = {
     current_channel: Channel,
-    current_channel_id: string
+    current_channel_id: string,
+    channels: Channel[]
     
     //...
 }
@@ -97,6 +98,7 @@ type GuildContextType = {
 
 type ClientContextType = {
     client: SupabaseClient,
+    user: User,
     state: ClientState,
     callback: Function
 }

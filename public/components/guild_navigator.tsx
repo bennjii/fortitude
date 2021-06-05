@@ -3,11 +3,12 @@ import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '../../styles/Home.module.css'
 import { useContext, useEffect, useState } from 'react'
 import { Pill } from './pill';
-import { ClientContextType, ClientState } from '@public/@types/client';
+import { ClientContextType, ClientState, Guild } from '@public/@types/client';
 import { ClientContext } from '@public/@types/context';
 
 const GuildNav: React.FC<{ data: any }> = ({ data }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
+    const [ guildData, setGuildData ] = useState<Guild>(null); 
 
     const [ itemState, setItemState ] = useState({
         hovered: false,
@@ -16,19 +17,29 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
     });
 
     useEffect(() => {
-        if(state.current_pannel !== `svr-${data.id}` && itemState.active) setItemState({ ...itemState, active: false });
+        if(state.current_pannel !== `svr-${data}` && itemState.active) setItemState({ ...itemState, active: false });
     }, [state]);
 
     useEffect(() => {
         console.log(data);
 
         client
-            .storage
-            .from('server-icons')
-            .download(data.data.iconURL)
-            .then(e => {
-                setItemState({ ...itemState, image_url: e.data })
+            .from('guilds')
+            .select('*')
+            .eq('id', data)
+            .then(server => {
+                setGuildData(server.data[0]);
+
+                client
+                    .storage
+                    .from('server-icons')
+                    .download(server.data[0].iconURL)
+                    .then(e => {
+                        setItemState({ ...itemState, image_url: e.data })
+                    })
             })
+
+        
     }, [])
 
 	return (
@@ -38,7 +49,7 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
             }
             onClick={() => {
                 setItemState({ ...itemState, active: true });
-                if(!itemState.active) callback({ ...state, current_pannel: `svr-${data.id}`, current_server: data })
+                if(!itemState.active) callback({ ...state, current_pannel: `svr-${guildData.id}`, current_server: { id: guildData.id, data: guildData }})
             }}
             onMouseOver={() => setItemState({ ...itemState, hovered: true })}
             onMouseLeave={() => setItemState({ ...itemState, hovered: false })}

@@ -121,6 +121,27 @@ const CreateServerOverlay: React.FC<{}> = () => {
                             <div>
                                 <Button title={"Create"} onClick={async (clickEvent, callback) => {
                                     // Create Guild.
+                                    const channel_id = uuidv4();
+
+                                    const channel = {
+                                        name: 'general',
+                                        type: 'text',
+                                        id: channel_id,
+                                        permissions: [{
+                                            role: "@everyone",
+                                            id: '0',
+                                            access: {
+                                                read: true,
+                                                write: true,
+                                                react: true,
+                                                join: true,
+                                                mention_users: true,
+                                                mention_server: true
+                                            }
+                                        }],
+                                        messages: []
+                                    };
+
                                     client
                                         .from('guilds')
                                         .insert([
@@ -129,29 +150,19 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                 name: authInputState.server_name,
                                                 iconURL: '',
                                                 channels: [
-                                                    {
-                                                        name: 'general',
-                                                        type: 'text',
-                                                        id: uuidv4(),
-                                                        permissions: [{
-                                                            role: "@everyone",
-                                                            id: '0',
-                                                            access: {
-                                                                read: true,
-                                                                write: true,
-                                                                react: true,
-                                                                join: true,
-                                                                mention_users: true,
-                                                                mention_server: true
-                                                            }
-                                                        }],
-                                                        messages: []
-                                                    }
+                                                    channel_id
                                                 ]
                                             }
                                         ])
                                         .then((e) => {
                                             console.log(e)
+                                            client
+                                                .from('channels')
+                                                .insert(channel)
+                                                .then(e => {
+                                                    console.log(e)
+                                                })
+
                                             client.storage
                                                 .from('server-icons')
                                                 .upload(`${e.data[0].id}.${imageDrop.file?.target.files.item(0).name.split('.').pop().toLowerCase()}`, imageDrop.file?.target.files[0])
@@ -165,13 +176,10 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                         .then((user_data) => {
                                                             client
                                                                 .from('users')
-                                                                .update([{
+                                                                .update({
                                                                     ...user_data.data[0],
-                                                                    servers: [...user_data.data[0].servers, { 
-                                                                        id: e.data[0].id,
-                                                                        data: { ...e.data[0], iconURL: `${e.data[0].id}.${imageDrop.file?.target.files.item(0).name.split('.').pop().toLowerCase()}` }
-                                                                    }]
-                                                                }])
+                                                                    servers: [ ...user_data.data[0]?.servers ?? [], e.data[0].id ]
+                                                                })
                                                                 .eq('id', client.auth.user().id)
                                                                 .then((e) => {
                                                                     setAuthInputState({ ...authInputState, server_created: true });
@@ -179,9 +187,7 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                                 })
                                                         });
                                                     
-                                                    // Add the new icon to the guild.
-                                                    console.log(e.data[0].id)
-
+                                                    // Add the icon to the guild
                                                     client
                                                         .from('guilds')                                          
                                                         .update([
