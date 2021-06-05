@@ -10,16 +10,18 @@ import { ChevronDown, Hash, Home, LogOut, Settings, Users } from 'react-feather'
 import { ServerChannels } from './guild_channels';
 import { ClientContext, GuildContext } from '@public/@types/context';
 import { GuildBody } from './guild_body';
+import { GuildMessages } from './guild_messages';
 
 const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
 
-    const [ guildState, setGuildState ] = useState({
-        current_channel: ''
-    })
-
     const [ guildData, setGuildData ] = useState<Guild>(state.current_server.data);
     const [ initialFetch, setInitialFetch ] = useState(false);
+
+    const [ guildState, setGuildState ] = useState({
+        current_channel: null,
+        current_channel_id: ''
+    });
 
     useEffect(() => {
         if(state.current_server.id !== guildData.id || !initialFetch) {
@@ -32,7 +34,7 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                 .then(e => {
                     console.log(e)
                     setGuildData(e?.data[0])
-                    setGuildState({ ...guildState, current_channel: e?.data[0].channels[0].id })
+                    setGuildState({ ...guildState, current_channel_id: e?.data[0]?.channels[0]?.id, current_channel: e?.data[0].channels[0] })
                 })
         }
 
@@ -90,22 +92,31 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                 </div>
                 <div className={styles.container}>
                     <div className={styles.bannerBar}>
-                        
-
                         {
                             state.current_pannel.startsWith('svr') &&
                             <div>
                                 <Hash size={18}/>
                                 <h3>
                                     {
-                                        guildData.channels.find((e) => e.id == guildState.current_channel)?.name
+                                        guildState.current_channel?.name
                                     }
                                 </h3>             
                             </div>
                         }
                     </div>
-                    <div>
-                        <h1>messages here</h1>
+                    <div className={styles.mainContentBody}>
+                        <div className={styles.contentBodyMessages}>
+                            <div>
+                                <GuildMessages />
+                            </div>
+                            <div>
+                                <input type="text" />
+                            </div>
+                        </div>
+
+                        <div className={styles.membersList}>
+                            List of users here
+                        </div>
                     </div>
                 </div>
             </div>

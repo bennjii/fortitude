@@ -911,3 +911,29 @@
 .guildChannelEmbeddedContentSide:hover {
   cursor: pointer;
 }
+
+.mainContentBody {
+  display: flex;
+  flex-direction: row;
+
+  height: 100%;
+
+  color: var(--text-normal);
+}
+
+.membersList {
+  min-width: 250px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--background-secondary);
+}
+
+.contentBodyMessages {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+  width: 100%;
+}

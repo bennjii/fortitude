@@ -69,7 +69,9 @@ type Guild = {
 }
 
 type GuildState = {
-    current_channel: string,
+    current_channel: Channel,
+    current_channel_id: string
+    
     //...
 }
 
@@ -99,4 +101,4 @@ type ClientContextType = {
     callback: Function
 }
 
-export type { ClientState, ClientContextType, GuildContextType, Guild, User }
+export type { ClientState, ClientContextType, GuildContextType, Guild, User, Channel, Message }

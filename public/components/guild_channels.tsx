@@ -10,12 +10,13 @@ const ServerChannels: React.FC<{  }> = ({ }) => {
     const { guild, state, callback } = useContext(GuildContext)
 
     const [ itemState, setItemState ] = useState({
+        current_channel_id: state.current_channel_id,
         current_channel: state.current_channel
     });
 
     useEffect(() => {
-        if(state.current_channel !== itemState.current_channel)
-            callback({ ...state, current_channel: itemState.current_channel })
+        if(state.current_channel_id !== itemState.current_channel_id)
+            callback({ ...state, current_channel_id: itemState.current_channel_id, current_channel: itemState.current_channel })
     }, [itemState])
 
 	return (
@@ -23,8 +24,8 @@ const ServerChannels: React.FC<{  }> = ({ }) => {
             {
                 guild.channels.map(e => {
                     return (
-                        <ServerChannelNavigation key={Math.random() * 10000} active={itemState.current_channel == e.id} data={e} callback={() => {
-                            setItemState({ ...itemState, current_channel: e.id });
+                        <ServerChannelNavigation key={Math.random() * 10000} active={itemState.current_channel_id == e.id} data={e} callback={() => {
+                            setItemState({ ...itemState, current_channel_id: e.id , current_channel: e});
                         }}/>
                     )    
                 }) 
