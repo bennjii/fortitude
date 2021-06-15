@@ -10,10 +10,12 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
     const [ guildData, setGuildData ] = useState<Guild>(null); 
 
+    const [ imageURL, setImageURL ] = useState(null);
+
     const [ itemState, setItemState ] = useState({
         hovered: false,
         active: false,
-        image_url: null
+        image_url: ''
     });
 
     useEffect(() => {
@@ -21,7 +23,7 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
     }, [state]);
 
     useEffect(() => {
-        if(itemState.image_url == null)
+        if(itemState.image_url == '')
             client
                 .from('guilds')
                 .select('*')
@@ -32,13 +34,14 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
                     client
                         .storage
                         .from('server-icons')
-                        .download(server.data[0].iconURL)
+                        .createSignedUrl(server.data[0].iconURL, 172800)
                         .then(e => {
-                            setItemState({ ...itemState, image_url: e.data })
+                            setItemState({ ...itemState, image_url: e.signedURL });
+                            setImageURL(e.signedURL); 
                         })
                 })
     }, [])
-
+    
 	return (
         <div 
             className={
@@ -53,7 +56,7 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
             >
             <Pill context={itemState} />
             <div className={(itemState.active) ? styles.navigationSideBarHomeActive : (itemState.hovered) ? styles.navigationSideBarHomeActive : styles.navigationSideBarHome} id={"navhome"}>
-                <img src={(itemState.image_url) && URL.createObjectURL(itemState.image_url)} alt="" />
+                <img src={imageURL} alt="" />
             </div>
         </div>
 	)

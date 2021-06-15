@@ -17,7 +17,7 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
 
     const [ guildData, setGuildData ] = useState<Guild>(state.current_server.data);
-    const [ initialFetch, setInitialFetch ] = useState(false);
+    const [ initialFetch, setInitialFetch ] = useState(true);
 
     const [ guildState, setGuildState ] = useState({
         current_channel: null,
@@ -27,8 +27,10 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     });
 
     useEffect(() => {
-        if(state.current_server.id !== guildData.id || !initialFetch) {
-            setInitialFetch(true);
+        console.log(state.current_server.id, guildData.id);
+
+        if(state.current_server.id !== guildData.id || initialFetch) {
+            setInitialFetch(false);
             
             client
                 .from('guilds')
@@ -58,10 +60,15 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                             `)
                             .eq('id', e)
                             .then(cha => {
+                                console.log(guildState.channels);
+                                console.log(cha.data);
+                                
                                 let clonable_state = guildState;
 
                                 if(cha.data[0].id == _data?.data[0]?.channels[0])  clonable_state.current_channel = cha.data[0];
-                                setGuildState({ ...clonable_state, channels: [...clonable_state.channels, cha.data[0]] })
+                                setGuildState({ ...guildState, channels: [...guildState.channels, cha.data[0]] });
+
+                                // Something keeps removing the channel!!! WTFF
                             })
                     });
 

@@ -35,12 +35,9 @@ const GuildMessages: React.FC<{}> = () => {
             return null;
         }
 
-        console.log("PLACING LISTENER UPON", guildState)
-
         const userListener = client
             .from(`channels:id=eq.${guildState.current_channel_id}`) 
             .on('*', (payload) => {
-                console.log(payload);
                 setGuildMessages(payload.new.messages)
                 setPlacedListener(true);
             })
@@ -59,7 +56,7 @@ const GuildMessages: React.FC<{}> = () => {
             {
                 guildState?.current_messages?.map((e: Message) => {
                     return (
-                        <div style={{ color: e.unsent ? '#00f0f0' : '#ffffff'}}>
+                        <div style={{ color: e.unsent ? '#00f0f0' : '#ffffff'}} key={Math.random() * 10000}>
                             {e.content}
                         </div>
                     )

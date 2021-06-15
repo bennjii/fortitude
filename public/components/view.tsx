@@ -49,16 +49,14 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     }, [])
 
     useEffect(() => {
-        (async () => {
-            await client
-                .from('users')
-                .select('*')
-                .eq('id', client.auth.user().id)
+        client
+            .from('users')
+            .select('*')
+            .eq('id', client.auth.user().id)
             .then(e => {
                 setData(e.data[0]); // I mean they should be the first user right????
-            })
-        })();
-    }, []);
+            });
+    }, [])
     
     if(data)
         return (
@@ -78,7 +76,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                             <div className={styles.nagigationGuildsList}>
                                 {
                                     data.servers?.map(e => {
-                                        return <GuildNav data={e} key={e.id} />
+                                        return <GuildNav data={e} key={Math.random() * 10000} />
                                     })
                                 }
                             </div>
