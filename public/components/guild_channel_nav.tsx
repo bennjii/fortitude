@@ -18,9 +18,9 @@ const ServerChannelNavigation: React.FC<{ active: boolean, data: any, callback: 
 
 	return (
         <div 
-            className={`${styles.guildChannel} ${styles.guildChannelSelected}`} 
-            onMouseOver={() => { setChannelState({ ...channelState, hovered: channelState.active ? false : true }) }}
-            onMouseLeave={() => { setChannelState({ ...channelState, hovered: channelState.active ? false : false }) }}
+            className={`${styles.guildChannel} ${active && styles.guildChannelSelected}`} 
+            onMouseOver={() => { setChannelState({ ...channelState, hovered: true }) }}
+            onMouseLeave={() => { setChannelState({ ...channelState, hovered: false }) }}
             onClick={() => {
                 callback();
             }}
@@ -41,7 +41,7 @@ const ServerChannelNavigation: React.FC<{ active: boolean, data: any, callback: 
             </div>  
 
             <div className={styles.guildChannelEmbeddedContentSide} hidden={!channelState.hovered}>
-                <UserPlus size={16} />
+                <UserPlus size={14} />
             </div>
         </div>
 	)

@@ -27,7 +27,7 @@ const ServerChannels: React.FC<{  }> = ({ }) => {
             {
                 state?.channels?.map(e => {
                     return (
-                        <ServerChannelNavigation key={Math.random() * 10000} active={state.current_channel_id == e.id} data={e} callback={() => {
+                        <ServerChannelNavigation key={`channel-${e.id}`} active={state.current_channel_id == e.id} data={e} callback={() => {
                             setItemState({ ...itemState, current_channel_id: e.id , current_channel: e});
                         }}/>
                     )    

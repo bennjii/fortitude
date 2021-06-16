@@ -14,6 +14,7 @@ import { GuildMessages } from './guild_messages';
 import { FortitudeSend } from './fortitude_send';
 
 import Head from 'next/head'
+import { UserComponent } from './user_component';
 
 const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
@@ -109,30 +110,7 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                         </Head>
                         <GuildBody />
                             
-                        <div className={styles.panels}>
-                            <img src={userData.avatarURL} />
-
-                            <div className={styles.authAid}>
-                                <h2>{userData.username}</h2>
-                                <p>{userData.flags}#0000</p>
-                            </div>
-                            
-                            <div className={styles.authIcons}>
-                                <div onClick={() => {
-                                        client.auth.signOut()
-                                    }}>
-
-                                    <LogOut size={18} strokeWidth={2}/>
-                                </div>
-
-                                <div onClick={() => {
-
-                                    }}>
-                                    <Settings size={18} strokeWidth={2}/>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <UserComponent userData={userData}/>
                     </div>
                 </div>
                 <div className={styles.container}>

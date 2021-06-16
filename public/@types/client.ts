@@ -92,9 +92,21 @@ type ClientState = {
     current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string 
 }
 
+type SettingsState = {
+    settings: {
+        
+    },
+    current_pannel: string 
+}
+
 type GuildContextType = {
     guild: Guild,
     state: GuildState,
+    callback: Function
+}
+
+type SettingsContextType = {
+    state: SettingsState,
     callback: Function
 }
 
@@ -105,4 +117,4 @@ type ClientContextType = {
     callback: Function
 }
 
-export type { ClientState, ClientContextType, GuildContextType, Guild, User, Channel, Message }
+export type { ClientState, ClientContextType, GuildContextType, SettingsContextType, Guild, User, Channel, Message }

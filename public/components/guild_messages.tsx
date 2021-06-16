@@ -3,6 +3,10 @@ import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '@styles/Home.module.css'
 import { createContext, useContext, useEffect, useState } from 'react'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 import { Message, GuildContextType } from '@public/@types/client'
 
 import { ClientContextType, ClientState } from '@public/@types/client';
@@ -49,23 +53,40 @@ const GuildMessages: React.FC<{}> = () => {
     }, [placedListener])
 
     // if(guildState.current_channel == null) return <div> <p>Something went terribly wrong...</p> </div>
-    // if(guildMessages.length == 0) return <div>  <div className={styles.newChannelMessage}>  <h2>Type away!</h2> <h3>Just begin typing to start chatting with friends</h3></div>  </div>
+    if(guildState?.current_messages?.length == 0) return <div>  <div className={styles.newChannelMessage}>  <h2>Type away!</h2> <h3>Just begin typing to start chatting with friends</h3></div>  </div>
 
     return (
         <div>
             {
-                guildState?.current_messages?.map((e: Message) => {
+                guildState?.current_messages?.map((message: Message) => {
                     return (
-                        <div style={{ color: e.unsent ? '#00f0f0' : '#ffffff'}} key={Math.random() * 10000}>
-                            {e.content}
+                        <div className={styles.message}>
+                            <img src={message.sender.avatarURL} alt="" className={styles.messageImage}/>
+                            <div className={styles.messageHeaders}>
+                                <span className={styles.messageUsername} style={{ color: '#CEC9E6' }}>
+                                    {
+                                        message.sender.username
+                                    }
+                                </span>
+
+                                <span className={styles.messageDate}>
+                                    {
+                                        dayjs(new Date(message.send_date)).from(new Date())
+                                    }
+                                </span>
+                            </div>
+                            
+                            <div className={styles.messageContent} style={{ color: message.unsent ? '#00f0f0' : ''}} key={Math.random() * 10000}>
+                                {
+                                    message.content
+                                }
+                            </div>
                         </div>
                     )
                 })
             }
         </div>
     )
-
-    return <div></div>
 }
 
 export { GuildMessages }

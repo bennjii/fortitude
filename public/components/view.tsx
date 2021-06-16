@@ -14,6 +14,8 @@ import { ServerChannels } from './guild_channels'
 import { GuildNav } from './guild_navigator'
 import { HomeNav } from './home_navigator'
 import { NewServerNav } from './new_server_navigation'
+import { SettingsOverlay } from './settings_overlay'
+import { UserComponent } from './user_component'
 
 const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const [ data, setData ] = useState(null);
@@ -67,6 +69,11 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                         {
                             (clientState.overlay.createServer) &&
                             <CreateServerOverlay />
+                        }
+
+                        {
+                            (clientState.overlay.settings) &&
+                            <SettingsOverlay />
                         }
 
                         <div className={styles.navigationSideBar}>
@@ -133,32 +140,10 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                             </div>
                                         </div>
 
-                                        <div className={styles.panels}>
-                                            <img src={data.avatarURL} />
-
-                                            <div className={styles.authAid}>
-                                                <h2>{data.username}</h2>
-                                                <p>{data.flags}#0000</p>
-                                            </div>
-                                            
-                                            <div className={styles.authIcons}>
-                                                <div onClick={() => {
-                                                        client.auth.signOut()
-                                                    }}>
-
-                                                    <LogOut size={18} strokeWidth={2}/>
-                                                </div>
-
-                                                <div onClick={() => {
-
-                                                    }}>
-                                                    <Settings size={18} strokeWidth={2}/>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
+                                        <UserComponent userData={data}/>
                                     </div>
                                 </div>
+
                                 <div className={styles.container}>
                                     <div className={styles.bannerBar}>
                                     {
