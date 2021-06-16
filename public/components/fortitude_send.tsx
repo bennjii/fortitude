@@ -3,7 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '@styles/Home.module.css'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
-import { Message, GuildContextType } from '@public/@types/client'
+import { Message, GuildContextType, Channel } from '@public/@types/client'
 
 import { ClientContextType, ClientState } from '@public/@types/client';
 import { ClientContext, GuildContext } from '@public/@types/context';
@@ -18,7 +18,7 @@ const FortitudeSend: React.FC<{}> = () => {
         <div className={styles.guildGontentInput}>
             <div>
                 <input type="text" ref={input}
-                    placeholder={`message #${guildState.current_channel?.name}`} 
+                    placeholder={`message #${guildState.channels.find((channel: Channel) => channel.id == guildState.current_channel_id)?.name}`} 
                     onChange={(e) => {
                         //... suggestions etc.
                     }}

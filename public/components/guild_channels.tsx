@@ -12,10 +12,12 @@ const ServerChannels: React.FC<{  }> = ({ }) => {
 
     const [ itemState, setItemState ] = useState({
         current_channel_id: state.current_channel_id,
-        current_channel: state.current_channel
+        current_channel: state.channels.find((channel) => channel.id == state.current_channel_id)
     });
 
     useEffect(() => {
+        if(state.current_channel_id !== itemState.current_channel_id) console.log("...", state);
+
         if(state.current_channel_id !== itemState.current_channel_id)
             callback({ ...state, current_channel_id: itemState.current_channel_id, current_channel: itemState.current_channel })
     }, [itemState]);

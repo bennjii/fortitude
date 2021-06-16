@@ -1,3 +1,4 @@
+import { Guild } from '@public/@types/client'
 import { ClientContext } from '@public/@types/context'
 import { supabase } from '@root/client'
 import styles from '@styles/Home.module.css'
@@ -75,8 +76,8 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
 
                             <div className={styles.nagigationGuildsList}>
                                 {
-                                    data.servers?.map(e => {
-                                        return <GuildNav data={e} key={Math.random() * 10000} />
+                                    data.servers?.map((server: Guild) => {
+                                        return <GuildNav data={server} key={server.id}/>
                                     })
                                 }
                             </div>
