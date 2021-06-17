@@ -12,6 +12,7 @@ import { ClientContext, SettingsContext } from '@public/@types/context';
 import clientStyles from '@styles/Home.module.css'
 
 import { SettingsNavigation } from './settings_navigation'
+import { SettingsContent } from './settings_content'
 
 const SettingsOverlay: React.FC<{}> = () => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
@@ -34,7 +35,7 @@ const SettingsOverlay: React.FC<{}> = () => {
                         <SettingsNavigation />
                     </div>
                     <div>
-
+                        <SettingsContent />
                     </div>
                 </div>
             </SettingsContext.Provider>

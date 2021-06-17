@@ -1202,6 +1202,26 @@
   gap: 2px;
 }
 
+.settingsContentPannel {
+  height: 100%;
+
+  width: 100%;
+  padding: 60px 12px 60px 40px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.settingsContentPannel h1 {
+  margin: 0;
+  color: var(--text-normal);
+
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
 .settingsNavPannel h1 {
   font-size: 2rem;
   color: var(--text-normal);
@@ -1230,7 +1250,6 @@
 
 .settingsNavigationElement {
   color: var(--interactive-normal);
-  font-size: .95rem;
 
   margin: 0;
   padding: 6px 10px;
@@ -1240,6 +1259,11 @@
   margin-bottom: 2px;
 
   border-radius: 4px;
+
+  position: relative;
+  font-size: 16px;
+  line-height: 20px;
+  cursor: pointer;
 }
 
 .settingsNavigationElement * {
@@ -1249,4 +1273,11 @@
 .settingsNavigationElement:hover {
   cursor: pointer;
   background-color: var(--background-modifier-hover);
+}
+
+.userSettingsContainer {
+  padding: 1rem;
+
+  border-radius: 7px;
+  background-color: var(--background-secondary);
 }

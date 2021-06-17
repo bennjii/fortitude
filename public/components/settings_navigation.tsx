@@ -17,7 +17,7 @@ const SettingsNavigation: React.FC<{}> = () => {
 
 	return (
         <div className={styles.settingsNavPannel}>
-            <h1>Fortitude</h1>
+            {/* <h1>Fortitude</h1> */}
 
             <h4>USER SETTINGS</h4>
 
@@ -50,6 +50,8 @@ const SettingsNavigation: React.FC<{}> = () => {
                 <SettingsNavigationElement name={"Change Log"} />
                 <SettingsNavigationElement name={"Version"} />
 
+                <hr />
+                
                 <div onClick={() => {  
                     client.auth.signOut();
                 }} className={styles.settingsNavigationElement}>
