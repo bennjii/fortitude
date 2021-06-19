@@ -17,3 +17,15 @@ export const mimifiedToFull = (short_name) => {
 export const fullToMimified = (full_name) => {
     return full_name.toLowerCase().replace(/\s/g, '-');
 }
+
+/**
+ * 
+ * @param email Full email string
+ * @returns String in format ***@email_provider.com
+ */
+
+export const emailFilter = (email) => {
+    return email.replace(/^[^@]*@/g, (str) => {
+        return str.replace(/[^@]/g, '*')
+    })
+}

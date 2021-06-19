@@ -13,6 +13,14 @@ import { fullToMimified } from './helper'
 const SettingsNavigationElement: React.FC<{ name: string }> = ({ name }) => {
     const { state, callback } = useContext<SettingsContextType>(SettingsContext);
 
+    const [ itemState, setItemState ] = useState({
+        active: (state.current_pannel == name)
+    });
+
+    useEffect(() => {
+        setItemState({ ...itemState, active: (state.current_pannel == fullToMimified(name)) })
+    }, [name])
+
     const short_name = fullToMimified(name);
 
     // const full_variation = short_name.replace(/-/g, ' ').replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
@@ -20,7 +28,16 @@ const SettingsNavigationElement: React.FC<{ name: string }> = ({ name }) => {
 	return (
         <div onClick={() => {  
             callback({ ...state, current_pannel: short_name })
-        }} className={styles.settingsNavigationElement}>
+        }} 
+        className={`${styles.settingsNavigationElement} ${itemState.active ?
+            styles.settingsNavActive
+            :
+            styles.settingsNavInactive
+        }`
+            
+
+        }
+        >
             <p>{name}</p>
         </div>
 	)

@@ -18,7 +18,7 @@ const SettingsOverlay: React.FC<{}> = () => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
 
     const [ settingState, setSettingState ] = useState({
-        current_pannel: "",
+        current_pannel: "my-account",
         settings: {
 
         }
@@ -34,9 +34,8 @@ const SettingsOverlay: React.FC<{}> = () => {
                     <div className={styles.settingsNavigation}>
                         <SettingsNavigation />
                     </div>
-                    <div>
-                        <SettingsContent />
-                    </div>
+                    
+                    <SettingsContent />
                 </div>
             </SettingsContext.Provider>
         </div>
