@@ -128,9 +128,9 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
 
                                                     <div className={styles.directMessageDivider}><h4>DIRECT MESSAGES</h4><Plus size={18}/></div>
                                                     {
-                                                        data.friends.map(e => {
+                                                        data.friends.map((e, i) => {
                                                             return (
-                                                                <div key={Math.random() * 10000}>
+                                                                <div key={`friend-${i}`}>
                                                                     {JSON.parse(e)}
                                                                 </div>
                                                             )

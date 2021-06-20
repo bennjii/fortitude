@@ -19,7 +19,7 @@ const SettingsNavigationElement: React.FC<{ name: string }> = ({ name }) => {
 
     useEffect(() => {
         setItemState({ ...itemState, active: (state.current_pannel == fullToMimified(name)) })
-    }, [name])
+    }, [name, state]);
 
     const short_name = fullToMimified(name);
 

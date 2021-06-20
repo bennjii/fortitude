@@ -16,8 +16,6 @@ const GuildMessages: React.FC<{}> = () => {
     const { client, state: clientState, callback: clientCallback } = useContext<ClientContextType>(ClientContext);
     const { guild, state: guildState, callback: guildCallback } = useContext<GuildContextType>(GuildContext)
 
-    const [ placedListener, setPlacedListener ] = useState(false);
-
     const setGuildMessages = (new_messages) => {
         guildCallback({ ...guildState, current_messages: new_messages })
     }
@@ -34,23 +32,25 @@ const GuildMessages: React.FC<{}> = () => {
     }, [guildState.current_channel_id])
 
     useEffect(() => {
-        if(guildState.current_channel == null) {
-            setTimeout(() => setPlacedListener(false), 100);
-            return null;
-        }
+        // if(guildState.current_channel == null) {
+        //     setTimeout(() => setPlacedListener(false), 100);
+        //     return null;
+        // }
+
+        console.log("Listener Placed ")
 
         const userListener = client
             .from(`channels:id=eq.${guildState.current_channel_id}`) 
             .on('*', (payload) => {
+                console.log("WHOA, something happened!")
                 setGuildMessages(payload.new.messages)
-                setPlacedListener(true);
             })
             .subscribe()
 
         return () => {
             userListener.unsubscribe()
         }
-    }, [placedListener])
+    }, [])
 
     // if(guildState.current_channel == null) return <div> <p>Something went terribly wrong...</p> </div>
     if(guildState?.current_messages?.length == 0) return <div>  <div className={styles.newChannelMessage}>  <h2>Type away!</h2> <h3>Just begin typing to start chatting with friends</h3></div>  </div>
@@ -60,7 +60,7 @@ const GuildMessages: React.FC<{}> = () => {
             {
                 guildState?.current_messages?.map((message: Message) => {
                     return (
-                        <div className={styles.message}>
+                        <div className={styles.message} key={message.send_date.toString()}>
                             <img src={message.sender.avatarURL} alt="" className={styles.messageImage}/>
                             <div className={styles.messageHeaders}>
                                 <span className={styles.messageUsername} style={{ color: '#CEC9E6' }}>

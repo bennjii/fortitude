@@ -34,7 +34,6 @@ const FortitudeSend: React.FC<{}> = () => {
                                 unsent: true
                             };
 
-                            guildState.current_messages.push(message);
                             guildCallback({  ...guildState, current_messages: [ ...guildState.current_messages, message ]})
 
                             sender('/api/send_message', guildState.current_channel_id, { ...message, unsent: false });

@@ -29,3 +29,15 @@ export const emailFilter = (email) => {
         return str.replace(/[^@]/g, '*')
     })
 }
+
+/**
+ * 
+ * @param string any valid string 
+ * @returns string in format ***...
+ */
+
+ export const textCensor = (string) => {
+    return string.replace(/./g, (str) => {
+        return str.replace(/./g, '*');
+    })
+}

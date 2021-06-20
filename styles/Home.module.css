@@ -1019,6 +1019,8 @@
 
   font-size: 1rem;
   line-height: 1.375rem;
+
+  font-weight: 300;
 }
 
 .guildGontentInput p {
@@ -1183,7 +1185,7 @@
 .settingsNavigation {
   background-color: var(--background-secondary);
   height: 100%;
-  width: 30%;
+  width: 38%;
 
   display: flex;
   flex-direction: row;
@@ -1210,6 +1212,47 @@
 
   width: 60%;
   padding: 60px 12px 60px 40px;
+
+  display: flex;
+  flex-direction: row;
+
+  gap: 2rem;
+}
+
+.settingsContentPannel > div > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.5rem;
+}
+
+.settingsContentPannel h4 {
+  color: var(--text-muted);
+  font-size: .8rem;
+}
+
+.settingsContentPannel p {
+  color: var(--text-muted);
+  font-size: .9rem;
+
+  font-weight: 300;
+}
+
+.settingsContentPannel hr {
+  border: none;
+
+  height: 1px;
+  width: 100%;
+
+  opacity: .5;
+
+  background-color: var(--background-accent);
+}
+
+.settingsContentPannel > div:first-of-type {
+  max-width: 600px;
+
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -1360,6 +1403,10 @@
   text-transform: uppercase;
 }
 
+.changeUserSettings p {
+  color: var(--text-normal);
+}
+
 .changeUserSettings {
   display: flex;
   flex-direction: column;
@@ -1369,25 +1416,17 @@
 .changeUserSettings > div {
   display: flex;
   flex-direction: row;
+
+  align-items: center;
 }
 
 .changeUserSettings > div > div:first-of-type {
   display: flex;
   flex-direction: column;
+
   gap: 2px;
 
   flex: 1;
-}
-
-.changeUserSettings > div > div:not(:first-of-type) {
-  background-color: var(--background-accent);
-  padding: 0rem 1.1rem;
-
-  display: flex;
-  align-items: center;
-
-  border-radius: 3px;
-  height: 2.2rem;
 }
 
 .changeUserSettings > div > div:first-of-type p {
@@ -1408,25 +1447,54 @@
 }
 
 .leaveObject {
-  position: absolute;
   right: 18%;
+
   width: auto !important;
+
   display: flex;
   flex-direction: column;
+
+  align-items: center;
+  gap: 5px;
   color: white;
+
+  cursor: pointer;
 }
 
 .leaveObject > div {
-  height: 25px;
-  width: 25px;
+  height: 35px;
+  width: 35px;
 
   border-radius: 50%;
-  border: 2px solid var(--background-accent);
+  border: 2px solid var(--interactive-muted);
 
-  background-color: var(--background-accent);
-  padding: 1rem;
+  background-color: transparent;
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.leaveObject > div:hover {
+  background-color: var(--interactive-muted);
+}
+
+.leaveObject p {
+  margin: 0;
+  font-size: .8rem;
+
+  color: var(--text-muted);
+}
+
+.editButton {
+  cursor: pointer;
+
+  background-color: var(--background-accent);
+  padding: 0rem 1rem;
+
+  display: flex;
+  align-items: center;
+
+  border-radius: 3px;
+  height: 1.8rem;
 }
