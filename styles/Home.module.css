@@ -1511,6 +1511,14 @@
 
   height: calc(100vh - 48px);
   padding: 3rem;
+
+  gap: 2rem;
+}
+
+.homeView > div:first-of-type {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .homeView > div:first-of-type h1 {
@@ -1518,16 +1526,26 @@
   font-size: 2rem;
 }
 
+/* .homeView > div:first-of-type > div:not(:first-of-type) h1 {
+  font-size: 3rem;
+} */
+
 .homeView h1 {
   color: var(--text-normal);
   margin: 0;
 }
 
 .time {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: baseline;
+
+  gap: 1rem;
+  font-family: 'Public Sans';
 }
 
 .time h1 {
-  font-size: 5rem;
+  font-size: 3rem;
   margin: 0;
 
   color: var(--text-normal);
@@ -1539,4 +1557,76 @@
   color: var(--text-muted);
 
   margin: 0;
+}
+
+.homeCalenderHeader {
+  display: flex;
+  flex-direction: row;
+
+  color: var(--text-normal);
+  width: 100%;
+
+  justify-content: space-between;
+  background-color: var(--background-secondary);
+
+  padding: 1rem 2rem;
+
+  font-family: 'Public Sans';
+}
+
+.homeCalenderHeader > div {
+  display: flex;
+  align-items: center;
+
+  gap: .5rem;
+}
+
+.homeCalenderHeader h1 {
+  font-size: 1.8rem !important;
+  margin: 0;
+
+  font-weight: 800;
+}
+
+.homeCalenderHeader h6 {
+  font-weight: 300;
+  font-size: 1.7rem;
+  line-height: 5px;
+  margin: 0;
+}
+
+.homeCalender {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  background-color: var(--background-accent);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.homeMessage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: .5rem;
+
+  font-family: 'Public Sans';
+}
+
+.homeMessage > h1 {
+  font-weight: 300 !important;
+  font-size: 1.5rem !important;
+  margin: 0;
+
+  color: var(--text-normal);
+}
+
+.homeMessage p {
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 0;
+
+  color: var(--text-normal);
 }
