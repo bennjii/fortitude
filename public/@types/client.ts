@@ -89,12 +89,17 @@ type ClientState = {
         id: string,
         data: Guild,
     },
-    current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string 
+    current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string,
+    settings: {
+        date_twenty_four_hour: boolean,
+        short_date: boolean
+    }
 }
 
 type SettingsState = {
     settings: {
-        
+        date_twenty_four_hour: boolean,
+        short_date: boolean
     },
     current_pannel: string 
 }

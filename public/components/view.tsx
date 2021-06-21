@@ -1,4 +1,4 @@
-import { Guild } from '@public/@types/client'
+import { ClientState, Guild } from '@public/@types/client'
 import { ClientContext } from '@public/@types/context'
 import { supabase } from '@root/client'
 import styles from '@styles/Home.module.css'
@@ -9,18 +9,17 @@ import { ChevronDown, Home, LogOut, Plus, Settings, Users } from 'react-feather'
 import Button from './button'
 import { CreateServerOverlay } from './create_server_overlay'
 import { GuildBase } from './guild_base'
-import { GuildBody } from './guild_body'
-import { ServerChannels } from './guild_channels'
 import { GuildNav } from './guild_navigator'
 import { HomeNav } from './home_navigator'
 import { NewServerNav } from './new_server_navigation'
 import { SettingsOverlay } from './settings_overlay'
 import { UserComponent } from './user_component'
+import { HomeComponent } from './home_component'
 
 const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const [ data, setData ] = useState(null);
 
-    const [ clientState, setClientState ] = useState({
+    const [ clientState, setClientState ] = useState<ClientState>({
         activeServer: '',
         activeDirectMessage: '',
         overlay: {
@@ -28,7 +27,11 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             settings: false
         },
         current_server: null,
-        current_pannel: 'dm-home' // dm-home, dm-friends, [dm-dm, svr-svr] - loads from activeServer and activeDirectMessage
+        current_pannel: 'dm-home', // dm-home, dm-friends, [dm-dm, svr-svr] - loads from activeServer and activeDirectMessage
+        settings: {
+            date_twenty_four_hour: false,
+            short_date: false
+        }
     });
 
     const context = {
@@ -165,7 +168,16 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                     }
                                     </div>
                                     <div>
-                                        <h1>home stuff</h1>
+                                        {
+                                            clientState.current_pannel == 'dm-home' ?
+                                            <div style={{ height: '100%' }}>
+                                                <HomeComponent />
+                                            </div>
+                                            :
+                                            <div>
+                                                <h1>friend stuff</h1>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

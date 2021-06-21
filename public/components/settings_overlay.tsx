@@ -28,7 +28,9 @@ const SettingsOverlay: React.FC<{}> = () => {
 		<div className={styles.overlay} style={{ backgroundColor: 'var(--background-primary)' }} onClick={(e) => {
             //@ts-expect-error
             if(e.target.classList.contains(clientStyles.overlay)) callback({ ...state, overlay: { ...state.overlay, settings: false }});
-        }}>
+        }} onKeyPress={(event) => {
+            console.log(event);
+        }} >
             <SettingsContext.Provider value={{ state: settingState, callback: setSettingState }}>
                 <div className={styles.settingsOverlayParent}>
                     <div className={styles.settingsNavigation}>
