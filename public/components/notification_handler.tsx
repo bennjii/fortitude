@@ -44,7 +44,7 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                         }
                     })
 
-                    console.log(`${event.duration / localKeyInteractions.find((e) => e.key == clientState.settings.bindings.open_notification)?.duration}%`);
+                    console.log(`${event.duration / localKeyInteractions.find((e) => e.expected_key == clientState.settings.bindings.open_notification)?.duration}%`);
 
                     return (
                         <div key={event.id} className={styles.notification}>
@@ -60,7 +60,7 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                             </div>
                             
                             <div className={styles.openLine}>
-                                <div style={{ width: `${event.duration / localKeyInteractions.find((e) => e.key == clientState.settings.bindings.open_notification)?.duration}%`, backgroundColor: 'var(--color-primary)', height: '2px', position: 'absolute' }}>
+                                <div style={{ width: `${event.duration / localKeyInteractions.find((e) => e.expected_key == clientState.settings.bindings.open_notification)?.duration}%`, backgroundColor: 'var(--color-primary)', height: '2px', position: 'absolute' }}>
 
                                 </div>
                             </div>
