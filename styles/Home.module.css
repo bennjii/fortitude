@@ -1704,9 +1704,12 @@
   flex-direction: row;
   align-items: center;
 
+  grid-gap: 1rem;
   gap: 1rem;
-
   width: 100%;
+  
+  position: relative;
+  overflow: hidden;
 }
 
 .notification > div:last-of-type {
