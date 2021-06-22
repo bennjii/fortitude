@@ -1,10 +1,10 @@
-import { ClientState, Guild } from '@public/@types/client'
+import { ClientState, FortitudeNotification, Guild } from '@public/@types/client'
 import { ClientContext } from '@public/@types/context'
 import { supabase } from '@root/client'
 import styles from '@styles/Home.module.css'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { createContext, useEffect, useState } from 'react'
-import { ChevronDown, Home, LogOut, Plus, Settings, Users } from 'react-feather'
+import { AlertCircle, ChevronDown, Home, LogOut, Plus, Settings, Users } from 'react-feather'
 
 import Button from './button'
 import { CreateServerOverlay } from './create_server_overlay'
@@ -15,9 +15,26 @@ import { NewServerNav } from './new_server_navigation'
 import { SettingsOverlay } from './settings_overlay'
 import { UserComponent } from './user_component'
 import { HomeComponent } from './home_component'
+import { UserIcon } from './user_icon'
+import { KeyUI } from './ui_key'
+import { NotificationHandler } from './notification_handler'
+import { KeyHandler } from '@public/@types/event'
+import { handleKeyEvents } from './helper'
 
 const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const [ data, setData ] = useState(null);
+
+    // The below code specifies a key handler queue wherein as events are listened to, they are parsed and fufilled by the listener
+    const keyHandlers = [];
+    const keyInteractions = [];
+
+    if(process.browser) document.addEventListener("keydown", (e) => {
+        handleKeyEvents(keyHandlers, keyInteractions, e, 'down');
+    });
+
+    if(process.browser) document.addEventListener("keyup", (e) => {
+        handleKeyEvents(keyHandlers, keyInteractions, e, 'up');
+    });
 
     const [ clientState, setClientState ] = useState<ClientState>({
         activeServer: '',
@@ -30,8 +47,21 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         current_pannel: 'dm-home', // dm-home, dm-friends, [dm-dm, svr-svr] - loads from activeServer and activeDirectMessage
         settings: {
             date_twenty_four_hour: false,
-            short_date: false
-        }
+            short_date: false,
+            bindings: {
+                open_notification: 'P'
+            }
+        },
+        notifications: [
+            {
+                message: 'New Calender Event: Sunday Meeting',
+                origin: 'a template server',
+                id: '19173619aca210ad',
+                duration: 2500,
+                redirect: 'dm-home',
+                icon: "https://sqhegzswatflhwibycub.supabase.co/storage/v1/object/sign/server-icons/a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzZXJ2ZXItaWNvbnMvYTY4OWEyYjgtZmE2Ni00ZjFjLTljYWMtN2I1YzNkMzNiZTBhLmpwZyIsImlhdCI6MTYyNDM0OTY0NywiZXhwIjoxNjI0NTIyNDQ3fQ.sj778ELi8BHw2XdGOFF4MFzZWqkYeM6GXln3HEvOt8U"
+            }
+        ]
     });
 
     const context = {
@@ -66,8 +96,10 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     
     if(data)
         return (
-            <ClientContext.Provider value={context}>
-                <div className={styles.client}>
+            <ClientContext.Provider value={context} >
+                <NotificationHandler keyHandlers={keyHandlers} keyInteractions={keyInteractions} />
+
+                <div className={styles.client} >
                     <div className={styles.context}>
                         {
                             (clientState.overlay.createServer) &&

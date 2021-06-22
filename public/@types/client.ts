@@ -16,6 +16,15 @@ type Channel = {
     messages?: Message[]
 }
 
+type FortitudeNotification = {
+    message: string,
+    origin: string,
+    duration: number,
+    id: string,
+    redirect: string,
+    icon: string
+}
+
 type Permission = {
     read: boolean,
     write: boolean,
@@ -92,8 +101,12 @@ type ClientState = {
     current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string,
     settings: {
         date_twenty_four_hour: boolean,
-        short_date: boolean
-    }
+        short_date: boolean,
+        bindings: {
+            open_notification: string
+        }
+    },
+    notifications: FortitudeNotification[]
 }
 
 type SettingsState = {
@@ -122,4 +135,4 @@ type ClientContextType = {
     callback: Function
 }
 
-export type { ClientState, ClientContextType, GuildContextType, SettingsContextType, Guild, User, Channel, Message }
+export type { ClientState, ClientContextType, GuildContextType, SettingsContextType, Guild, User, Channel, Message, FortitudeNotification }

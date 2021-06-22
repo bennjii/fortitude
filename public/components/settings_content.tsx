@@ -12,6 +12,7 @@ import { ClientContextType, ClientState, SettingsContextType } from '@public/@ty
 import { ClientContext, SettingsContext } from '@public/@types/context';
 import { emailFilter, mimifiedToFull, textCensor } from './helper'
 import { UserIcon } from './user_icon'
+import { ChangeUserIcon } from './change_user_icon'
 
 const SettingsContent: React.FC<{}> = () => {
     const { client, user, state: SettingsState, callback: SettingsVisiblityCallback } = useContext<ClientContextType>(ClientContext)
@@ -34,7 +35,7 @@ const SettingsContent: React.FC<{}> = () => {
                                     <div>
                                         <div className={styles.userSettingsContainer}>
                                             <div>
-                                                <UserIcon url={user.avatarURL}/>
+                                                <ChangeUserIcon />
 
                                                 <div className={styles.userSettingsUserName}>
                                                     <div>

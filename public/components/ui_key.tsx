@@ -12,25 +12,22 @@ import { ClientContextType, ClientState, SettingsContextType } from '@public/@ty
 import { ClientContext, SettingsContext } from '@public/@types/context';
 import { mimifiedToFull } from './helper'
 
-const UserIcon: React.FC<{ url: string }> = ({ url }) => {
+const KeyUI: React.FC<{ binding: string }> = ({ binding }) => {
     const { client, user } = useContext<ClientContextType>(ClientContext)
 
-    const [ imageURL, setImageURL ] = useState(url);
+    const [ keybind, setKey ] = useState(binding);
 
     useEffect(() => {
-        setImageURL(url);
-    }, [url])
+        setKey(binding);
+    }, [binding])
 
-    if(url && url !== 'null')
-        return (
-            <img src={imageURL ?? './public/user_icon.png'} alt="" className={styles.imageIconUser}/>                   
-        )
-    else 
-        return  (
-            <div className={styles.userDefaultIcon}>
-                
-            </div>
-        )
+    return (
+        <div className={styles.key_ui}>
+            {
+                keybind
+            }
+        </div>
+    )
 }
 
-export { UserIcon }
+export { KeyUI }
