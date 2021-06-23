@@ -19,9 +19,7 @@ const SettingsOverlay: React.FC<{}> = () => {
 
     const [ settingState, setSettingState ] = useState({
         current_pannel: "my-account",
-        settings: {
-
-        }
+        settings: state.settings
     });
 
 	return (

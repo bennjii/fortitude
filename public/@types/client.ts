@@ -22,7 +22,9 @@ type FortitudeNotification = {
     duration: number,
     id: string,
     redirect: string,
-    icon: string
+    icon: string,
+    action: string,
+    accept_message: string
 }
 
 type Permission = {
@@ -99,21 +101,22 @@ type ClientState = {
         data: Guild,
     },
     current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string,
-    settings: {
-        date_twenty_four_hour: boolean,
-        short_date: boolean,
-        bindings: {
-            open_notification: string
-        }
-    },
+    settings: Settings,
     notifications: FortitudeNotification[]
 }
 
+type Settings = {
+    date_twenty_four_hour: boolean,
+    short_date: boolean,
+    bindings: {
+        open_notification: string,
+        accept_call: string,
+        decline_call: string
+    }
+}
+
 type SettingsState = {
-    settings: {
-        date_twenty_four_hour: boolean,
-        short_date: boolean
-    },
+    settings: Settings,
     current_pannel: string 
 }
 

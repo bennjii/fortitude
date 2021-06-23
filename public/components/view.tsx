@@ -36,6 +36,10 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         handleKeyEvents(keyHandlers, keyInteractions, e, 'up');
     });
 
+    if(process.browser) document.addEventListener("blur", (e) => {
+        keyInteractions.length = 0;
+    });
+
     const [ clientState, setClientState ] = useState<ClientState>({
         activeServer: '',
         activeDirectMessage: '',
@@ -49,7 +53,9 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             date_twenty_four_hour: false,
             short_date: false,
             bindings: {
-                open_notification: 'P'
+                open_notification: 'P',
+                accept_call: 'A',
+                decline_call: 'D'
             }
         },
         notifications: [
@@ -57,10 +63,22 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                 message: 'New Calender Event: Sunday Meeting',
                 origin: 'a template server',
                 id: '19173619aca210ad',
-                duration: 2500,
+                duration: 1500,
                 redirect: 'dm-home',
+                action: 'open_notification',
+                accept_message: 'Hold [spc] to open',
                 icon: "https://sqhegzswatflhwibycub.supabase.co/storage/v1/object/sign/server-icons/a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzZXJ2ZXItaWNvbnMvYTY4OWEyYjgtZmE2Ni00ZjFjLTljYWMtN2I1YzNkMzNiZTBhLmpwZyIsImlhdCI6MTYyNDM0OTY0NywiZXhwIjoxNjI0NTIyNDQ3fQ.sj778ELi8BHw2XdGOFF4MFzZWqkYeM6GXln3HEvOt8U"
-            }
+            },
+            {
+                message: 'someone is calling you',
+                origin: 'someone',
+                id: 'aw19c7a-asnalcc',
+                duration: 1500,
+                redirect: 'dm-home',
+                action: 'accept_call',
+                accept_message: 'Hold [spc] to accept',
+                icon: "https://sqhegzswatflhwibycub.supabase.co/storage/v1/object/sign/server-icons/a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzZXJ2ZXItaWNvbnMvYTY4OWEyYjgtZmE2Ni00ZjFjLTljYWMtN2I1YzNkMzNiZTBhLmpwZyIsImlhdCI6MTYyNDM0OTY0NywiZXhwIjoxNjI0NTIyNDQ3fQ.sj778ELi8BHw2XdGOFF4MFzZWqkYeM6GXln3HEvOt8U"
+            },
         ]
     });
 

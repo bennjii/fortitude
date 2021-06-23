@@ -61,6 +61,14 @@ export const handleKeyEvents = (keyHandlers: KeyHandler[], keyInteractions: any[
                 key: event.key,
                 date: new Date().getTime()
             });
+        }else {
+            // const handler = keyHandlers.find((e) => e.expected_key == event.key);
+            // const key_stored = keyInteractions.find((e) => e.key == event.key);
+
+            // if(handler && key_stored)
+            //     if((new Date().getTime() - key_stored.date) >= handler.duration) {
+            //         handler.fufil();
+            //     }            
         }
 
         return;
@@ -71,6 +79,7 @@ export const handleKeyEvents = (keyHandlers: KeyHandler[], keyInteractions: any[
         if(!key_stored) return;
         
         console.log((new Date().getTime() - key_stored?.date), key_stored.key)
+        console.log(keyHandlers)
 
         if((new Date().getTime() - key_stored?.date) >= handler.duration)
             if(case_sensitive)
@@ -100,4 +109,19 @@ export const handleKeyEvents = (keyHandlers: KeyHandler[], keyInteractions: any[
             if(log_mode) console.log("Ahhh, just didnt cut it huh.", (new Date().getTime() - key_stored?.date), key_stored.key)
         }
     })
+}
+
+/**
+ * @param keyHandlers An array of KeyHandler objects which contain a key and a fulfilment
+ * @param notification A new KeyHandler submission object
+ */
+
+export const addNotification = (keyHandlers: KeyHandler[], notification: KeyHandler) => {
+    const found = keyHandlers.find(element => {
+        return element.expected_key == notification.expected_key
+    });
+
+    // console.log(keyHandlers);
+    
+    if(!found) keyHandlers.push(notification);
 }

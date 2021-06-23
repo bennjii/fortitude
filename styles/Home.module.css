@@ -1676,8 +1676,12 @@
   right: 1.5rem;
   z-index: 500;
 
-  width: 15%;
+  width: 300px;
   height: 50%;
+}
+
+.notificationMenu > div:nth-child(1n) {
+  position: absolute;
 }
 
 .notification {
@@ -1762,6 +1766,10 @@
 
   height: 2px;
   border-radius: 5px;
+}
+
+.openLine * {
+  transition: .55s ease all;
 }
 
 .key_ui {

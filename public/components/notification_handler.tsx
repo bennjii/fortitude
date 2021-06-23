@@ -10,17 +10,28 @@ import { SettingsNavigationElement } from '@components/settings_navigation_eleme
 import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
 import { ClientContextType, ClientState, FortitudeNotification, SettingsContextType } from '@public/@types/client'
 import { ClientContext, SettingsContext } from '@public/@types/context';
-import { mimifiedToFull } from './helper'
+import { addNotification, mimifiedToFull } from './helper'
 import { UserIcon } from './user_icon'
 import { KeyUI } from './ui_key'
 import { KeyHandler } from '@public/@types/event'
 
-const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions: any[] }> = ({ keyHandlers, keyInteractions }) => {
+const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions: { key: string, date: number }[] }> = ({ keyHandlers, keyInteractions }) => {
     const { client, user, state: clientState, callback: setClientState } = useContext<ClientContextType>(ClientContext);
 
     const [ localKeyHandlers, setKeyHandlers ] = useState(keyHandlers);
-    const [ localKeyInteractions, setKeyInteractions ] = useState(keyHandlers);
+    const [ localKeyInteractions, setKeyInteractions ] = useState(keyInteractions);
 
+    const [ date, setDate ] = useState(new Date().getTime())
+    
+    useEffect(() => {
+        const repeat = () => {
+            setDate(new Date().getTime());
+            setTimeout(repeat, 250)
+        }
+
+        setTimeout(repeat, 250);
+    }, [])
+    
     useEffect(() => {
         setKeyHandlers(keyHandlers)
     }, [keyHandlers])
@@ -33,8 +44,8 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
         <div className={styles.notificationMenu}>
             {
                 clientState.notifications.map((event: FortitudeNotification, index) => {
-                    keyHandlers.push({
-                        expected_key: clientState.settings.bindings.open_notification,
+                    addNotification(keyHandlers, {
+                        expected_key: clientState.settings.bindings[event.action],
                         duration: event.duration,
                         fufil: () => {
                             console.log("Key Event Fufilled")
@@ -42,12 +53,17 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
 
                             setClientState({ ...clientState, current_pannel: event.redirect });
                         }
-                    })
+                    });
 
-                    console.log(`${event.duration / localKeyInteractions.find((e) => e.expected_key == clientState.settings.bindings.open_notification)?.duration}%`);
+
+                    const found_key = localKeyInteractions.find((e: { date: number, key: string}) => {
+                        return (e?.key?.toLowerCase() == clientState.settings.bindings[event.action]?.toLowerCase()) ? e : null
+                    });
+
+                    console.log(`>> ${date - found_key?.date} / ${event.duration}`)
 
                     return (
-                        <div key={event.id} className={styles.notification}>
+                        <div key={event.id} className={styles.notification} style={{ marginTop: `${index}%`, opacity: `${(index + 1) / clientState.notifications.length}` }}>
                             <div>
                                 <div className={styles.notificationSender}>
                                     <UserIcon url={event.icon} />
@@ -60,13 +76,21 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                             </div>
                             
                             <div className={styles.openLine}>
-                                <div style={{ width: `${event.duration / localKeyInteractions.find((e) => e.expected_key == clientState.settings.bindings.open_notification)?.duration}%`, backgroundColor: 'var(--color-primary)', height: '2px', position: 'absolute' }}>
+                                <div style={{ width: `${((date - found_key?.date) / event.duration) ? ((date - found_key?.date) / event.duration) * 100 : 0}%`, backgroundColor: 'var(--color-primary)', height: '2px', position: 'absolute' }}>
 
                                 </div>
                             </div>
 
                             <div>
-                                <div>Hold <KeyUI binding={clientState.settings.bindings.open_notification}/> to open</div>
+                                <div>
+                                    {
+                                        event.accept_message.split("[spc]")[0]
+                                    }
+                                    <KeyUI binding={clientState.settings.bindings[event.action]}/>
+                                    {   
+                                        event.accept_message.split("[spc]")[1]
+                                    }
+                                </div>
                             </div>
                         </div>
                     )
