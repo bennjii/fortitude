@@ -63,24 +63,19 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                 message: 'New Calender Event: Sunday Meeting',
                 origin: 'a template server',
                 id: '19173619aca210ad',
-                duration: 1500,
+                duration: 0,
                 redirect: 'dm-home',
                 action: 'open_notification',
-                accept_message: 'Hold [spc] to open',
-                icon: "https://sqhegzswatflhwibycub.supabase.co/storage/v1/object/sign/server-icons/a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzZXJ2ZXItaWNvbnMvYTY4OWEyYjgtZmE2Ni00ZjFjLTljYWMtN2I1YzNkMzNiZTBhLmpwZyIsImlhdCI6MTYyNDM0OTY0NywiZXhwIjoxNjI0NTIyNDQ3fQ.sj778ELi8BHw2XdGOFF4MFzZWqkYeM6GXln3HEvOt8U"
+                accept_message: 'Press [spc] to open',
+                icon: "a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg"
             },
-            {
-                message: 'someone is calling you',
-                origin: 'someone',
-                id: 'aw19c7a-asnalcc',
-                duration: 1500,
-                redirect: 'dm-home',
-                action: 'accept_call',
-                accept_message: 'Hold [spc] to accept',
-                icon: "https://sqhegzswatflhwibycub.supabase.co/storage/v1/object/sign/server-icons/a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzZXJ2ZXItaWNvbnMvYTY4OWEyYjgtZmE2Ni00ZjFjLTljYWMtN2I1YzNkMzNiZTBhLmpwZyIsImlhdCI6MTYyNDM0OTY0NywiZXhwIjoxNjI0NTIyNDQ3fQ.sj778ELi8BHw2XdGOFF4MFzZWqkYeM6GXln3HEvOt8U"
-            },
+            
         ]
     });
+
+    const recieveNotification = (notification: FortitudeNotification) => {
+        setClientState({ ...clientState, notifications: [ ...clientState.notifications, notification ]})
+    }
 
     const context = {
         client: supabase,
@@ -199,24 +194,40 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
 
                                 <div className={styles.container}>
                                     <div className={styles.bannerBar}>
-                                    {
-                                        clientState.current_pannel == "dm-home" &&
-                                        <div className={styles.dmHome}>
-                                            <Home size={20} strokeWidth={2} opacity={0.6}/>
-                                            <br />
-                                            <h3>Home</h3>
-                                        </div>
-                                    }
+                                        {
+                                            clientState.current_pannel == "dm-home" &&
+                                            <div className={styles.dmHome}>
+                                                <Home size={20} strokeWidth={2} opacity={0.6}/>
+                                                <br />
+                                                <h3>Home</h3>
+                                            </div>
+                                        }
 
-                                    {
-                                        clientState.current_pannel == "dm-friends" && 
-                                        <div className={styles.dmFriends}>
-                                            <Users size={20} strokeWidth={2} opacity={0.6} />
-                                            <br />
-                                            <h3>Friends</h3>
-                                        </div>
-                                    }
+                                        {
+                                            clientState.current_pannel == "dm-friends" && 
+                                            <div className={styles.dmFriends}>
+                                                <Users size={20} strokeWidth={2} opacity={0.6} />
+                                                <br />
+                                                <h3>Friends</h3>
+
+                                                <Button title={"Send Notification"} onClick={() => {
+                                                    recieveNotification(
+                                                        {
+                                                            message: 'someone is calling you',
+                                                            origin: 'someone',
+                                                            id: 'aw19c7a-asnalcc',
+                                                            duration: 1000,
+                                                            redirect: 'dm-home',
+                                                            action: 'accept_call',
+                                                            accept_message: 'Hold [spc] to accept',
+                                                            icon: "a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg"
+                                                        }
+                                                    )
+                                                }}/>
+                                            </div>
+                                        }
                                     </div>
+
                                     <div>
                                         {
                                             clientState.current_pannel == 'dm-home' ?

@@ -26,10 +26,10 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
     useEffect(() => {
         const repeat = () => {
             setDate(new Date().getTime());
-            setTimeout(repeat, 250)
+            setTimeout(repeat, 50)
         }
 
-        setTimeout(repeat, 250);
+        setTimeout(repeat, 50);
     }, [])
     
     useEffect(() => {
@@ -49,7 +49,7 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                         duration: event.duration,
                         fufil: () => {
                             console.log("Key Event Fufilled")
-                            setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) });
+                            // setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) });
 
                             setClientState({ ...clientState, current_pannel: event.redirect });
                         }
@@ -60,10 +60,22 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                         return (e?.key?.toLowerCase() == clientState.settings.bindings[event.action]?.toLowerCase()) ? e : null
                     });
 
-                    console.log(`>> ${date - found_key?.date} / ${event.duration}`)
+                    if(((date - found_key?.date) / event.duration) > 0.99) {
+                        setTimeout(setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) }), 250);
+                    }
 
                     return (
-                        <div key={event.id} className={styles.notification} style={{ marginTop: `${index}%`, opacity: `${(index + 1) / clientState.notifications.length}` }}>
+                        <div 
+                            key={event.id} 
+                            className={`${styles.notification} ${((date - found_key?.date) / event.duration) > 0.99 ? styles.notificationEnded : ''}`} 
+                            style={{ marginTop: `${index * 2}%`, opacity: `${(index + 1) / clientState.notifications.length}` }}
+                            onAnimationIteration={(e) => {
+                                if(e.animationName.includes('begone')) {
+                                    console.log("It is my time to depart...")
+                                    setTimeout(setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) }), 250);
+                                }
+                            }}
+                        >
                             <div>
                                 <div className={styles.notificationSender}>
                                     <UserIcon url={event.icon} />
@@ -74,19 +86,26 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                                     <p>{event.message}</p>
                                 </div>
                             </div>
-                            
-                            <div className={styles.openLine}>
-                                <div style={{ width: `${((date - found_key?.date) / event.duration) ? ((date - found_key?.date) / event.duration) * 100 : 0}%`, backgroundColor: 'var(--color-primary)', height: '2px', position: 'absolute' }}>
 
+                            {
+                                event.duration > 0 ?
+                                <div className={styles.openLine}>
+                                    <div style={{ width: `${((date - found_key?.date) / event.duration) ? ((date - found_key?.date) / event.duration) * 100 : 0}%`, backgroundColor: 'var(--color-primary)', height: '3px', position: 'absolute' }}>
+
+                                    </div>
                                 </div>
-                            </div>
+                                :
+                                <></>
+                            }
 
                             <div>
                                 <div>
                                     {
                                         event.accept_message.split("[spc]")[0]
                                     }
-                                    <KeyUI binding={clientState.settings.bindings[event.action]}/>
+
+                                    <KeyUI binding={clientState.settings.bindings[event.action]} held={found_key == null}/>
+                                    
                                     {   
                                         event.accept_message.split("[spc]")[1]
                                     }

@@ -11,6 +11,7 @@ import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
 import { ClientContextType, ClientState, SettingsContextType } from '@public/@types/client'
 import { ClientContext, SettingsContext } from '@public/@types/context';
 import { mimifiedToFull } from './helper'
+import { supabase } from '@root/client'
 
 const UserIcon: React.FC<{ url: string }> = ({ url }) => {
     const { client, user } = useContext<ClientContextType>(ClientContext)
@@ -18,10 +19,16 @@ const UserIcon: React.FC<{ url: string }> = ({ url }) => {
     const [ imageURL, setImageURL ] = useState(url);
 
     useEffect(() => {
-        setImageURL(url);
-    }, [url])
+        client
+            .storage
+            .from('user-icons')
+            .createSignedUrl(url, 172800)
+            .then(e => {
+                setImageURL(e.signedURL); 
+            })
+    }, [, url])
 
-    if(url && url !== 'null')
+    if(imageURL && imageURL !== 'null')
         return (
             <img src={imageURL ?? './public/user_icon.png'} alt="" className={styles.imageIconUser}/>                   
         )

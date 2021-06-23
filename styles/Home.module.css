@@ -1697,7 +1697,32 @@
 
   border-radius: 5px;
   padding: 1rem 1rem;
+
+  animation: becommeth .2s ease;
 }
+
+.notificationEnded {
+  animation: begone .2s ease;
+}
+
+@keyframes becommeth {
+  0% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes begone {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
+}
+
 
 .notification * {
   margin: 0;
@@ -1713,7 +1738,6 @@
   width: 100%;
   
   position: relative;
-  overflow: hidden;
 }
 
 .notification > div:last-of-type {
@@ -1725,7 +1749,7 @@
   display: flex;
   flex-direction: row;
 
-  align-items: center;
+  align-items: flex-end;
   gap: 5px;
 }
 
@@ -1757,19 +1781,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  width: 225px;
+  width: 200px;
 }
 
 .openLine {
   width: 90%;
   background-color: var(--background-accent);
 
-  height: 2px;
+  height: 3px;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 .openLine * {
-  transition: .55s ease all;
+  transition: .1s ease all;
 }
 
 .key_ui {
@@ -1785,5 +1810,5 @@
   justify-content: center;
 
   padding: 5px;
-  box-shadow: -1px 1px rgba(var(--color-primary-rgb), 0.5);;
+  box-shadow: 0px 3px rgba(var(--color-primary-rgb), 0.5);
 }

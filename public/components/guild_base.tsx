@@ -137,7 +137,17 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                         </div>
 
                         <div className={styles.membersList}>
-                            List of users here
+                            {
+                                guildData.members.map(e => {
+                                    return (
+                                        <div>
+                                            {
+                                                e.username
+                                            }
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                 </div>

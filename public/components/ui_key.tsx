@@ -1,28 +1,31 @@
 
-import { SupabaseClient } from '@supabase/supabase-js'
 import styles from '@styles/Home.module.css'
 import { createRef, useContext, useEffect, useState } from 'react'
 
-import Button from '@components/button'
-import Input from '@components/input'
-import { SettingsNavigationElement } from '@components/settings_navigation_element'
-
-import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
 import { ClientContextType, ClientState, SettingsContextType } from '@public/@types/client'
 import { ClientContext, SettingsContext } from '@public/@types/context';
-import { mimifiedToFull } from './helper'
 
-const KeyUI: React.FC<{ binding: string }> = ({ binding }) => {
+const KeyUI: React.FC<{ binding: string, held: boolean }> = ({ binding, held }) => {
     const { client, user } = useContext<ClientContextType>(ClientContext)
 
     const [ keybind, setKey ] = useState(binding);
+    const [ buttonHeld, setButtonHeld ] = useState(held);
 
     useEffect(() => {
         setKey(binding);
     }, [binding])
 
+    useEffect(() => {
+        setButtonHeld(held);
+    }, [held])
+
+    console.log(buttonHeld);
+
     return (
-        <div className={styles.key_ui}>
+        <div 
+            className={styles.key_ui} 
+            style={{ boxShadow: buttonHeld ? '0px 3px rgba(var(--color-primary-rgb), 0.5)' : '0px 1px rgba(var(--color-primary-rgb), 0.5)', transform: buttonHeld ? 'translateY(-2px)' : '', color: 'white' }}
+        >
             {
                 keybind
             }

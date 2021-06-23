@@ -62,13 +62,13 @@ export const handleKeyEvents = (keyHandlers: KeyHandler[], keyInteractions: any[
                 date: new Date().getTime()
             });
         }else {
-            // const handler = keyHandlers.find((e) => e.expected_key == event.key);
-            // const key_stored = keyInteractions.find((e) => e.key == event.key);
+            const handler = keyHandlers.find((e) => e.expected_key.toLowerCase() == event.key.toLowerCase());
+            const key_stored = keyInteractions.find((e) => e.key == event.key);
 
-            // if(handler && key_stored)
-            //     if((new Date().getTime() - key_stored.date) >= handler.duration) {
-            //         handler.fufil();
-            //     }            
+            if(handler && key_stored)
+                if((new Date().getTime() - key_stored.date) >= handler.duration + 100) {
+                    handler.fufil();
+                }            
         }
 
         return;
@@ -77,9 +77,6 @@ export const handleKeyEvents = (keyHandlers: KeyHandler[], keyInteractions: any[
     keyHandlers.forEach((handler: KeyHandler, index: number) => {
         const key_stored = keyInteractions.find((e) => e.key == event.key)
         if(!key_stored) return;
-        
-        console.log((new Date().getTime() - key_stored?.date), key_stored.key)
-        console.log(keyHandlers)
 
         if((new Date().getTime() - key_stored?.date) >= handler.duration)
             if(case_sensitive)

@@ -8,13 +8,14 @@ import { Message, GuildContextType, User } from '@public/@types/client'
 import { ClientContextType, ClientState } from '@public/@types/client';
 import { ClientContext, GuildContext } from '@public/@types/context';
 import { LogOut, Settings } from 'react-feather'
+import { UserIcon } from './user_icon';
 
 const UserComponent: React.FC<{ userData: User }> = ({ userData }) => {
     const { client, state: clientState, callback: clientCallback } = useContext<ClientContextType>(ClientContext);
 
     return (
         <div className={styles.panels}>
-            <img src={userData.avatarURL} />
+            <UserIcon url={userData.avatarURL}/>
 
             <div className={styles.authAid}>
                 <h2>{userData.username}</h2>
