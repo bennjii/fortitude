@@ -18,9 +18,7 @@ const KeyUI: React.FC<{ binding: string, held: boolean }> = ({ binding, held }) 
     useEffect(() => {
         setButtonHeld(held);
     }, [held])
-
-    console.log(buttonHeld);
-
+    
     return (
         <div 
             className={styles.key_ui} 

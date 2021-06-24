@@ -7,7 +7,7 @@ import Button from '@components/button'
 import Input from '@components/input'
 import { SettingsNavigationElement } from '@components/settings_navigation_element'
 
-import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
+import { Check, FilePlus, Image, Loader, Plus, Repeat } from 'react-feather';
 import { ClientContextType, ClientState, FortitudeNotification, SettingsContextType } from '@public/@types/client'
 import { ClientContext, SettingsContext } from '@public/@types/context';
 import { addNotification, mimifiedToFull } from './helper'
@@ -24,13 +24,8 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
     const [ date, setDate ] = useState(new Date().getTime())
     
     useEffect(() => {
-        const repeat = () => {
-            setDate(new Date().getTime());
-            setTimeout(repeat, 50)
-        }
-
-        setTimeout(repeat, 50);
-    }, [])
+        if(keyHandlers.length > 0) repeat;
+    }, [keyHandlers])
     
     useEffect(() => {
         setKeyHandlers(keyHandlers)
@@ -39,6 +34,17 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
     useEffect(() => {
         setKeyInteractions(keyInteractions)
     }, [keyInteractions])
+
+    const repeat = setTimeout(() => {
+        console.log(`HEH : ${keyHandlers}`)
+        setDate(new Date().getTime());
+
+        if(keyHandlers.length > 0)
+            return setTimeout(repeat, 50);
+    }, 50)
+
+    if(localKeyHandlers.length > 0) repeat;
+    else clearTimeout(repeat);
 
     return (
         <div className={styles.notificationMenu}>
@@ -50,18 +56,18 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                         fufil: () => {
                             console.log("Key Event Fufilled")
                             // setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) });
+                            if(event.duration <= 10) setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) })
 
                             setClientState({ ...clientState, current_pannel: event.redirect });
                         }
                     });
-
 
                     const found_key = localKeyInteractions.find((e: { date: number, key: string}) => {
                         return (e?.key?.toLowerCase() == clientState.settings.bindings[event.action]?.toLowerCase()) ? e : null
                     });
 
                     if(((date - found_key?.date) / event.duration) > 0.99) {
-                        setTimeout(setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) }), 250);
+                        setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) });
                     }
 
                     return (
@@ -72,7 +78,7 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                             onAnimationIteration={(e) => {
                                 if(e.animationName.includes('begone')) {
                                     console.log("It is my time to depart...")
-                                    setTimeout(setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) }), 250);
+                                    // setTimeout(setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) }), 250);
                                 }
                             }}
                         >
