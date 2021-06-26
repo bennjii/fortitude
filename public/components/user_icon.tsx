@@ -13,20 +13,27 @@ import { ClientContext, SettingsContext } from '@public/@types/context';
 import { mimifiedToFull } from './helper'
 import { supabase } from '@root/client'
 
-const UserIcon: React.FC<{ url: string }> = ({ url }) => {
+const UserIcon: React.FC<{ url: string, raw_url?: string }> = ({ url, raw_url }) => {
     const { client, user } = useContext<ClientContextType>(ClientContext)
 
+    console.log(`URL >> ${raw_url}`)
     const [ imageURL, setImageURL ] = useState(url);
 
     useEffect(() => {
-        client
-            .storage
-            .from('user-icons')
-            .createSignedUrl(url, 172800)
-            .then(e => {
-                setImageURL(e.signedURL); 
-            })
+        if(!raw_url || raw_url == undefined)
+            client
+                .storage
+                .from('user-icons')
+                .createSignedUrl(url, 172800)
+                .then(e => {
+                    setImageURL(e.signedURL); 
+                })
     }, [, url])
+
+    if(raw_url && raw_url != undefined)
+        return (
+            <img src={raw_url} alt="" className={styles.imageIconUser}/>                   
+        )
 
     if(imageURL && imageURL !== 'null')
         return (

@@ -926,7 +926,7 @@
 }
 
 .membersList {
-  min-width: 250px;
+  min-width: 240px;
 
   display: flex;
   flex-direction: column;
@@ -956,7 +956,7 @@
 
 .contentMessageParent > div {
   overflow: hidden auto;
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
 }
 
 .contentMessageParent > div::-webkit-scrollbar {
@@ -1122,6 +1122,7 @@
   flex-direction: column;
 
   gap: .2rem;
+  justify-content: center;
 }
 
 .messageUsername {
@@ -1683,6 +1684,9 @@
 
   width: 300px;
   height: 50%;
+
+  user-select: none;
+  pointer-events: none;
 }
 
 .notificationMenu > div:nth-child(1n) {
@@ -1816,4 +1820,78 @@
 
   padding: 5px;
   box-shadow: 0px 3px rgba(var(--color-primary-rgb), 0.5);
+}
+
+.divisionalUser {
+  display: flex;
+  flex-direction: row;
+
+  padding: 1px;
+  border-radius: 5px;
+
+  position: relative;
+  max-width: 224px;
+  margin-left: 8px;
+
+  gap: .7rem;
+}
+
+.divisionalUser > div {
+  display: flex;
+  align-items: center;
+
+  border-radius: 4px;
+  height: 42px;
+  padding: 0 8px;
+
+  gap: .8rem;
+
+  width: 100%;
+}
+
+.divisionalUser:hover {
+  cursor: pointer;
+  background-color: var(--background-modifier-hover);
+}
+
+.divisionalUser img {
+  height: 36px;
+  width: 36px;
+
+  border-radius: 50%;
+}
+
+.divisionalUser > div > div:first-of-type {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.divisionalUser > div > div:not(:first-of-type) {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.divisionalUser > div > div:not(:first-of-type) * {
+  margin: 0;
+  line-height: 20px;
+}
+
+.membersList {
+  gap: 5px;
+}
+
+.membersList > h4 {
+  margin: 0;
+  padding: 2rem 5px 5px 5px;
+
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+
+  padding: 24px 8px 0 16px;
 }

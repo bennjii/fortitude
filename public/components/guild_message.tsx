@@ -25,12 +25,13 @@ const GuildMessage: React.FC<{ message: Message }> = ({ message }) => {
     return (
         <div className={styles.message}>
             <div className={styles.messageImage}>
-                <img src={user?.data?.icon}/>
+                <img src={user?.data?.icon} alt="" />
+                {/* <UserIcon url={message?.sender?.avatarURL}/> raw_url={user.data?.icon} */}
             </div>
             <div className={styles.messageHeaders}>
                 <span className={styles.messageUsername} style={{ color: '#CEC9E6' }}>
                     {
-                        message.sender.username
+                        user?.data?.username
                     }
                 </span>
 

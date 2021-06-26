@@ -15,6 +15,7 @@ import { FortitudeSend } from './fortitude_send';
 
 import Head from 'next/head'
 import { UserComponent } from './user_component';
+import { ListUser } from './list_user';
 
 const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
@@ -137,14 +138,11 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                         </div>
 
                         <div className={styles.membersList}>
+                            <h4>MEMBERS</h4>
                             {
-                                guildData.members.map(e => {
+                                guildData.members?.map(user => {
                                     return (
-                                        <div>
-                                            {
-                                                e.username
-                                            }
-                                        </div>
+                                        <ListUser user_id={user} key={`${guildData.id} - ${user}`}/>
                                     )
                                 })
                             }

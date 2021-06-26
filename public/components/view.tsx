@@ -59,16 +59,16 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             }
         },
         notifications: [
-            {
-                message: 'New Calender Event: Sunday Meeting',
-                origin: 'a template server',
-                id: '19173619aca210ad',
-                duration: 0,
-                redirect: 'dm-home',
-                action: 'open_notification',
-                accept_message: 'Press [spc] to open',
-                icon: "a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg"
-            },
+            // {
+            //     message: 'New Calender Event: Sunday Meeting',
+            //     origin: 'a template server',
+            //     id: '19173619aca210ad',
+            //     duration: 0,
+            //     redirect: 'dm-home',
+            //     action: 'open_notification',
+            //     accept_message: 'Press [spc] to open',
+            //     icon: "a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a.jpg"
+            // },
             
         ]
     });

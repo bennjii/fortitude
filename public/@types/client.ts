@@ -76,7 +76,7 @@ type Guild = {
     name: string,
     iconURL: string,
     channels: Channel[],
-    members: User[],
+    members: string[],
     roles: Role[]
 }
 
@@ -134,7 +134,7 @@ type SettingsContextType = {
 type ClientContextType = {
     client: SupabaseClient,
     user: User,
-    users: {data: User | Promise<User> | null, id: string}[],
+    users: {data: User | null, id: string}[],
     setUsers: Function,
     state: ClientState,
     callback: Function
