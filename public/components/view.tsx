@@ -77,11 +77,15 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         setClientState({ ...clientState, notifications: [ ...clientState.notifications, notification ]})
     }
 
+    const [ users, setUsers ] = useState([]);
+
     const context = {
         client: supabase,
         state: clientState,
         callback: setClientState,
-        user: data
+        user: data,
+        users,
+        setUsers
     };
     
     useEffect(() => {
@@ -210,6 +214,19 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                                 <br />
                                                 <h3>Friends</h3>
 
+                                                
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div>
+                                        {
+                                            clientState.current_pannel == 'dm-home' ?
+                                            <div style={{ height: '100%' }}>
+                                                <HomeComponent />
+                                            </div>
+                                            :
+                                            <div>
                                                 <Button title={"Send Notification"} onClick={() => {
                                                     recieveNotification(
                                                         {
@@ -224,19 +241,10 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                                         }
                                                     )
                                                 }}/>
-                                            </div>
-                                        }
-                                    </div>
 
-                                    <div>
-                                        {
-                                            clientState.current_pannel == 'dm-home' ?
-                                            <div style={{ height: '100%' }}>
-                                                <HomeComponent />
-                                            </div>
-                                            :
-                                            <div>
-                                                <h1>friend stuff</h1>
+                                                <Button title={"Update Users"} onClick={() => {
+                                                    setUsers(users);
+                                                }}/>
                                             </div>
                                         }
                                     </div>

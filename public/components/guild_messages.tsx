@@ -11,6 +11,8 @@ import { Message, GuildContextType } from '@public/@types/client'
 
 import { ClientContextType, ClientState } from '@public/@types/client';
 import { ClientContext, GuildContext } from '@public/@types/context';
+import { UserIcon } from './user_icon'
+import { GuildMessage } from './guild_message'
 
 const GuildMessages: React.FC<{}> = () => {
     const { client, state: clientState, callback: clientCallback } = useContext<ClientContextType>(ClientContext);
@@ -60,28 +62,7 @@ const GuildMessages: React.FC<{}> = () => {
             {
                 guildState?.current_messages?.map((message: Message) => {
                     return (
-                        <div className={styles.message} key={message.send_date.toString()}>
-                            <img src={message.sender.avatarURL} alt="" className={styles.messageImage}/>
-                            <div className={styles.messageHeaders}>
-                                <span className={styles.messageUsername} style={{ color: '#CEC9E6' }}>
-                                    {
-                                        message.sender.username
-                                    }
-                                </span>
-
-                                <span className={styles.messageDate}>
-                                    {
-                                        dayjs(new Date(message.send_date)).from(new Date())
-                                    }
-                                </span>
-                            </div>
-                            
-                            <div className={styles.messageContent} style={{ color: message.unsent ? '#00f0f0' : ''}} key={Math.random() * 10000}>
-                                {
-                                    message.content
-                                }
-                            </div>
-                        </div>
+                        <GuildMessage message={message} key={message.send_date.toString()}/>
                     )
                 })
             }

@@ -45,7 +45,7 @@ type User = {
     flags: object[],
     created_at: Date,
     friends: object[],
-
+    icon: string,
     presence: {
         activity: string,
         status: object
@@ -134,6 +134,8 @@ type SettingsContextType = {
 type ClientContextType = {
     client: SupabaseClient,
     user: User,
+    users: {data: User | Promise<User> | null, id: string}[],
+    setUsers: Function,
     state: ClientState,
     callback: Function
 }

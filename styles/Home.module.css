@@ -1159,6 +1159,11 @@
   z-index: 1;
 }
 
+.messageImage img {
+  height: 100%;
+  width: 100%;
+}
+
 .messageContent {
   font-size: 1rem;
   line-height: 1.375rem;
@@ -1381,8 +1386,8 @@
 }
 
 .userDefaultIcon {
-  height: 80px;
-  width: 80px;
+  height: 100%;
+  width: 100%;
 
   border-radius: 50%;
   background-color: var(--color-primary);
