@@ -48,7 +48,13 @@ export const useUser = (user_id) => {
         const userListener = client
             .from(`users:id=eq.${user_id}`) 
             .on('*', (payload) => {
-                updateUser(payload.new, user_id)
+                client
+                    .storage
+                    .from('user-icons')
+                    .createSignedUrl(payload.new.avatarURL, 12800)
+                    .then(icon => {
+                        updateUser({ data: { ...payload.new, icon: icon.signedURL}, id: user_id }, user_id)
+                    }) 
             })
             .subscribe()
 
