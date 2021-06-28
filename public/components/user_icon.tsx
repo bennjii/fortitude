@@ -30,18 +30,22 @@ const UserIcon: React.FC<{ url: string, raw_url?: string }> = ({ url, raw_url })
                 })
     }, [, url])
 
+    const userClick = () => {
+
+    }
+
     if(raw_url && raw_url != undefined)
         return (
-            <img src={raw_url} alt="" className={styles.imageIconUser}/>                   
+            <img src={raw_url} alt="" className={styles.imageIconUser} onClick={userClick}/>                   
         )
 
     if(imageURL && imageURL !== 'null')
         return (
-            <img src={imageURL ?? './public/user_icon.png'} alt="" className={styles.imageIconUser}/>                   
+            <img src={imageURL ?? './public/user_icon.png'} alt="" onClick={userClick} className={styles.imageIconUser}/>                   
         )
     else 
         return  (
-            <div className={styles.userDefaultIcon}>
+            <div className={styles.userDefaultIcon} onClick={userClick}>
                 
             </div>
         )

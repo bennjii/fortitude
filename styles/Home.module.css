@@ -940,6 +940,9 @@
 
   flex: 1;
   width: 100%;
+
+  padding-right: 5px;
+  /* padding-top: 5px; */
 }
 
 .contentMessageParent {
