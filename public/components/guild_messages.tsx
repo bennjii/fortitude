@@ -60,9 +60,9 @@ const GuildMessages: React.FC<{}> = () => {
     return (
         <div>
             {
-                guildState?.current_messages?.map((message: Message) => {
+                guildState?.current_messages?.map((message: Message, index: number) => {
                     return (
-                        <GuildMessage message={message} key={message.send_date.toString()}/>
+                        <GuildMessage message={message} type={index > 0 ? (guildState.current_messages[index - 1] ? 'continued' : 'normal') : 'normal'} key={message.send_date.toString()} />
                     )
                 })
             }

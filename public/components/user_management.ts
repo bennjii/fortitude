@@ -58,7 +58,6 @@ export const useUser = (user_id) => {
     }, [])
 
     useEffect(() => {
-        console.log("Users were updated by an object. WHY HELLO")
         setUser(users.find((user: { data: User, id: string }) => user.id == user_id))
     }, [users])
 

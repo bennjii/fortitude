@@ -15,7 +15,7 @@ const UserComponent: React.FC<{ userData: User }> = ({ userData }) => {
 
     return (
         <div className={styles.panels}>
-            <UserIcon url={userData.avatarURL}/>
+            <UserIcon user_id={userData.id}/>
 
             <div className={styles.authAid}>
                 <h2>{userData.username}</h2>

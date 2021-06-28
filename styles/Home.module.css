@@ -957,9 +957,13 @@
   justify-content: flex-end;
 }
 
+.contentMessageParent > * {
+  transition: .2s ease all;
+}
+
 .contentMessageParent > div {
   overflow: hidden auto;
-  padding-bottom: 2rem;
+  padding-bottom: 6rem;
 }
 
 .contentMessageParent > div::-webkit-scrollbar {
@@ -1004,8 +1008,15 @@
   padding: 10px;
   padding-bottom: 5px;
 
+  padding-left: 16px;
+  padding-right: 16px;
+
+  margin-top: -5%;
+
   height: 62px;
   padding-top: 0;
+
+  z-index: 50;
 }
 
 .guildGontentInput input {
@@ -1126,6 +1137,19 @@
 
   gap: .2rem;
   justify-content: center;
+}
+
+.message:hover {
+  background-color: var(--background-secondary);
+}
+
+.messageContinued {
+  margin: 0;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+
+  gap: 0;
+  min-height: 1.5rem;
 }
 
 .messageUsername {
@@ -1338,11 +1362,20 @@
   background-color: var(--background-modifier-hover);
 }
 
-.userSettingsContainer {
-  padding: 1rem;
+.userImageBanner {
+  width: 100%;
+  height: 5rem;
+  overflow: hidden;
+}
 
+.userImageBanner img {
+  object-fit: contain;
+  width: 100%;
+}
+
+.userSettingsContainer {
   border-radius: 7px;
-  background-color: var(--background-secondary);
+  background-color: var(--background-tertiary);
 
   color: var(--text-normal);
   width: 100%;
@@ -1350,6 +1383,8 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  overflow: hidden;
 }
 
 .userSettingsUserName {
@@ -1357,22 +1392,56 @@
   flex-direction: column;
 }
 
-.userSettingsContainer > div:first-of-type {
+.userSettingsPublicItems {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  position: relative;
 
   align-items: center;
   gap: 1rem;
   width: 100%;
+
+  margin: 1rem;
+  margin-bottom: 0rem;
+  margin-top: 0rem;
 }
 
-.userSettingsContainer > div:first-of-type img {
-  height: 80px;
-  width: 80px;
+.userSettingsPublicItems img {
+  height: 70px;
+  width: 70px;
 
   border-radius: 50%;
   background-color: var(--color-primary);
+}
+
+.userSettingsPublicItems .userDefaultIcon {
+  height: 70px;
+  width: 70px;
+
+  border-radius: 50%;
+  background-color: var(--color-primary);
+}
+
+.newUserBanner {
+  background-color: var(--color-primary);
+
+  width: 100%;
+  height: 5rem;
+  overflow: hidden;
+}
+
+.userIconWrapper {
+  position: absolute;
+  background-color: var(--background-tertiary);
+  padding: .4rem;
+
+  border-radius: 50%;
+  top: -125%;
+}
+
+.userSettingsUserName {
+  margin-left: 95px;
 }
 
 .userSettingsUserName h3 {
@@ -1402,6 +1471,9 @@
   padding: 1rem;
 
   border-radius: 5px;
+  
+  margin: 1rem;
+  margin-top: 0rem;
 }
 
 .changeUserSettings h4 {
@@ -1648,6 +1720,12 @@
 
   align-items: center;
 }
+
+/* .changeIcon img {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+} */
 
 .iconOverlay {
   position: absolute;

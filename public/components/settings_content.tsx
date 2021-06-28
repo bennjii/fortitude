@@ -7,16 +7,23 @@ import Button from '@components/button'
 import Input from '@components/input'
 import { SettingsNavigationElement } from '@components/settings_navigation_element'
 
-import { Check, FilePlus, Image, Loader, Plus, X } from 'react-feather';
+import { Check, FilePlus, Image, Loader, Plus, User, X } from 'react-feather';
 import { ClientContextType, ClientState, SettingsContextType } from '@public/@types/client'
 import { ClientContext, SettingsContext } from '@public/@types/context';
 import { emailFilter, mimifiedToFull, textCensor } from './helper'
 import { UserIcon } from './user_icon'
 import { ChangeUserIcon } from './change_user_icon'
+import { useUser } from './user_management'
 
 const SettingsContent: React.FC<{}> = () => {
     const { client, user, state: SettingsState, callback: SettingsVisiblityCallback } = useContext<ClientContextType>(ClientContext)
     const { state, callback } = useContext<SettingsContextType>(SettingsContext);
+
+    const [ userState, setUserState ] = useState(user);
+
+    useEffect(() => {
+        setUserState(user);
+    }, [user])
 
 	return (
         <div className={styles.settingsContentPannel}>
@@ -34,9 +41,23 @@ const SettingsContent: React.FC<{}> = () => {
                                 return (
                                     <div>
                                         <div className={styles.userSettingsContainer}>
-                                            <div>
-                                                <ChangeUserIcon />
+                                            <div className={styles.userImageBanner}>
+                                                {
+                                                    userState?.icon ? 
+                                                    <img src={`${userState?.icon}&d=${new Date().getTime()}`} alt="" />
+                                                    :
+                                                    <div className={styles.newUserBanner}>
 
+                                                    </div>
+                                                }
+                                                
+                                            </div>
+
+                                            <div className={styles.userSettingsPublicItems}>
+                                                <div className={styles.userIconWrapper}>
+                                                    <ChangeUserIcon />
+                                                </div>
+                                                
                                                 <div className={styles.userSettingsUserName}>
                                                     <div>
                                                         <h3>

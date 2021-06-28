@@ -84,7 +84,7 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                         >
                             <div>
                                 <div className={styles.notificationSender}>
-                                    <UserIcon url={event.icon} />
+                                    <UserIcon user_id={event.id} />
                                 </div>
 
                                 <div>

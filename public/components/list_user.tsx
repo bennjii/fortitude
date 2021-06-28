@@ -5,21 +5,18 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 import { ClientContext, GuildContext } from '@public/@types/context';
 import { useUser } from './user_management'
+import { UserIcon } from './user_icon';
 
 const ListUser: React.FC<{ user_id }> = ({ user_id }) => {
     const { users } = useContext(ClientContext);
     const user = useUser(user_id);
-
-    useEffect(() => {
-        console.log("USERS WERE UPDATED!", users)
-    }, [users])
 
     if(user)
         return (
             <div className={styles.divisionalUser}>
                 <div>
                     <div>
-                        <img src={user.data?.icon} alt="" />
+                        <UserIcon user_id={user.data?.id}/>
                     </div>
 
                     <div>

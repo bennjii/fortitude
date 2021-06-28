@@ -20,6 +20,7 @@ import { KeyUI } from './ui_key'
 import { NotificationHandler } from './notification_handler'
 import { KeyHandler } from '@public/@types/event'
 import { handleKeyEvents } from './helper'
+import { useUser } from '@components/user_management'
 
 const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const [ data, setData ] = useState(null);
@@ -92,7 +93,13 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         const userListener = client
             .from(`users:id=eq.${client.auth.user().id}`) // :id=eq.${client.auth.user().id}
             .on('*', (payload) => {
-                setData(payload.new)
+                client
+                    .storage
+                    .from('user-icons')
+                    .createSignedUrl(payload.new.avatarURL, 12800)
+                    .then(icon => { 
+                        setData({ ...payload.new, icon: icon.signedURL })
+                    })   
             })
             .subscribe()
 
@@ -107,7 +114,15 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             .select('*')
             .eq('id', client.auth.user().id)
             .then(e => {
-                setData(e.data[0]); // I mean they should be the first user right????
+                client
+                    .storage
+                    .from('user-icons')
+                    .createSignedUrl(e.data[0].avatarURL, 12800)
+                    .then(icon => { 
+                        setData({ ...e.data[0], icon: icon.signedURL });
+                    })   
+
+                // setData(e.data[0]); // I mean they should be the first user right????
             });
     }, [])
     
