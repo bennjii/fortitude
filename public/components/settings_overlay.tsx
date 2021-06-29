@@ -5,7 +5,7 @@ import { createRef, useContext, useEffect, useState } from 'react'
 
 import Button from '@components/button'
 import Input from '@components/input'
-import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
+import { AlertCircle, Check, FilePlus, Image, Loader, Plus, RefreshCcw } from 'react-feather';
 import { ClientContextType, ClientState } from '@public/@types/client'
 import { ClientContext, SettingsContext } from '@public/@types/context';
 
@@ -19,7 +19,12 @@ const SettingsOverlay: React.FC<{}> = () => {
 
     const [ settingState, setSettingState ] = useState({
         current_pannel: "my-account",
-        settings: state.settings
+        settings: state.settings,
+        status_message: {
+            open: true,
+            message: 'Processing Changes',
+            type: "loading"
+        }
     });
 
 	return (
@@ -37,6 +42,39 @@ const SettingsOverlay: React.FC<{}> = () => {
                     
                     <SettingsContent />
                 </div>
+
+
+                {
+                    settingState.status_message.open ?
+                    <div className={`${styles.overlayStatus} ${styles[settingState.status_message.type + "_sett"]}`}>
+                        <div>
+                            {
+                                (() => {
+                                    switch(settingState.status_message.type) {
+                                        case "loading":
+                                            return <div className={styles.loadingSpin}>
+                                                <RefreshCcw size={13}/>
+                                            </div>
+                                        case "sucess":
+                                            return <div>
+                                                <Check size={13} className={styles.loadingNoSpin}/>
+                                            </div>
+                                        case "failure":
+                                            return <div>
+                                                <AlertCircle size={13} className={styles.loadingNoSpin}/>
+                                            </div>
+                                    }
+                                })()
+                            }
+                            
+                            <p>{settingState.status_message.message}</p>
+                        </div>
+                        
+                    </div>
+                    :
+                    <></>
+                }
+                
             </SettingsContext.Provider>
         </div>
 	)

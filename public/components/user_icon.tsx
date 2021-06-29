@@ -24,7 +24,7 @@ const UserIcon: React.FC<{ user_id: string }> = ({ user_id }) => {
         if(user.data)
             if(user.data.icon)
                 return (
-                    <img src={`${user.data.icon}&d=${new Date().getTime()}` ?? './public/user_icon.png'} alt={user.data.username} onClick={userClick} className={styles.imageIconUser}/>                   
+                    <img src={user.data.icon ?? './public/user_icon.png'} alt={user.data.username} onClick={userClick} className={styles.imageIconUser}/>                   
                 )
             else 
                 return  (

@@ -117,7 +117,12 @@ type Settings = {
 
 type SettingsState = {
     settings: Settings,
-    current_pannel: string 
+    current_pannel: string,
+    status_message: {
+        open: boolean,
+        message: string,
+        type: "loading" | "sucess" | "failure" | string
+    }
 }
 
 type GuildContextType = {

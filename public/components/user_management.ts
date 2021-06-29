@@ -22,7 +22,7 @@ export const useUser = (user_id) => {
                 client
                     .storage
                     .from('user-icons')
-                    .createSignedUrl(e.data[0].avatarURL, 12800)
+                    .createSignedUrl(e.data[0].avatarURL, 172800000)
                     .then(icon => {
                         users.splice(user_index, 1);
                         

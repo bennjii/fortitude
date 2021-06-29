@@ -44,7 +44,7 @@ const SettingsContent: React.FC<{}> = () => {
                                             <div className={styles.userImageBanner}>
                                                 {
                                                     userState?.icon ? 
-                                                    <img src={`${userState?.icon}&d=${new Date().getTime()}`} alt="" />
+                                                    <img src={userState?.icon} alt="" />
                                                     :
                                                     <div className={styles.newUserBanner}>
 
