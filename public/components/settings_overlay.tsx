@@ -21,7 +21,7 @@ const SettingsOverlay: React.FC<{}> = () => {
         current_pannel: "my-account",
         settings: state.settings,
         status_message: {
-            open: true,
+            open: false,
             message: 'Processing Changes',
             type: "loading"
         }
@@ -55,7 +55,7 @@ const SettingsOverlay: React.FC<{}> = () => {
                                             return <div className={styles.loadingSpin}>
                                                 <RefreshCcw size={13}/>
                                             </div>
-                                        case "sucess":
+                                        case "success":
                                             return <div>
                                                 <Check size={13} className={styles.loadingNoSpin}/>
                                             </div>

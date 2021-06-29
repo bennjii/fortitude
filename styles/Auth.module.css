@@ -80,6 +80,27 @@
     font-family: "Whitney" !important;
 }
 
+.authInput h4 {
+    color: var(--channels-default);
+    margin-bottom: 8px;
+    font-size: .68rem;
+    line-height: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    user-select: none;
+}
+
+.authInput h5 {
+    color: var(--channels-default);
+    margin: 0px;
+    font-size: .8rem;
+    line-height: 16px;
+    font-weight: 400;
+
+    user-select: none;
+}
+
 .authLeft {
     min-width: 400px;
 }

@@ -10,15 +10,14 @@ import { ClientContext, GuildContext, SettingsContext } from '@public/@types/con
 import { UserIcon } from './user_icon';
 
 import uuidv4 from 'uuid'
+import { UserImageBanner } from './user_image_banner';
+import { Edit2, PenTool } from 'react-feather';
 
-const ChangeUserIcon: React.FC<{}> = () => {
+const ChangeUserBanner: React.FC<{}> = () => {
     const { client, state: clientState, callback: clientCallback, user } = useContext<ClientContextType>(ClientContext);
     const { state: settingsState, callback: settingsCallback } = useContext<SettingsContextType>(SettingsContext)
     const input = useRef<HTMLInputElement>();
-    
-    // useEffect(() => {
-    //     setItemState({ ...itemState })
-    // }, [user])
+
 
     const [ itemState, setItemState ] = useState({
         hovered: false
@@ -40,39 +39,26 @@ const ChangeUserIcon: React.FC<{}> = () => {
                 ...settingsState, 
                 status_message: {
                     open: true,
-                    message: 'Uploading Icon',
+                    message: 'Uploading Banner',
                     type: 'loading'
                 } 
             })
 
-            // client
-            //     .storage
-            //     .from('user-icons')
-            //     .update(user.avatarURL, imageDrop.file?.target.files.item(0), {
-            //         cacheControl: '3600',
-            //     })
-            //     .then(e => {
-            //         client
-            //             .from('users')
-            //             .update({ avatarURL: e.data.Key.replace('user-icons/', '') })
-            //             console.log(e)
-            //     })
-
             client
                 .storage
-                .from('user-icons')
-                .remove([user.avatarURL])
+                .from('user-banners')
+                .remove([user.bannerURL])
                 .then(e => {
                     client
                         .storage
-                        .from('user-icons')
+                        .from('user-banners')
                         .upload(image_name, imageDrop.file?.target.files.item(0))
                         .then(e => {
                             client
                                 .from('users')
                                 .update([
                                     {
-                                        avatarURL: image_name
+                                        bannerURL: image_name
                                     }
                                 ])
                                 .eq('id', user.id)
@@ -131,13 +117,14 @@ const ChangeUserIcon: React.FC<{}> = () => {
                 ref={input}
             />
 
-            <UserIcon user_id={user.id} />
+            <UserImageBanner user_id={user.id} />
 
-            <div style={{ display: itemState.hovered ? "flex" : "none" }} className={styles.iconOverlay}>
-                <h4>CHANGE <br />ICON</h4>
+            <div style={{ display: itemState.hovered ? "flex" : "none" }} className={styles.bannerOverlay}>
+                <h4>CHANGE &nbsp;  BANNER</h4>
+                <Edit2 size={13} />
             </div>
         </div>
     )
 }
 
-export { ChangeUserIcon }
+export { ChangeUserBanner }

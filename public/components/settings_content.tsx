@@ -14,6 +14,8 @@ import { emailFilter, mimifiedToFull, textCensor } from './helper'
 import { UserIcon } from './user_icon'
 import { ChangeUserIcon } from './change_user_icon'
 import { useUser } from './user_management'
+import { UserImageBanner } from './user_image_banner'
+import { ChangeUserBanner } from './change_user_banner'
 
 const SettingsContent: React.FC<{}> = () => {
     const { client, user, state: SettingsState, callback: SettingsVisiblityCallback } = useContext<ClientContextType>(ClientContext)
@@ -41,7 +43,8 @@ const SettingsContent: React.FC<{}> = () => {
                                 return (
                                     <div>
                                         <div className={styles.userSettingsContainer}>
-                                            <div className={styles.userImageBanner}>
+                                            <ChangeUserBanner />
+                                            {/* <div className={styles.userImageBanner}>
                                                 {
                                                     userState?.icon ? 
                                                     <img src={userState?.icon} alt="" />
@@ -51,7 +54,7 @@ const SettingsContent: React.FC<{}> = () => {
                                                     </div>
                                                 }
                                                 
-                                            </div>
+                                            </div> */}
 
                                             <div className={styles.userSettingsPublicItems}>
                                                 <div className={styles.userIconWrapper}>

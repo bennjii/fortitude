@@ -40,12 +40,19 @@ type Permission = {
 type User = {
     username: string,
     id: string,
+
     avatarURL: string,
+    bannerURL: string,
+
     tag: string,
     flags: object[],
+
     created_at: Date,
     friends: object[],
+
     icon: string,
+    banner: string,
+    
     presence: {
         activity: string,
         status: object
@@ -121,7 +128,7 @@ type SettingsState = {
     status_message: {
         open: boolean,
         message: string,
-        type: "loading" | "sucess" | "failure" | string
+        type: "loading" | "success" | "failure" | string
     }
 }
 

@@ -24,12 +24,22 @@ export const useUser = (user_id) => {
                     .from('user-icons')
                     .createSignedUrl(e.data[0].avatarURL, 172800000)
                     .then(icon => {
-                        users.splice(user_index, 1);
-                        
-                        setUser({ data: { ...e.data[0], icon: icon.signedURL}, id: user_id });
+                        client
+                            .storage
+                            .from('user-banners')
+                            .createSignedUrl(e.data[0].bannerURL, 172800000)
+                            .then(banner => {
+                                users.splice(user_index, 1);
+                                
+                                setUser({ data: { ...e.data[0], icon: icon.signedURL}, id: user_id });
 
-                        console.log("UPDATING USERS >> ")
-                        setUsers([ ...users.splice(0, user_index), { data: { ...e.data[0], icon: icon.signedURL}, id: user_id }, ...users.splice(user_index + 1, users.length)  ]);
+                                console.log("UPDATING USERS >> ")
+                                setUsers([ ...users.splice(0, user_index), { data: { ...e.data[0], icon: icon.signedURL, banner: banner.signedURL}, id: user_id }, ...users.splice(user_index + 1, users.length)  ]);
+                                
+                                updateUser({ data: { ...e.data[0].new, banner: banner.signedURL, icon: icon.signedURL}, id: user_id }, user_id)
+                            })
+
+                        
                     }) 
             });
     }
@@ -51,10 +61,18 @@ export const useUser = (user_id) => {
                 client
                     .storage
                     .from('user-icons')
-                    .createSignedUrl(payload.new.avatarURL, 12800)
+                    .createSignedUrl(payload.new.avatarURL, 172800000)
                     .then(icon => {
-                        updateUser({ data: { ...payload.new, icon: icon.signedURL}, id: user_id }, user_id)
+                        client
+                            .storage
+                            .from('user-banners')
+                            .createSignedUrl(payload.new.bannerURL, 172800000)
+                            .then(banner => {
+                                updateUser({ data: { ...payload.new, banner: banner.signedURL, icon: icon.signedURL}, id: user_id }, user_id)
+                            })
                     }) 
+
+                
             })
             .subscribe()
 
@@ -68,8 +86,7 @@ export const useUser = (user_id) => {
     }, [users])
 
     if(!user)
-        addUser(
-        )
+        addUser()
 
     return user;
 }

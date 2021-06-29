@@ -17,13 +17,14 @@ import { supabase } from '@root/client'
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateServerOverlay: React.FC<{}> = () => {
-    const { client, state, callback } = useContext<ClientContextType>(ClientContext);
+    const { client, state, callback, user } = useContext<ClientContextType>(ClientContext);
 
-    const [ authState, setAuthState ] = useState('svr-create');
+    const [ serverCreate, setServerCreateState ] = useState('svr-create');
     const [ authInputState, setAuthInputState ] = useState({
         server_name: "",
         server_icon: "",
-        server_created: false
+        server_created: false,
+        join_url: ""
     });
 
     const [ imageDrop, setImageDrop ] = useState({
@@ -51,7 +52,7 @@ const CreateServerOverlay: React.FC<{}> = () => {
             <div className={styles.authBox}>
                 <div className={styles.authLeft}>
                     {
-                        (authState == 'svr-create') ?
+                        (serverCreate == 'svr-create') ?
                         <div className={styles.authLogin}>
                             <div>
                                 <h2>Create Server</h2>
@@ -201,30 +202,38 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                 })
                                         })
                                 }}/>
-                                <p>Have an invite already? <a href="#" onClick={() => setAuthState('svr-join')}>Join Server</a></p> 
+                                <p>Have an invite already? <a href="#" onClick={() => setServerCreateState('svr-join')}>Join Server</a></p> 
                             </div>
                         </div>
                         :
                         <div className={styles.authLogin}>
                             <div>
-                                <h2>Create an Account</h2>
-                                <h3>We're so excited to see you!</h3>
+                                <h2>Join Server</h2>
+                                <h3>Join your friends, create a community!</h3>
                             </div>
                             
-                            <div className={styles.authSuccess}>
-                                <div className={styles.authSuccessCircle}>
-                                    <Check color={"white"} size={64}/>
-                                </div>
-                                
-                                <div>
-                                    <h1>Success</h1>
-                                    <h3>Please verify your email</h3>
-                                </div>
-                                
+                            <div className={styles.authInput + " " + clientStyles.createServerInput}>
+                                <Input title={"INVITE LINK"} type="email" defaultValue={authInputState.server_name} onChange={(e) => setAuthInputState({ ...authInputState, join_url: e.target.value })}/>
+                                <h4>INVITES SHOULD LOOK LIKE</h4>
+
+                                <h5>
+                                    Xonz2abr
+                                    <br />
+                                    https://fortitude.app/Xonz2abr
+                                </h5>
                             </div>
 
                             <div>
-                                <p>Havent recieved an email? <a href="#" onClick={() => setAuthState('auth-login')}>Re-send</a></p> 
+                                <Button title={"Join"} onClick={async (clickEvent, callback) => {
+                                    // client
+                                    //     .from('users')
+                                    //     .update({
+                                    //         servers: [ ...user.servers.id,  ]
+                                    //     })
+
+                                    callback();
+                                }}/>
+                                <p>Want to make a new one? <a href="#" onClick={() => setServerCreateState('svr-create')}>Create Server</a></p> 
                             </div>
                         </div>
                     }
