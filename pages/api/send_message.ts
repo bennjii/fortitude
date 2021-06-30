@@ -4,8 +4,6 @@ const sendMessage = async (req, res) => {
     const msg = req.headers.message;
     const channel = req.headers.channel;
 
-    console.log(`Sending ${msg} to ${channel}`);    
-
     supabase
         .from('channels')
         .select('*')

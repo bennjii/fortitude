@@ -63,8 +63,6 @@ const ChangeUserBanner: React.FC<{}> = () => {
                                 ])
                                 .eq('id', user.id)
                                 .then(e => {
-                                    console.log(e)
-
                                     settingsCallback({  
                                         ...settingsState, 
                                         status_message: {

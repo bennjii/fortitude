@@ -163,7 +163,7 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                             client.storage
                                                 .from('server-icons')
                                                 .upload(`${e.data[0].id}.${imageDrop.file?.target.files.item(0).name.split('.').pop().toLowerCase()}`, imageDrop.file?.target.files[0])
-                                                .catch(e => console.log(e))
+                                                .catch(e => console.error(e))
                                                 .then(_e => {
                                                     // Add the server to the user.
                                                     client

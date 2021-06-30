@@ -36,7 +36,6 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
     }, [keyInteractions])
 
     const repeat = setTimeout(() => {
-        console.log(`HEH : ${keyHandlers}`)
         setDate(new Date().getTime());
 
         if(keyHandlers.length > 0)
@@ -77,7 +76,6 @@ const NotificationHandler: React.FC<{ keyHandlers: KeyHandler[], keyInteractions
                             style={{ marginTop: `${index * 2}%`, opacity: `${(index + 1) / clientState.notifications.length}` }}
                             onAnimationIteration={(e) => {
                                 if(e.animationName.includes('begone')) {
-                                    console.log("It is my time to depart...")
                                     // setTimeout(setClientState({ ...clientState, notifications: clientState.notifications.splice(index, 1) }), 250);
                                 }
                             }}

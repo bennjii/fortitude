@@ -33,7 +33,6 @@ export const useUser = (user_id) => {
                                 
                                 setUser({ data: { ...e.data[0], icon: icon.signedURL}, id: user_id });
 
-                                console.log("UPDATING USERS >> ")
                                 setUsers([ ...users.splice(0, user_index), { data: { ...e.data[0], icon: icon.signedURL, banner: banner.signedURL}, id: user_id }, ...users.splice(user_index + 1, users.length)  ]);
                                 
                                 updateUser({ data: { ...e.data[0].new, banner: banner.signedURL, icon: icon.signedURL}, id: user_id }, user_id)

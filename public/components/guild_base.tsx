@@ -31,8 +31,6 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     });
 
     useEffect(() => {
-        console.log(state.current_server.id, guildData.id);
-
         if(state.current_server.id !== guildData.id || initialFetch) {
             setInitialFetch(false);
             
@@ -52,7 +50,6 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                             .then(cha => {
                                 if(cha.data[0].id == _data?.data[0]?.channels[0]) {
                                     _current_channel = cha.data[0];
-                                    console.log(cha.data[0]);
                                 }
 
                                 // setGuildState({ ...guildState, channels: [...guildState.channels, cha.data[0]] });
@@ -73,17 +70,13 @@ const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
                         current_channel: _current_channel,
                         channels: _channels
                     });
-
-                    console.log(_current_channel)
-
+                    
                     setGuildData(_data?.data[0]);
                 })
         }
     }, [state]);
 
     useEffect(() => {
-        console.log("SOMETHING CHANGED THE STATE TO", state);
-        
         if(state.current_server.id !== guildData.id) {
             const userListener = client
                 .from(`guilds:id=eq.${state.current_server.id}`) 

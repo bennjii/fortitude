@@ -45,19 +45,6 @@ const ChangeUserIcon: React.FC<{}> = () => {
                 } 
             })
 
-            // client
-            //     .storage
-            //     .from('user-icons')
-            //     .update(user.avatarURL, imageDrop.file?.target.files.item(0), {
-            //         cacheControl: '3600',
-            //     })
-            //     .then(e => {
-            //         client
-            //             .from('users')
-            //             .update({ avatarURL: e.data.Key.replace('user-icons/', '') })
-            //             console.log(e)
-            //     })
-
             client
                 .storage
                 .from('user-icons')
@@ -77,8 +64,6 @@ const ChangeUserIcon: React.FC<{}> = () => {
                                 ])
                                 .eq('id', user.id)
                                 .then(e => {
-                                    console.log(e)
-
                                     settingsCallback({  
                                         ...settingsState, 
                                         status_message: {

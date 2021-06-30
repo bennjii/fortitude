@@ -34,17 +34,9 @@ const GuildMessages: React.FC<{}> = () => {
     }, [guildState.current_channel_id])
 
     useEffect(() => {
-        // if(guildState.current_channel == null) {
-        //     setTimeout(() => setPlacedListener(false), 100);
-        //     return null;
-        // }
-
-        console.log("Listener Placed ")
-
         const userListener = client
             .from(`channels:id=eq.${guildState.current_channel_id}`) 
             .on('*', (payload) => {
-                console.log("WHOA, something happened!")
                 setGuildMessages(payload.new.messages)
             })
             .subscribe()

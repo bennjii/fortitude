@@ -16,13 +16,13 @@ import { useUser } from './user_management'
 import { PublicUser } from './public_user'
 
 const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, type }) => {
-    const { users } = useContext(ClientContext);
+    const { users } = useContext<ClientContextType>(ClientContext);
     const user = useUser(message.sender.id);
 
     const [ userClicked, setUserClicked ] = useState(false);
 
     useEffect(() => {
-        console.log("USERS WERE UPDATED!", users)
+        // ...
     }, [users])
 
     if(type == 'normal')

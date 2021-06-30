@@ -16,8 +16,6 @@ const ServerChannels: React.FC<{  }> = ({ }) => {
     });
 
     useEffect(() => {
-        if(state.current_channel_id !== itemState.current_channel_id) console.log("...", state);
-
         if(state.current_channel_id !== itemState.current_channel_id)
             callback({ ...state, current_channel_id: itemState.current_channel_id, current_channel: itemState.current_channel })
     }, [itemState]);

@@ -1212,6 +1212,8 @@
 .messageImage img {
   height: 100%;
   width: 100%;
+
+  object-fit: cover;
 }
 
 .messageImage img:hover {
@@ -1463,6 +1465,11 @@
 
   border-radius: 50%;
   top: -125%;
+}
+
+.userIconWrapper img {
+  object-fit: cover;
+  transform: translateZ(0);
 }
 
 .userSettingsUserName {
