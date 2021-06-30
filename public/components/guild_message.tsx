@@ -13,10 +13,13 @@ import { ClientContextType, ClientState } from '@public/@types/client';
 import { ClientContext, GuildContext } from '@public/@types/context';
 import { UserIcon } from './user_icon'
 import { useUser } from './user_management'
+import { PublicUser } from './public_user'
 
 const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, type }) => {
     const { users } = useContext(ClientContext);
     const user = useUser(message.sender.id);
+
+    const [ userClicked, setUserClicked ] = useState(false);
 
     useEffect(() => {
         console.log("USERS WERE UPDATED!", users)
@@ -27,8 +30,21 @@ const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, t
             <div className={styles.message}>
                 <div className={styles.messageImage}>
                     {/* <img src={user?.data?.icon} alt="" /> */}
-                    <UserIcon user_id={message?.sender?.id} /> 
+                    <UserIcon user_id={message?.sender?.id} onClick={() => {
+                        alert();
+                        setUserClicked(!setUserClicked);
+                    }}/> 
+
+                    
                 </div>
+
+                {
+                    userClicked ?
+                    <PublicUser user_id={message?.sender?.id}/>
+                    :
+                    <>{userClicked}</>
+                }
+
                 <div className={styles.messageHeaders}>
                     <span className={styles.messageUsername} style={{ color: '#CEC9E6' }}>
                         {

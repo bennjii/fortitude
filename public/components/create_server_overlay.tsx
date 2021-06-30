@@ -217,9 +217,11 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                 <h4>INVITES SHOULD LOOK LIKE</h4>
 
                                 <h5>
-                                    Xonz2abr
+                                    a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a
                                     <br />
-                                    https://fortitude.app/Xonz2abr
+                                    or
+                                    <br />
+                                    https://fortitude.app/guild/a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a
                                 </h5>
                             </div>
 

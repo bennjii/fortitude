@@ -1,7 +1,7 @@
 import styles from '@styles/Home.module.css'
 import { useUser } from './user_management'
 
-const UserIcon: React.FC<{ user_id: string }> = ({ user_id }) => {
+const UserIcon: React.FC<{ user_id: string, onClick?: Function }> = ({ user_id, onClick }) => {
     if(!user_id) 
         return  (
             <div className={styles.userDefaultIcon}>
@@ -11,7 +11,7 @@ const UserIcon: React.FC<{ user_id: string }> = ({ user_id }) => {
 
     const user = useUser(user_id);
     const userClick = () => {
-
+        if(onClick) onClick();
     }
 
     // return  (
@@ -24,7 +24,7 @@ const UserIcon: React.FC<{ user_id: string }> = ({ user_id }) => {
         if(user.data)
             if(user.data.icon)
                 return (
-                    <img src={user.data.icon ?? './public/user_icon.png'} alt={user.data.username} onClick={userClick} className={styles.imageIconUser}/>                   
+                    <img src={user.data.icon ?? './public/user_icon.png'} alt={user.data.username} onClick={() => userClick()} className={styles.imageIconUser}/>                   
                 )
             else 
                 return  (

@@ -1199,9 +1199,17 @@
   z-index: 1;
 }
 
+.messageImage:hover {
+  cursor: pointer;
+}
+
 .messageImage img {
   height: 100%;
   width: 100%;
+}
+
+.messageImage img:hover {
+  cursor: pointer;
 }
 
 .messageContent {
@@ -2110,4 +2118,10 @@
 
 .failure_sett > div {
   background-color: var(--text-negative) !important;
+}
+
+.userPublicView {
+  position: absolute;
+
+  z-index: 50;
 }
