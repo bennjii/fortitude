@@ -31,22 +31,37 @@ const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, t
                 <div className={styles.messageImage}>
                     {/* <img src={user?.data?.icon} alt="" /> */}
                     <UserIcon user_id={message?.sender?.id} onClick={() => {
-                        alert();
-                        setUserClicked(!setUserClicked);
+                        setUserClicked(!userClicked);
                     }}/> 
-
-                    
                 </div>
 
                 {
                     userClicked ?
-                    <PublicUser user_id={message?.sender?.id}/>
+                    <div onClick={() => {
+                            setUserClicked(!userClicked);
+                        }}
+                        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 20, userSelect: 'none'  }}
+                        >
+
+                    </div>
                     :
-                    <>{userClicked}</>
+                    <></>
                 }
+                
+                
+                <div>
+                    {
+                        userClicked ?
+                        <PublicUser user_id={message?.sender?.id}/>
+                        :
+                        <></>
+                    }
+                </div>
 
                 <div className={styles.messageHeaders}>
-                    <span className={styles.messageUsername} style={{ color: '#CEC9E6' }}>
+                    <span className={styles.messageUsername} style={{ color: '#CEC9E6' }} onClick={() => {
+                        setUserClicked(!userClicked);
+                    }}>
                         {
                             user?.data?.username
                         }

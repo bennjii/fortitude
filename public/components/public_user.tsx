@@ -1,23 +1,13 @@
-
-import { SupabaseClient } from '@supabase/supabase-js'
-import clientStyles from '@styles/Home.module.css'
-import styles from '@styles/Auth.module.css'
+import styles from '@styles/Home.module.css'
 import { createRef, useContext, useEffect, useState } from 'react'
 
-import Button from '@components/button'
-import Input from '@components/input'
-import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
 import { ClientContextType, ClientState } from '@public/@types/client'
 import { ClientContext } from '@public/@types/context';
 
-import Svg from "@public/dashed_border"
-import { Loading } from '@supabase/ui'
-import { supabase } from '@root/client'
-
-import { v4 as uuidv4 } from 'uuid';
 import { useUser } from './user_management'
 import { UserImageBanner } from './user_image_banner'
 import { UserIcon } from './user_icon'
+import { Award } from 'react-feather';
 
 const PublicUser: React.FC<{ user_id: string }> = ({ user_id }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
@@ -29,12 +19,45 @@ const PublicUser: React.FC<{ user_id: string }> = ({ user_id }) => {
                 <UserImageBanner user_id={user_id}  />
             </div>
 
-            <div>
-                <UserIcon user_id={user_id}/>
+            <div className={styles.publicViewIconPannel}>
+                <div className={styles.userPublicIcon}>
+                    <div className={styles.userIconWrapper}>
+                        <UserIcon user_id={user_id}/>
+                    </div>
+                </div>
+            </div>
+        
+            <div className={styles.publicViewIconPannelFlags}>
+                <div className={styles.adminFlag}>
+                    <Award size={13}/>
 
-                {
-                    user?.data?.username
-                }
+                    Admin
+                </div>
+            </div>
+
+            <div className={styles.publicUserContentHeader}>
+                <h3>
+                    {
+                        user?.data?.username
+                    }
+                </h3>
+                
+                <p>
+                    #{
+                        user?.data?.tag
+                    }
+                </p>
+            </div>
+
+            <div className={styles.userPublicStatus}>
+                <p>physics :{"<"}</p>
+            </div>
+
+            <div className={styles.userPublicStatus}>
+                <h4>ABOUT ME</h4>
+                <p>Idk man, kinda pog</p>
+
+
             </div>
         </div>
 	)

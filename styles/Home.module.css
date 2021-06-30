@@ -1127,10 +1127,13 @@
 }
 
 .messageDate {
-  font-size: .8rem;
-  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.375rem;
 
   color: var(--text-muted);
+  font-weight: 500;
+
+  user-select: none;
 }
 
 .message {
@@ -1152,7 +1155,7 @@
 }
 
 .message:hover {
-  background-color: var(--background-secondary);
+  background-color: var(--background-message-hover);
 }
 
 .messageContinued {
@@ -1179,6 +1182,11 @@
   flex-shrink: 0;
 }
 
+.messageUsername:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .messageImage {
   position: absolute;
 
@@ -1192,15 +1200,13 @@
   overflow: hidden;
   cursor: pointer;
 
-  user-select: none;
-
   flex: 0 0 auto;
-  pointer-events: none;
   z-index: 1;
 }
 
 .messageImage:hover {
   cursor: pointer;
+  box-shadow: 0px 0px 6px 0px var(--activity-card-background);
 }
 
 .messageImage img {
@@ -2120,8 +2126,135 @@
   background-color: var(--text-negative) !important;
 }
 
+.userPublicView > div:first-of-type {
+  width: 300px;
+  height: 120px;
+}
+
+.userPublicView .userImageBanner {
+  height: 120px;
+}
+
 .userPublicView {
   position: absolute;
 
   z-index: 50;
+  border-radius: 5px;
+  overflow: hidden;
+
+  width: 290px;
+  background-color: var(--background-floating);
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0px 0px 6px 0px var(--activity-card-background);
+
+  animation: in-size .2s ease;
+}
+
+@keyframes in-size {
+  from {
+    transform: translateX(5px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+.userPublicIcon {
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  top: 80px;
+}
+
+.userPublicIcon img {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+}
+
+.userPublicIcon .userIconWrapper {
+  top: 20%;
+  left: 1rem;
+
+  background-color: var(--background-floating);
+}
+
+.publicUserContentHeader {
+  display: block;
+
+  flex-shrink: 0;
+  /* padding: 54px 16px 5px; */
+  padding: 5px 16px 5px;
+  overflow: hidden;
+  position: relative;
+  
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+  gap: .6rem;
+}
+
+.publicUserContentHeader * {
+  margin: 0;
+}
+
+.publicUserContentHeader p {
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.2rem;
+}
+
+.userPublicStatus {
+  padding: 0px 16px 16px;
+}
+
+.userPublicStatus p {
+  margin: 0;
+  font-weight: 300;
+  font-size: .85rem;
+  color: var(--text-normal);
+}
+
+.userPublicStatus h4 {
+  color: var(--channels-default);
+  margin-bottom: 8px;
+  font-size: .68rem;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  user-select: none;
+}
+
+.adminFlag {
+  background-color: var(--color-primary);
+  border-radius: 55px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 70px;
+  height: 20px;
+
+  font-weight: 400;
+  font-size: .7rem;
+
+  text-transform: uppercase;
+  gap: 3px;
+}
+
+.publicViewIconPannel {
+  display: flex;
+  flex-direction: row;
+}
+
+.publicViewIconPannelFlags {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 1rem 1rem;
 }
