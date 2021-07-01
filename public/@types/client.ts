@@ -57,10 +57,7 @@ type User = {
         activity: string,
         status: object
     },
-    servers: {
-        id: string,
-        data: Guild[],
-    },
+    servers: string[]
 }
 
 type Message = {
@@ -109,7 +106,12 @@ type ClientState = {
     },
     current_pannel: 'dm-home' | 'dm-friends' | 'dm-dm' | 'svr-svr' | string,
     settings: Settings,
-    notifications: FortitudeNotification[]
+    notifications: FortitudeNotification[],
+    status_message: {
+        open: boolean,
+        message: string,
+        type: "loading" | "success" | "failure" | string
+    }
 }
 
 type Settings = {
@@ -145,9 +147,14 @@ type SettingsContextType = {
 
 type ClientContextType = {
     client: SupabaseClient,
+
     user: User,
     users: {data: User | null, id: string}[],
+    guilds: {data: Guild | null, id: string}[],
+
     setUsers: Function,
+    setGuilds: Function,
+
     state: ClientState,
     callback: Function
 }

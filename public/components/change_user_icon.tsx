@@ -36,8 +36,8 @@ const ChangeUserIcon: React.FC<{}> = () => {
         if(imageDrop.file) {
             const image_name = `${user.id}-${(Math.random() * 1000).toString().replace('.', '')}.jpg`;
 
-            settingsCallback({  
-                ...settingsState, 
+            clientCallback({  
+                ...clientState, 
                 status_message: {
                     open: true,
                     message: 'Uploading Icon',
@@ -64,8 +64,8 @@ const ChangeUserIcon: React.FC<{}> = () => {
                                 ])
                                 .eq('id', user.id)
                                 .then(e => {
-                                    settingsCallback({  
-                                        ...settingsState, 
+                                    clientCallback({  
+                                        ...clientState, 
                                         status_message: {
                                             open: true,
                                             message: 'Uploaded',
@@ -74,8 +74,8 @@ const ChangeUserIcon: React.FC<{}> = () => {
                                     });
         
                                     setTimeout(() => {
-                                        settingsCallback({  
-                                            ...settingsState, 
+                                        clientCallback({  
+                                            ...clientState, 
                                             status_message: {
                                                 open: false,
                                                 message: 'Uploaded',

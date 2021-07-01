@@ -16,9 +16,12 @@ import { FortitudeSend } from './fortitude_send';
 import Head from 'next/head'
 import { UserComponent } from './user_component';
 import { ListUser } from './list_user';
+import { useGuild } from './guild_management';
 
 const GuildBase: React.FC<{ userData: User }> = ({ userData }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
+
+    const guild = useGuild(state.current_server.id);
 
     const [ guildData, setGuildData ] = useState<Guild>(state.current_server.data);
     const [ initialFetch, setInitialFetch ] = useState(true);

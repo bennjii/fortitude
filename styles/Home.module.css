@@ -2040,15 +2040,29 @@
 }
 
 .overlayStatus {
+  width: fit-content;
+
+  
+}
+
+.overlayStatus > div {
+  box-shadow: 0px 0px 6px 0px var(--activity-card-background);
+}
+
+.overlayStatusParent {
+  z-index: 10000;
   position: absolute;
 
   bottom: 0;
   margin: 1rem;
 
-  z-index: 999;
-
   border-radius: 55px;
   overflow: hidden;
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   animation: in ease .55s;
   transform: translateY(-10px);
@@ -2265,3 +2279,4 @@
   flex-direction: row-reverse;
   padding: 1rem 1rem;
 }
+

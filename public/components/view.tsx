@@ -4,7 +4,7 @@ import { supabase } from '@root/client'
 import styles from '@styles/Home.module.css'
 import { SupabaseClient } from '@supabase/supabase-js'
 import { createContext, useEffect, useState } from 'react'
-import { AlertCircle, ChevronDown, Home, LogOut, Plus, Settings, Users } from 'react-feather'
+import { AlertCircle, Check, ChevronDown, Home, LogOut, Plus, RefreshCw, Settings, Users } from 'react-feather'
 
 import Button from './button'
 import { CreateServerOverlay } from './create_server_overlay'
@@ -48,6 +48,11 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
             createServer: false,
             settings: false
         },
+        status_message: {
+            open: false,
+            message: "",
+            type: "loading"
+        },
         current_server: null,
         current_pannel: 'dm-home', // dm-home, dm-friends, [dm-dm, svr-svr] - loads from activeServer and activeDirectMessage
         settings: {
@@ -79,6 +84,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     }
 
     const [ users, setUsers ] = useState([]);
+    const [ guilds, setGuilds ] = useState([]);
 
     const context = {
         client: supabase,
@@ -86,7 +92,9 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         callback: setClientState,
         user: data,
         users,
-        setUsers
+        setUsers,
+        guilds,
+        setGuilds
     };
     
     useEffect(() => {
@@ -141,6 +149,39 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                         {
                             (clientState.overlay.settings) &&
                             <SettingsOverlay />
+                        }
+
+                        {
+                            clientState.status_message.open ?
+                            <div className={styles.overlayStatusParent}>
+                                <div className={`${styles.overlayStatus} ${styles[clientState.status_message.type + "_sett"]}`}>
+                                    <div>
+                                        {
+                                            (() => {
+                                                switch(clientState.status_message.type) {
+                                                    case "loading":
+                                                        return <div className={styles.loadingSpin}>
+                                                            <RefreshCw size={13}/>
+                                                        </div>
+                                                    case "success":
+                                                        return <div>
+                                                            <Check size={13} className={styles.loadingNoSpin}/>
+                                                        </div>
+                                                    case "failure":
+                                                        return <div>
+                                                            <AlertCircle size={13} className={styles.loadingNoSpin}/>
+                                                        </div>
+                                                }
+                                            })()
+                                        }
+                                        
+                                        <p>{clientState.status_message.message}</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            :
+                            <></>
                         }
 
                         <div className={styles.navigationSideBar}>

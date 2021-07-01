@@ -15,6 +15,7 @@ import { Loading } from '@supabase/ui'
 import { supabase } from '@root/client'
 
 import { v4 as uuidv4 } from 'uuid';
+import { useGuild } from './guild_management'
 
 const CreateServerOverlay: React.FC<{}> = () => {
     const { client, state, callback, user } = useContext<ClientContextType>(ClientContext);
@@ -217,23 +218,61 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                 <h4>INVITES SHOULD LOOK LIKE</h4>
 
                                 <h5>
-                                    a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a
+                                    aksdm19as
                                     <br />
                                     or
                                     <br />
-                                    https://fortitude.app/guild/a689a2b8-fa66-4f1c-9cac-7b5c3d33be0a
+                                    https://fortitude.app/invite/aksdm19as
                                 </h5>
                             </div>
 
                             <div>
                                 <Button title={"Join"} onClick={async (clickEvent, callback) => {
-                                    // client
-                                    //     .from('users')
-                                    //     .update({
-                                    //         servers: [ ...user.servers.id,  ]
-                                    //     })
+                                    client
+                                        .from('invite_links')
+                                        .select("*")
+                                        .eq('link', authInputState.join_url)
+                                        .then(response => {
+                                            const guild = response.data[0].guild;
 
-                                    callback();
+                                            console.log(`Attempting to join ${guild}`)
+
+                                            if(user.servers.includes(guild))
+                                                return;
+
+                                            client
+                                                .from('guilds')
+                                                .select()
+                                                .eq('id', guild)
+                                                .then(guild_response => {
+                                                    console.log(guild_response);
+
+                                                    client
+                                                        .from('guilds')
+                                                        .update([
+                                                            {
+                                                                members: [ ...guild_response.data[0].members, user.id ]
+                                                            }
+                                                        ])
+                                                        .eq('id', guild)
+                                                        .then(_ => {
+                                                            client
+                                                                .from('users')
+                                                                .update([
+                                                                    {
+                                                                        servers: user.servers ? [ ...user.servers, guild ] : [ guild ]
+                                                                    }
+                                                                ])
+                                                                .eq('id', user.id)
+                                                                .then(_ => {
+                                                                    callback();
+                                                                })
+                                                        })
+                                                        
+                                                })
+
+                                            
+                                        });
                                 }}/>
                                 <p>Want to make a new one? <a href="#" onClick={() => setServerCreateState('svr-create')}>Create Server</a></p> 
                             </div>

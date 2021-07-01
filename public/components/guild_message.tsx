@@ -21,10 +21,6 @@ const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, t
 
     const [ userClicked, setUserClicked ] = useState(false);
 
-    useEffect(() => {
-        // ...
-    }, [users])
-
     if(type == 'normal')
         return (
             <div className={styles.message}>
@@ -74,7 +70,7 @@ const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, t
                     </span>
                 </div>
                 
-                <div className={styles.messageContent} style={{ color: message.unsent ? '#00f0f0' : ''}} key={Math.random() * 10000}>
+                <div className={styles.messageContent} style={{ color: message.unsent ? 'var(--text-muted)' : ''}} key={Math.random() * 10000}>
                     {
                         message.content
                     }
@@ -84,7 +80,7 @@ const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, t
     else if(type == 'continued' )
         return (
             <div className={`${styles.message} ${styles.messageContinued}`}>
-                <div className={styles.messageContent} style={{ color: message.unsent ? '#00f0f0' : ''}} key={Math.random() * 10000}>
+                <div className={styles.messageContent} style={{ color: message.unsent ? 'var(--text-muted)' : ''}} key={Math.random() * 10000}>
                     {
                         message.content
                     }
@@ -112,7 +108,7 @@ const GuildMessage: React.FC<{ message: Message, type: string }> = ({ message, t
                     </span>
                 </div>
                 
-                <div className={styles.messageContent} style={{ color: message.unsent ? '#00f0f0' : ''}} key={Math.random() * 10000}>
+                <div className={styles.messageContent} style={{ color: message.unsent ? 'var(--text-muted)' : ''}} key={Math.random() * 10000}>
                     {
                         message.content
                     }
