@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react' 
-import { Check, RefreshCw, MoreVertical } from 'react-feather'
+import { Check, RefreshCw, MoreVertical, UserCheck, X, Link } from 'react-feather'
 import Button from '@components/button'
 import Input from '@components/input'
 
@@ -13,14 +13,25 @@ export default function Invite() {
     const [ authState, setAuthState ] = useState('show'); // show | accepted | redirecting
     
     const [ data, setData ] = useState(null);
+    const [ link, setLink ] = useState(null);
     const [ reqServer, setReqServer ] = useState(null);
 
     const router = useRouter();
     const CODE = (router.query.code) ? router.query.code : null;
 
+    const { code } = router.query;
+
+    const [ cssProperties, setCssProperties ] = useState({
+		"--color-primary": "rgb(88, 101, 242)",
+		"--color-primary-rgb": "88, 101, 242"
+	})
+
     useEffect(() => {
+        console.log(supabase.auth.session())
+        if(!supabase.auth.session()) router.push("../")
+
         const userListener = supabase
-            .from(`users:id=eq.${supabase.auth.user().id}`) // :id=eq.${client.auth.user().id}
+            .from(`users:id=eq.${supabase.auth.user().id}`)
             .on('*', (payload) => {
                 supabase
                     .storage
@@ -38,6 +49,8 @@ export default function Invite() {
     }, [])
 
     useEffect(() => {
+        if(!supabase.auth.session()) router.push("../")
+
         supabase
             .from('users')
             .select('*')
@@ -54,12 +67,22 @@ export default function Invite() {
     }, [])
 
     useEffect(() => {
+        if(!supabase.auth.session()) router.push("../")
+
+    }, [, data])
+    
+    useEffect(() => {
+        if(!supabase.auth.session()) router.push("../")
+        console.log(CODE);
+        
         supabase
             .from('invite_links')
             .select('*')
             .eq('link', CODE)
             .then(link => {
                 if(link.data.length == 0) return;
+
+                setLink(link.data[0])
                 
                 supabase
                     .from('guilds')
@@ -77,33 +100,89 @@ export default function Invite() {
                             })  
                     })   
             });
-    }, [])
+    }, [CODE])
+
+    const date_formatted = (new_date) => {
+        const seconds = Math.floor(((new Date(new_date).getTime() - new Date().getTime()) / 1000));
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if(days >= 1) return `${days} ${days > 1 ? "days" : "day"}`;
+        if(hours >= 1) return `${hours} ${hours > 1 ? "hours" : "hour"}`;
+        if(minutes >= 1) return `${minutes} ${minutes > 1 ? "minutes" : "minute"}`;
+        if(seconds >= 1) return `${seconds} ${seconds > 1 ? "seconds" : "second"}`;
+    }
 
     return (
-        <div className={clientStyles.page}>
+        <div className={clientStyles.page} 
+        //@ts-expect-error
+        style={cssProperties}>
             <div className={styles.auth}>
-                <div className={styles.authBox}>
+                <div className={styles.authServerInviteBox}>
                     <div className={styles.authLeft}>
                         {
                             (authState == 'show') ?
-                            <div className={styles.authLogin}>
-                                <div>
-                                    <h2>You've been invited!</h2>
-                                    <h3><strong>{reqServer?.name}</strong> wants you to join thier server</h3>
-                                </div>
-
+                            reqServer ?
+                            <div className={styles.authLoginAlt}>
                                 <div className={styles.inviteIcons}>
                                     <img src={data?.icon} alt="" />
+
+                                    <div className={styles.inviteIconLinkers}>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
 
                                     <img src={reqServer?.icon} alt="" />
                                 </div>
 
-                                <div>
-                                    <Button title={"Accept"} onClick={() => {
-                                        // add them
-                                    }}/>
-                                    <p>Don't want to join? <a href="#" onClick={() => setAuthState('redirecting')}>Go Back</a></p> 
+                                <div className={styles.inviteText}>
+                                    <h1>{reqServer?.name}</h1>
+                                    <h6>has invited you to join them!</h6>
+
+                                    <p>Signed in as <b>{data?.username}</b><i>#{data?.tag ? data?.tag : "0000"}</i> <a onClick={() => {
+                                        supabase.auth.signOut();
+                                        router.push("../");
+                                    }}>Not you?</a></p>
                                 </div>
+
+                                <hr />
+
+                                <div className={styles.access}>
+                                    <h2>This will allow access to</h2>
+                                    <div>
+                                        <div className={styles.approvedCheck}>
+                                            <Check size={18} color={"var(--text-normal)"}/>
+                                        </div>
+                                        <p>Your avatar and username</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <div className={styles.approvedCheck}>
+                                            <Check size={18} color={"var(--text-normal)"}/>
+                                        </div>
+                                        <p>Send you messages</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <div className={styles.deniedCross}>
+                                            <X size={18} color={"var(--text-normal)"}/>
+                                        </div>
+                                        <p>Your shower thoughts</p>
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <div>
+                                    <Link size={13} color={"var(--text-muted)"}/>
+                                    <p>This link is valid for {date_formatted(link.expiry_date)}</p>
+                                </div>
+                            </div>
+                            :
+                            <div>
+                                loading
                             </div>
                             :
                             (authState !== "accepted") ?
@@ -120,33 +199,30 @@ export default function Invite() {
                             :
                             <div className={styles.authLogin}>
                                 <div>
-                                    <h2>Accepted!</h2>
-                                    <h3>We're so excited to see you!</h3>
-                                </div>
-                                
-                                <div className={styles.authSuccess}>
-                                    <div className={styles.authSuccessCircle}>
-                                        <Check color={"white"} size={64}/>
-                                    </div>
-                                    
-                                    <div>
-                                        <h1>Success</h1>
-                                        <h3>Please verify your email</h3>
-                                    </div>
-                                    
-                                </div>
-
-                                <div>
-                                    <p>Havent recieved an email? <a href="#" onClick={() => setAuthState('auth-login')}>Re-send</a></p> 
+                                    <h1>what</h1>
                                 </div>
                             </div>
                         }
                     </div>
                     
-                    <div className={styles.authRight}>
-                        {
-                            //fetch(` https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${client.auth.session().provider_token}`)
-                        }
+                    <div className={styles.authBottom}>
+                        <Button title={authState == 'show' ? "Cancel" : 'Back'} onClick={(event, callback) => {
+                            if(authState == 'show') {
+                                router.push("../");
+                            }else if(authState == 'accepted') {
+                                setAuthState('show');
+                                callback();
+                            }
+                        }}></Button>
+
+                        <Button title={authState == 'show' ? "Continue" : 'Authenticate'} onClick={(event, callback) => {
+                            if(authState == 'show') {
+                                setAuthState('accepted');
+                                callback();
+                            }else if(authState == 'accepted') {
+                                //...
+                            }
+                        }}></Button>
                     </div>
                 </div> 
 
