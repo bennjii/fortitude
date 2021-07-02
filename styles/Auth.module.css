@@ -172,3 +172,17 @@
     font-size: 2rem;
     color: var(--header-primary);
 }
+
+.inviteIcons {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+.inviteIcons img {
+    height: 70px;
+    width: 70px;
+
+    border-radius: 50%;
+}
