@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import { Auth } from '@components/auth'
 import { View } from '@components/view'
+import router from 'next/router'
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -31,6 +32,8 @@ const Index = () => {
 			});
 		
 		const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+			//@ts-expect-error
+			if(router.query.redir && supabase.auth.user()) router.push(router.query.redir)
 			setUser(supabase.auth.user());
 		})
 	}, []);

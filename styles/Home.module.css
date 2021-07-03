@@ -510,8 +510,13 @@
 }
 
 .buttonDisabled {
-  background-color: var(--deprecated-text-input-border-disabled);
+  /* background-color: var(--deprecated-text-input-border-disabled);
+  color: var(--text-muted); */
+
+  background-color: rgba(var(--color-primary-rgb), .4);
   color: var(--text-muted);
+
+  cursor: not-allowed;
 }
 
 

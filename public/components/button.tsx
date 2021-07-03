@@ -20,6 +20,7 @@ class Button extends React.Component<{title: string, redirect?: string | never, 
         this.activate = this.activate.bind(this);
         this.deactivate = this.deactivate.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.click = this.click.bind(this);
     }
 
     activate() {
@@ -40,6 +41,14 @@ class Button extends React.Component<{title: string, redirect?: string | never, 
         if(this.props.redirect) {
             this.props.router.push(this.props.redirect);
             this.setState({ activated: false });
+        }
+    }
+
+    click() {
+        this.setState({ activated: true });
+
+        if(this.props.onClick) { 
+            this.props.onClick({}, (e) => { this.setState({ activated: false }) });
         }
     }
 

@@ -179,9 +179,8 @@
 /* Server Invite */
 
 .authServerInviteBox {
-    min-width: 280px;
-    max-width: 360px;
-    min-height: 575px;
+    width: 360px;
+    width: 360px;
 
     display: flex;
     justify-content: center;
@@ -194,6 +193,8 @@
 
     box-shadow: var(--elevation-high);
     background-color: var(--background-floating);
+
+    transition: all .1s ease;
 }
 
 .authLeft {
@@ -208,7 +209,7 @@
     justify-content: center;
 
     width: 100%;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .inviteIcons img {
@@ -232,6 +233,22 @@
 
     border-radius: 50%;
     background-color: var(--background-modifier-selected);
+}
+
+.inviteIconLinkerFailed > div {
+    height: 4px;
+    width: 4px;
+
+    border-radius: 50%;
+    background-color: var(--background-modifier-selected);
+}
+
+.inviteIconLinkerFailed {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 4px;
 }
 
 .inviteText {
@@ -274,11 +291,16 @@
     margin: 0;
 }
 
-.inviteText b {
+.inviteText > p b {
     font-size: 14px;
     line-height: 18px;
 
     font-weight: 500;
+    color: var(--text-normal);
+}
+
+.inviteText > h6 b {
+    line-height: 18px;
     color: var(--text-normal);
 }
 
@@ -318,6 +340,13 @@
 }
 
 .authLoginAlt > div:last-of-type {
+    display: flex;
+    flex-direction: column;
+
+    gap: .5rem;
+}
+
+.authLoginAlt > div:last-of-type div {
     display: flex;
     flex-direction: row;
 
@@ -403,7 +432,7 @@
     padding: 1rem;
     gap: 1rem;
 
-    background-color: var(--background-primary);
+    background-color: var(--background-secondary-alt);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -419,4 +448,236 @@
     height: 38px;
     min-width: 96px;
     min-height: 38px;
+}
+
+.codeAuth {
+    display: flex;
+    padding: 1rem;
+
+    flex-direction: column;
+
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+
+    background-color: var(--background-tertiary);
+    border-radius: 5px;
+
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.codeAuth input {
+    max-width: 0;
+    max-height: 0;
+    opacity: 0;
+}
+
+.codeAuth > div:first-of-type > div  {
+    border-bottom: 1px solid var(--text-muted);
+    height: 50px;
+    width: 30px;
+
+    font-weight: 300;
+    color: var(--text-normal);
+
+    font-size: 1.3rem;
+}
+
+.loadingDiv {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.authLoginAlt h2 { 
+    font-size: .8rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.authLoginAlt > div > p {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-muted);
+    margin: 0%;
+    margin-bottom: 1rem;
+}
+
+.filledCodeInputModule {
+    border-color: var(--text-normal) !important;
+    color: var(--text-normal);
+}
+
+.codeAuth > div:first-of-type > div:not(.filledCodeInputModule):first-of-type {
+    /* animation: Blink 1s ease 1s infinite normal; */
+    border-color: var(--text-normal);
+}
+
+.cursorDiv {
+    height: 70%;
+    width: 1px;
+    background-color: var(--text-normal);
+
+    animation: BlinkCursor .9s ease 1s infinite normal;
+}
+
+.codeAuth > div:first-of-type > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.codeAuth > div:first-of-type {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+    justify-content: space-around;
+}
+
+.codeAuth > div > div.filledCodeInputModule:nth-of-type(4) {
+    animation: Blink 1s ease 1s infinite normal !important;
+    animation: BlinkCursor .9s ease 1s infinite normal;
+}
+
+@keyframes Blink {
+    0% {
+        border-color: var(--text-normal) !important;
+    }
+    50% {
+        border-color: var(--text-muted) !important;
+    }
+    100% {
+        border-color: var(--text-normal) !important;
+    }
+}
+@keyframes BlinkCursor {
+    0% {
+        background-color: var(--text-normal);
+    }
+    50% {
+        background-color: var(--text-muted);
+    }
+    100% {
+        background-color: var(--text-normal);
+    }
+}
+
+.authCode {
+    display: flex;
+    flex-direction: column !important;
+}
+
+.invalidCode p {
+    color: var(--text-muted);
+    font-weight: 300;
+    margin: 0;
+    font-size: .8rem;
+}
+
+.verifText {
+    text-align: left;
+    font-size: .8rem !important;
+    margin-top: .3rem !important;
+}
+
+.authServerInviteBox a {
+    color: var(--color-primary);
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.approvedCodeOverlay {
+    background-color: var(--bg-positive);
+    position: absolute;
+
+    left: 0%;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+
+    animation: slideIn .55s cubic-bezier(.37,.24,0,1) 0s 1 normal ;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        left: -100%;
+    }
+    to {
+        opacity: 1;
+        left: 0%
+    }
+}
+
+.overlayLinkForwarder {
+    display: flex;
+
+    padding: 1rem 2rem;
+    background-color: var(--background-tertiary);
+    border-radius: 5px;
+    color: var(--text-normal);
+
+    margin-top: .4rem;
+    margin-bottom: .4rem;
+
+    font-weight: 300;
+    font-size: .9rem;
+
+    cursor: pointer;
+    width: 100%;
+}
+
+.overlayLinkForwarder p {
+    margin: 0;
+}
+
+.overlayLinkForwarder {
+    position: relative;
+    display: inline-block;
+}
+
+.overlayLinkForwarder .tooltip {
+    visibility: hidden;
+    width: 140px;
+    background-color: var(--background-secondary);
+    color: var(--text-normal);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* .overlayLinkForwarder .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--background-secondary) transparent transparent transparent;
+} */
+
+.overlayLinkForwarder:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
 }
