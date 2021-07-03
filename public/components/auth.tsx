@@ -7,7 +7,8 @@ import { useState } from 'react'
 import Button from '@components/button'
 import Input from '@components/input'
 import { callbackify } from 'util'
-import { Check } from 'react-feather';
+import { AlertCircle, Check } from 'react-feather';
+import { useEffect } from 'react'
 
 const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const [ authState, setAuthState ] = useState('auth-login');
@@ -16,6 +17,12 @@ const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
         password: "",
         username: ""
     });
+
+    const [ authError, setAuthError ] = useState("");
+
+    useEffect(() => {
+        setAuthError(null);
+    }, [authState])
 
 	return (
 		<div className={styles.auth}>
@@ -36,11 +43,18 @@ const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                 <a href="">forgot your password?</a>
                             </div>
 
+                            {
+                                authError && <div className={styles.authError}><AlertCircle size={18} color={"var(--text-negative)"}/><p>{authError}</p></div>
+                            }
+
                             <div>
                                 <Button title={"Login"} onClick={() => {
                                     client.auth.signIn({
                                         email: authInputState.email,
                                         password: authInputState.password,
+                                    }).then(e => {
+                                        if(e.error) setAuthError(e.error.message)
+                                        else setAuthError(null)
                                     })
                                 }}/>
                                 <p>Don't have an account? <a href="#" onClick={() => setAuthState('auth-signup')}>Sign Up</a></p> 
@@ -62,6 +76,10 @@ const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                 <Input title={"PASSWORD"} defaultValue={authInputState.password} type="password" onChange={(e) => setAuthInputState({ ...authInputState, password: e.target.value })}/>
                             </div>
 
+                            {
+                                authError && <div className={styles.authError}><AlertCircle size={18} color={"var(--text-negative)"}/><p>{authError}</p></div>
+                            }
+
                             <div>
                                 <Button title={"Sign Up"} onClick={async (e, callback) => {
                                     if(authInputState.email && authInputState.password && authInputState.username) {
@@ -69,6 +87,13 @@ const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                             email: authInputState.email,
                                             password: authInputState.password,
                                         }).then(u => {
+                                            console.log(u.error)
+                                            if(u.error)  {
+                                                setAuthError(u.error?.message)
+                                                callback();
+                                            }
+                                            else setAuthError(null)
+
                                             client.from('users').insert([
                                                 {
                                                     id: u.user.id,
@@ -78,7 +103,9 @@ const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                                 callback();
                                                 setAuthState('auth-email')
                                             });
-                                        });
+                                        }).catch(e => {
+                                            console.error(e)
+                                        })
                                     }   
                                 }}/>
                                 <p>Already have an account? <a href="#" onClick={() => setAuthState('auth-login')}>Log in</a></p> 
