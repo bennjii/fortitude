@@ -48,7 +48,7 @@ type User = {
     flags: object[],
 
     created_at: Date,
-    friends: object[],
+    friends: Friend[],
 
     icon: string,
     banner: string,
@@ -112,6 +112,16 @@ type ClientState = {
         message: string,
         type: "loading" | "success" | "failure" | string
     }
+}
+
+type Friend = {
+    uid: string,
+    friendship_date: string
+    direct_message: {
+        id: string,
+        open: boolean
+    },
+    affinity?: number
 }
 
 type Settings = {

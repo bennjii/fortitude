@@ -48,13 +48,15 @@ const Auth: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                             }
 
                             <div>
-                                <Button title={"Login"} onClick={() => {
+                                <Button title={"Login"} onClick={(_, callback) => {
                                     client.auth.signIn({
                                         email: authInputState.email,
                                         password: authInputState.password,
                                     }).then(e => {
                                         if(e.error) setAuthError(e.error.message)
                                         else setAuthError(null)
+
+                                        callback()
                                     })
                                 }}/>
                                 <p>Don't have an account? <a href="#" onClick={() => setAuthState('auth-signup')}>Sign Up</a></p> 

@@ -388,7 +388,46 @@
 }
 
 .dmFriends {
-  gap: 1rem;
+  gap: 1rem !important;
+  display: flex;
+  flex-direction: row;
+}
+
+.dmFriends hr {
+  height: 25px;
+  width: 1px;
+  border: none;
+  background-color: var(--background-modifier-selected);
+}
+
+.dmFriends > div:not(:first-of-type) {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+  text-align: center;
+  min-width: 40px;
+
+  border-radius: 4px;
+  margin: 0 8px;
+  padding: 2px 8px;
+
+  color: var(--interactive-normal);
+
+  box-sizing: border-box;
+
+  position: relative;
+  font-size: .95rem;
+  line-height: 20px;
+  cursor: pointer;
+
+  font-weight: 400;
+}
+
+.selected {
+  background-color: var(--background-accent);
+  color: var(--text-normal) !important;
 }
 
 .bannerBar svg {
@@ -2285,3 +2324,22 @@
   padding: 1rem 1rem;
 }
 
+
+
+.friendView {
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+}
+
+.friendView h4 {
+  color: var(--channels-default);
+  margin-bottom: 8px;
+  font-size: .7rem;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  user-select: none;
+}
