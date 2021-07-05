@@ -227,8 +227,8 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                                         <h3>Home</h3>
                                                     </div>
 
-                                                    <div className={(clientState.current_pannel == 'dm-friends') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
-                                                        setClientState({ ...clientState, current_pannel: 'dm-friends' });
+                                                    <div className={(clientState.current_pannel.includes('dm-friends')) ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
+                                                        setClientState({ ...clientState, current_pannel: 'dm-friends-o' });
                                                     }}>
                                                         <Users size={24} />
                                                         <h3>Friends</h3>

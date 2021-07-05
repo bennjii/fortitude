@@ -1019,7 +1019,7 @@
 
 .contentMessageParent > div {
   overflow: hidden auto;
-  padding-bottom: 6rem;
+  padding-bottom: 2rem;
 }
 
 .contentMessageParent > div::-webkit-scrollbar {
@@ -1067,7 +1067,7 @@
   padding-left: 16px;
   padding-right: 16px;
 
-  margin-top: -5%;
+  /* margin-top: -5%; */
 
   height: 62px;
   padding-top: 0;
