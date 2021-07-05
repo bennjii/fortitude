@@ -6,6 +6,8 @@ import { Pill } from './pill';
 import { ClientContextType, ClientState, Guild } from '@public/@types/client';
 import { ClientContext } from '@public/@types/context';
 
+import Image from 'next/image'
+
 const GuildNav: React.FC<{ data: any }> = ({ data }) => {
     const { client, state, callback } = useContext<ClientContextType>(ClientContext);
     const [ guildData, setGuildData ] = useState<Guild>(null); 
@@ -56,7 +58,7 @@ const GuildNav: React.FC<{ data: any }> = ({ data }) => {
             >
             <Pill context={itemState} />
             <div className={(itemState.active) ? styles.navigationSideBarHomeActive : (itemState.hovered) ? styles.navigationSideBarHomeActive : styles.navigationSideBarHome} id={"navhome"}>
-                <img src={imageURL} alt="" />
+                <img src={imageURL} alt=""/>
             </div>
         </div>
 	)

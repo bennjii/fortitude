@@ -12,6 +12,8 @@ import { AuthCode } from '@components/auth_code'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 
+import Image from 'next/image'
+
 export default function Invite() {
     const [ authState, setAuthState ] = useState('show'); // show | accepted | redirecting
     

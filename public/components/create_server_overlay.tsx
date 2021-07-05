@@ -6,7 +6,7 @@ import { createRef, useContext, useEffect, useState } from 'react'
 
 import Button from '@components/button'
 import Input from '@components/input'
-import { Check, FilePlus, Image, Loader, Plus } from 'react-feather';
+import { Check, FilePlus, Image as ImageIcon, Loader, Plus } from 'react-feather';
 import { ClientContextType, ClientState } from '@public/@types/client'
 import { ClientContext } from '@public/@types/context';
 
@@ -16,6 +16,8 @@ import { supabase } from '@root/client'
 
 import { v4 as uuidv4 } from 'uuid';
 import { useGuild } from './guild_management'
+
+import Image from 'next/image'
 
 const CreateServerOverlay: React.FC<{}> = () => {
     const { client, state, callback, user } = useContext<ClientContextType>(ClientContext);
@@ -80,7 +82,7 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                     :
                                                     <Check size={32} color={"#fff"} strokeWidth={1}/>
                                                 :
-                                                <Image size={32} color={"#fff"} strokeWidth={1}/>
+                                                <ImageIcon size={32} color={"#fff"} strokeWidth={1}/>
                                             }
 
                                             <div className={clientStyles.createServerImageIMAGE}>
@@ -92,7 +94,7 @@ const CreateServerOverlay: React.FC<{}> = () => {
                                                                 <Check size={32} color={"#fff"} strokeWidth={1}/>
                                                             </div>
                                                             :
-                                                            <img src={URL.createObjectURL(imageDrop.file?.target.files.item(0))} alt="" /> 
+                                                            <img src={URL.createObjectURL(imageDrop.file?.target.files.item(0))} /> 
                                                         :
                                                         //@ts-expect-error
                                                         <Loading active={true} size={32} color={"#fff"} strokeWidth={1}> </Loading>
