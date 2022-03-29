@@ -36,7 +36,9 @@ const FortitudeSend: React.FC<{}> = () => {
 
                             guildCallback({  ...guildState, current_messages: [ ...guildState.current_messages, message ]})
 
-                            sender('/api/send_message', guildState.current_channel_id, { ...message, unsent: false });
+                            sender('/api/send_message', guildState.current_channel_id, { ...message, unsent: false }, (updated_data) => {
+                                guildCallback({ ...guildState, current_messages: updated_data.messages })
+                            });
                             input.current.value = ''
                         }
                     }}
@@ -49,11 +51,13 @@ const FortitudeSend: React.FC<{}> = () => {
     )
 }
 
-const sender = (url, channel, message) =>
+const sender = (url, channel, message, callback) =>
   fetch(url, {
     method: 'GET',
     headers: new Headers({ 'Content-Type': 'application/json', channel, message: JSON.stringify(message) }),
     credentials: 'same-origin',
-  }).then((res) => res.json())
+  }).then(async (res) => { 
+    callback(await res.json())
+  })
 
 export { FortitudeSend }

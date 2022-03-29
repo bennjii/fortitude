@@ -12,6 +12,8 @@ import { AuthCode } from '@components/auth_code'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 
+import Image from 'next/image'
+
 export default function Invite() {
     const [ authState, setAuthState ] = useState('show'); // show | accepted | redirecting
     
@@ -360,6 +362,7 @@ export default function Invite() {
                                 }, 500)
                                 
                             }else if(authState == 'accepted') {
+                                const d = new Date().getTime();
                                 supabase
                                     .from('guilds')
                                     .select()
@@ -385,8 +388,19 @@ export default function Invite() {
                                                     ])
                                                     .eq('id', data.id)
                                                     .then(_ => {
-                                                        callback();
-                                                        router.push("../")
+                                                        const comp = new Date().getTime();
+
+                                                        console.log(comp - d);
+
+                                                        if(comp - d < 1000)
+                                                            setTimeout(() => {
+                                                                callback();
+                                                                router.push("../")
+                                                            }, 1000 - (comp - d))
+                                                        else {
+                                                            callback();
+                                                            router.push("../")
+                                                        }  
                                                     })
                                             })
                                             

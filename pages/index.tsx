@@ -33,7 +33,7 @@ const Index = () => {
 		
 		const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
 			//@ts-expect-error
-			if(router.query.redir && supabase.auth.user()) router.push(router.query.redir)
+			if(router.query.redir && supabase.auth.user()) router.replace(router.query.redir)
 			setUser(supabase.auth.user());
 		})
 	}, []);

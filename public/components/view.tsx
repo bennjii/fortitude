@@ -15,12 +15,14 @@ import { NewServerNav } from './new_server_navigation'
 import { SettingsOverlay } from './settings_overlay'
 import { UserComponent } from './user_component'
 import { HomeComponent } from './home_component'
+import { FriendNavigator } from './friend_navigator'
 import { UserIcon } from './user_icon'
 import { KeyUI } from './ui_key'
 import { NotificationHandler } from './notification_handler'
 import { KeyHandler } from '@public/@types/event'
 import { handleKeyEvents } from './helper'
 import { useUser } from '@components/user_management'
+import { FriendList } from './friend_list'
 
 const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
     const [ data, setData ] = useState(null);
@@ -225,11 +227,13 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                                         <h3>Home</h3>
                                                     </div>
 
-                                                    <div className={(clientState.current_pannel == 'dm-friends') ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
-                                                        setClientState({ ...clientState, current_pannel: 'dm-friends' });
+                                                    <div className={(clientState.current_pannel.includes('dm-friends')) ? styles.menuSwitcherActive : styles.menuSwitcher} onClick={() => {
+                                                        setClientState({ ...clientState, current_pannel: 'dm-friends-o' });
                                                     }}>
                                                         <Users size={24} />
                                                         <h3>Friends</h3>
+
+                                                        
                                                     </div>
 
                                                     <br />
@@ -264,14 +268,8 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                         }
 
                                         {
-                                            clientState.current_pannel == "dm-friends" && 
-                                            <div className={styles.dmFriends}>
-                                                <Users size={20} strokeWidth={2} opacity={0.6} />
-                                                <br />
-                                                <h3>Friends</h3>
-
-                                                
-                                            </div>
+                                            clientState.current_pannel.includes("dm-friends") && 
+                                            <FriendNavigator />
                                         }
                                     </div>
 
@@ -283,6 +281,8 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                             </div>
                                             :
                                             <div>
+                                                
+                                                Admin Debugger
                                                 <Button title={"Send Notification"} onClick={() => {
                                                     recieveNotification(
                                                         {
@@ -300,7 +300,10 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
 
                                                 <Button title={"Update Users"} onClick={() => {
                                                     setUsers(users);
-                                                }}/>
+                                                }}/> 
+                                               
+                                                <FriendList />
+                                                
                                             </div>
                                         }
                                     </div>
