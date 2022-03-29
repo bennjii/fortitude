@@ -281,7 +281,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                             </div>
                                             :
                                             <div>
-                                                {/* 
+                                                
                                                 Admin Debugger
                                                 <Button title={"Send Notification"} onClick={() => {
                                                     recieveNotification(
@@ -301,7 +301,7 @@ const View: React.FC<{ client: SupabaseClient }> = ({ client }) => {
                                                 <Button title={"Update Users"} onClick={() => {
                                                     setUsers(users);
                                                 }}/> 
-                                                */}
+                                               
                                                 <FriendList />
                                                 
                                             </div>
